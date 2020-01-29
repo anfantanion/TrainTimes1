@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.anfantanion.traintimes1.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_frag_search"
+            app:destination="@id/nav_frag_search" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_settings"
+            app:destination="@id/nav_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_active_journey"
+        android:name="com.anfantanion.traintimes1.ui.activeJourney.ActiveJourneyFragment"
+        android:label="@string/menu_active_journey"
+        tools:layout="@layout/fragment_active_journey" />
+
+    <fragment
+        android:id="@+id/nav_saved_journeys"
+        android:name="com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragment"
+        android:label="@string/menu_saved_journey"
+        tools:layout="@layout/fragment_saved_journeys" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.anfantanion.traintimes1.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_menu_about"
+        android:name="com.anfantanion.traintimes1.ui.about.AboutFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/nav_frag_search"
+        android:name="com.anfantanion.traintimes1.ui.search.Search"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
+</navigation>

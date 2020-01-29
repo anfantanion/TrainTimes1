@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:id="@+id/SearchRL"
+    >
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/SearchImage"
+        android:src="@drawable/ic_directions_transit_black_24dp"
+        >
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Southampton Central (SOU)"
+        android:id="@+id/SearchLine1"
+        android:textSize="20sp"
+        android:textColor="@color/colorTitleText"
+        android:layout_toRightOf="@+id/SearchImage"
+        >
+
+    </TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 Miles"
+        android:layout_below="@id/SearchLine1"
+        android:layout_toRightOf="@+id/SearchImage"
+        android:id="@+id/SearchLine2"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/colorSubtitleText"
+
+        >
+
+
+    </TextView>
+</RelativeLayout>
