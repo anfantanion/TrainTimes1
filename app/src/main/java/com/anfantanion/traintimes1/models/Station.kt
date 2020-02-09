@@ -1,7 +1,10 @@
 package com.anfantanion.traintimes1.models
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.anfantanion.traintimes1.models.stationResponse.Location
 import com.anfantanion.traintimes1.models.stationResponse.StationRepsponse
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -41,6 +44,43 @@ class Station(
         return StationRepsponse(null, Location("1","2","3"), emptyList())
     }
 
+    fun getStationSuggestion() : StationSuggestion {
+        return StationSuggestion(name,code)
+    }
+
+
+    class StationSuggestion(val name: String,
+                            val code: String) : SearchSuggestion {
+
+
+        constructor(parcel: Parcel) : this(
+            parcel.readString()?:"",
+            parcel.readString()?:""
+        )
+
+        override fun getBody(): String {
+            return "$name ($code)"
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(name)
+            parcel.writeString(code)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<StationSuggestion> {
+            override fun createFromParcel(parcel: Parcel): StationSuggestion {
+                return StationSuggestion(parcel)
+            }
+
+            override fun newArray(size: Int): Array<StationSuggestion?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 
 
 }

@@ -11,11 +11,11 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_nav_home_to_nav_frag_search"
-            app:destination="@id/nav_frag_search" />
-        <action
             android:id="@+id/action_nav_home_to_nav_settings"
             app:destination="@id/nav_settings" />
+        <action
+            android:id="@+id/action_nav_home_to_stationDetails"
+            app:destination="@+id/stationDetails" />
     </fragment>
 
     <fragment
@@ -46,4 +46,9 @@
         android:name="com.anfantanion.traintimes1.ui.search.Search"
         android:label="@string/menu_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/stationDetails"
+        android:name="com.anfantanion.traintimes1.ui.stationDetails.StationDetails"
+        android:label="fragment_station_details"
+        tools:layout="@layout/fragment_station_details" />
 </navigation>
