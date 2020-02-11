@@ -26,5 +26,5 @@ data class LocationDetail(
     val platform: String,
     val platformChanged: Boolean,
     val platformConfirmed: Boolean,
-    val serviceLocation: String
+    val serviceLocation: String?
 )

@@ -22,7 +22,6 @@ class Station(
     val latitudeRAD : Double = 0.0,
     val longitudeRAD : Double = 0.0) {
     private val earthRadiusKM = 3671
-    private var cachedStationRepsponse = null
 
 
     /**
@@ -42,16 +41,12 @@ class Station(
         return distanceToKM(station.latitudeRAD,station.longitudeRAD)
     }
 
-    fun getStationInfo(forceRefresh: Boolean = false) : StationResponse{
-        return StationResponse(null, Location("1","2","3"), emptyList())
-    }
-
     fun getStationSuggestion() : StationSuggestion {
         return StationSuggestion(name,code)
     }
 
     fun toStationStub(): StationStub {
-        return StationStub(name)
+        return StationStub(code)
     }
 
 

@@ -1,14 +1,11 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 
 data class Service(
     val atocCode: String,
     val atocName: String,
     val isPassenger: Boolean,
-    val locations: List<LocationDetail>,
+    val locationDetail: LocationDetail,
     val runDate: String,
     val runningIdentity: String,
     val serviceType: String,
@@ -17,19 +14,23 @@ data class Service(
 )
 {
     fun time():String{
-        return locations[0].gbttBookedDeparture
+        return locationDetail.gbttBookedDeparture
     }
 
     fun destination():String{
-        return locations[0].destination[0].description
+        return locationDetail.destination[0].description
     }
 
     fun status():String{
-        when (locations[0].serviceLocation){
+        when (locationDetail.serviceLocation){
             "APPR_STAT" -> return "Approaching Station"
             "APPR_PLAT" -> return "Arriving"
             "AT_PLAT" -> return "At Platform"
         }
-        return ""
+        return "On Time"
+    }
+
+    fun platform():String{
+        return locationDetail.platform
     }
 }

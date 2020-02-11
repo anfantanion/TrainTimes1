@@ -14,10 +14,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.volley.Response
+import com.anfantanion.traintimes1.repositories.RTTAPI
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.beust.klaxon.Klaxon
 import com.google.android.material.navigation.NavigationView
 
 
@@ -28,8 +29,10 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StationRepo.context = applicationContext
+        StationRepo.setContext(applicationContext)
         StationRepo.loadStations()
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,7 +40,25 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         setSupportActionBar(toolbar)
 
 
-        var x = Klaxon()
+//        RTTAPI.requestStation(
+//            "AXM",
+//            listener = Response.Listener { response ->
+//                val x = response },
+//            errorListener = Response.ErrorListener { error ->
+//                val x = error; },
+//            maxAge = 60000
+//
+//        );
+//
+//        RTTAPI.requestStation(
+//            "AXM",
+//            listener = Response.Listener { response ->
+//                val x = response },
+//            errorListener = Response.ErrorListener { error ->
+//                val x = error; },
+//            maxAge = 60000
+//
+//        );
 
 
 //        val fab: FloatingActionButton = findViewById(R.id.fab)

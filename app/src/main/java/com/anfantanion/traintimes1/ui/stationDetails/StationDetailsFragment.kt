@@ -3,14 +3,20 @@ package com.anfantanion.traintimes1.ui.stationDetails
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.repositories.StationRepo
+import kotlinx.android.synthetic.main.fragment_station_details.*
+import kotlinx.android.synthetic.main.fragment_station_details.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,8 +33,12 @@ private const val ARG_PARAM2 = "param2"
  */
 class StationDetails : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val TAG = "StationDetails"
+
+
+    private lateinit var viewModel: StationDetailsViewModel
+    private lateinit var stationDetailsRecylerAdapter: StationDetailsRecylerAdapter
+
 
     private var receivedStation : Station? = null
 
@@ -36,12 +46,9 @@ class StationDetails : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
 
         receivedStation = StationRepo.getStation(arguments!!.getParcelable("ActiveStation"))
+        Log.d(TAG,receivedStation!!.name)
     }
 
     override fun onCreateView(
@@ -50,6 +57,36 @@ class StationDetails : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_station_details, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(StationDetailsViewModel::class.java)
+
+
+        stationDetailsRecylerAdapter = StationDetailsRecylerAdapter()
+
+
+
+        stationDetailsRecyclerView.layoutManager = LinearLayoutManager(context)
+        stationDetailsRecyclerView.adapter = stationDetailsRecylerAdapter
+
+        viewModel.stationResponse.observe(viewLifecycleOwner, Observer {
+            stationDetailsRecylerAdapter.services = viewModel.stationResponse.value!!.services
+            stationDetailsRecylerAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.isLoading.observe(viewLifecycleOwner,Observer{
+                b -> when(b){
+            true -> stationDetailsProgressBar.visibility = View.VISIBLE
+            false -> stationDetailsProgressBar.visibility = View.GONE
+        }
+        })
+
+
+        viewModel.station = receivedStation
+        viewModel.getServices()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

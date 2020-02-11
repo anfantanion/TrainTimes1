@@ -31,6 +31,8 @@ class StationDetailsRecylerAdapter : RecyclerView.Adapter<StationDetailsRecylerA
         val iv = holder.itemView
         iv.stationDetailsLItemTime.text = service.time()
         iv.stationDetailsLItemName.text = service.destination()
+        iv.stationDetailsLItemStatus.text = service.status()
+        iv.stationDetailsLItemPlatform.text = service.platform()
     }
 
 
