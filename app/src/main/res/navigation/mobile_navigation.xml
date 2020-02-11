@@ -8,38 +8,64 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.anfantanion.traintimes1.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="@string/fragment_home_title"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_nav_settings"
-            app:destination="@id/nav_settings" />
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_nav_home_to_stationDetails"
-            app:destination="@+id/stationDetails" />
+            app:destination="@+id/stationDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_active_journey"
+            app:destination="@id/nav_active_journey" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_menu_about"
+            app:destination="@id/nav_menu_about" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_saved_journeys"
+            app:destination="@id/nav_saved_journeys" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_active_journey"
         android:name="com.anfantanion.traintimes1.ui.activeJourney.ActiveJourneyFragment"
-        android:label="@string/menu_active_journey"
-        tools:layout="@layout/fragment_active_journey" />
+        android:label="@string/fragment_active_journey_title"
+        tools:layout="@layout/fragment_active_journey" >
+        <action
+            android:id="@+id/action_nav_active_journey_to_serviceDetails"
+            app:destination="@id/serviceDetails" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_saved_journeys"
         android:name="com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragment"
-        android:label="@string/menu_saved_journey"
-        tools:layout="@layout/fragment_saved_journeys" />
+        android:label="@string/fragment_saved_journey_title"
+        tools:layout="@layout/fragment_saved_journeys" >
+        <action
+            android:id="@+id/action_nav_saved_journeys_to_nav_active_journey"
+            app:destination="@id/nav_active_journey" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.anfantanion.traintimes1.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings"
+        android:label="@string/fragment_settings_title"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_menu_about"
         android:name="com.anfantanion.traintimes1.ui.about.AboutFragment"
-        android:label="@string/menu_about"
+        android:label="@string/fragment_about_title"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/nav_frag_search"
@@ -49,6 +75,25 @@
     <fragment
         android:id="@+id/stationDetails"
         android:name="com.anfantanion.traintimes1.ui.stationDetails.StationDetails"
-        android:label="fragment_station_details"
-        tools:layout="@layout/fragment_station_details" />
+        android:label="@string/fragment_stationDetails_title"
+        tools:layout="@layout/fragment_station_details">
+        <action
+            android:id="@+id/action_stationDetails_to_serviceDetails"
+            app:destination="@+id/serviceDetails" />
+        <argument
+            android:name="ActiveStation"
+            app:argType="com.anfantanion.traintimes1.models.parcelizable.StationStub" />
+    </fragment>
+    <fragment
+        android:id="@+id/serviceDetails"
+        android:name="com.anfantanion.traintimes1.ui.serviceDetails.serviceDetails"
+        android:label="@string/fragment_serviceDetails_title"
+        tools:layout="@layout/fragment_service_details" >
+        <argument
+            android:name="ActiveService"
+            app:argType="com.anfantanion.traintimes1.models.parcelizable.ServiceStub" />
+        <action
+            android:id="@+id/action_serviceDetails_to_stationDetails"
+            app:destination="@id/stationDetails" />
+    </fragment>
 </navigation>

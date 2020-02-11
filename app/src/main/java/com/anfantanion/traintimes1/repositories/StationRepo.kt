@@ -6,6 +6,7 @@ import android.widget.Filter
 import androidx.lifecycle.MutableLiveData
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.beust.klaxon.Klaxon
 import java.io.InputStream
 import java.util.*
@@ -20,7 +21,7 @@ object StationRepo {
 
     private var stationCodeLookup = HashMap<String, Station>()
 
-    var activeStation: Station? = null
+
 
 
     lateinit var context: Context
@@ -37,6 +38,11 @@ object StationRepo {
         }
         mutableStations.value = stations
         return mutableStations
+    }
+
+    fun getStation(stationStub: StationStub?) : Station? {
+        if (stationStub == null) return null
+        return stationCodeLookup[stationStub.name]
     }
 
     fun loadStations(){

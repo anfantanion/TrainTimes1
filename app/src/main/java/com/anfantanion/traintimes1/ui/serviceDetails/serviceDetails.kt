@@ -1,4 +1,4 @@
-package com.anfantanion.traintimes1.ui.stationDetails
+package com.anfantanion.traintimes1.ui.serviceDetails
 
 import android.content.Context
 import android.net.Uri
@@ -8,9 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.anfantanion.traintimes1.R
-import com.anfantanion.traintimes1.models.Station
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import com.anfantanion.traintimes1.repositories.StationRepo
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,18 +17,15 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [StationDetails.OnFragmentInteractionListener] interface
+ * [serviceDetails.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [StationDetails.newInstance] factory method to
+ * Use the [serviceDetails.newInstance] factory method to
  * create an instance of this fragment.
  */
-class StationDetails : Fragment() {
+class serviceDetails : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private var receivedStation : Station? = null
-
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +34,6 @@ class StationDetails : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-        receivedStation = StationRepo.getStation(arguments!!.getParcelable("ActiveStation"))
     }
 
     override fun onCreateView(
@@ -49,7 +41,7 @@ class StationDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_station_details, container, false)
+        return inflater.inflate(R.layout.fragment_service_details, container, false)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -59,11 +51,11 @@ class StationDetails : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-//        }
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
     }
 
     override fun onDetach() {
@@ -94,12 +86,12 @@ class StationDetails : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment StationDetails.
+         * @return A new instance of fragment serviceDetails.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            StationDetails().apply {
+            serviceDetails().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

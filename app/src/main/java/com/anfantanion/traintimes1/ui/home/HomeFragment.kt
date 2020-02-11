@@ -3,10 +3,13 @@ package com.anfantanion.traintimes1.ui.home
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -67,6 +70,9 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+
+
         return root
     }
 
@@ -75,7 +81,9 @@ class HomeFragment : Fragment() {
         mSearchView = view.findViewById(R.id.home_floating_search_view)
 
         callbacks?.onAttachSearchViewToDrawer(mSearchView)
-        activity?.actionBar?.hide()
+
+        val imageView = view.findViewById<ImageView>(R.id.home_background)
+
 
         setupFloatingSearch()
     }
@@ -100,9 +108,8 @@ class HomeFragment : Fragment() {
             override fun onSuggestionClicked(searchSuggestion: SearchSuggestion) {
                 val station = StationRepo.SearchManager.getStation(searchSuggestion as Station.StationSuggestion)
                 if (station!=null){
-                    StationRepo.activeStation = station;
                     Log.d(TAG, "onSuggestionClicked()"+station.code)
-                    findNavController().navigate(R.id.action_nav_home_to_stationDetails)
+                    findNavController().navigate(R.id.action_nav_home_to_stationDetails, bundleOf("ActiveStation" to station.toStationStub()))
                     mSearchView.clearSearchFocus()
                 }
 
@@ -130,7 +137,7 @@ class HomeFragment : Fragment() {
         mSearchView.setOnMenuItemClickListener { item ->
             val navController = activity?.findNavController(R.id.nav_host_fragment)
             when (item?.itemId) {
-                R.id.action_settings -> navController?.navigate(R.id.nav_settings)
+                R.id.action_settings -> navController?.navigate(R.id.action_nav_home_to_nav_settings)
                 R.id.action_voice_rec -> null //TODO: Voice
                 R.id.action_location -> {
                     StationRepo.SearchManager.findNearby(object : StationRepo.SearchManager.stationSuggestionListener {

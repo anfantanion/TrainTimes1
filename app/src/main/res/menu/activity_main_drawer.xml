@@ -7,15 +7,15 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/menu_home" />
+            android:title="@string/fragment_home_title" />
         <item
             android:id="@+id/nav_active_journey"
             android:icon="@drawable/ic_train_black_24dp"
-            android:title="@string/menu_active_journey" />
+            android:title="@string/fragment_active_journey_title" />
         <item
             android:id="@+id/nav_saved_journeys"
             android:icon="@drawable/ic_directions_black_24dp"
-            android:title="@string/menu_saved_journey" />
+            android:title="@string/fragment_saved_journey_title" />
     </group>
 
     <item android:title="Test">
@@ -23,11 +23,11 @@
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/menu_settings" />
+                android:title="@string/fragment_settings_title" />
             <item
                 android:id="@+id/nav_menu_about"
                 android:icon="@drawable/ic_info_black_24dp"
-                android:title="@string/menu_about" />
+                android:title="@string/fragment_about_title" />
         </menu>
     </item>
 

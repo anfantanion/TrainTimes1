@@ -2,8 +2,9 @@ package com.anfantanion.traintimes1.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.Location
-import com.anfantanion.traintimes1.models.stationResponse.StationRepsponse
+import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -13,12 +14,13 @@ import kotlin.math.sqrt
 /**
  * latitude and longitude is in radians
  */
+
+
 class Station(
     val name: String,
     val code: String,
     val latitudeRAD : Double = 0.0,
-    val longitudeRAD : Double = 0.0)
-{
+    val longitudeRAD : Double = 0.0) {
     private val earthRadiusKM = 3671
     private var cachedStationRepsponse = null
 
@@ -40,12 +42,16 @@ class Station(
         return distanceToKM(station.latitudeRAD,station.longitudeRAD)
     }
 
-    fun getStationInfo(forceRefresh: Boolean = false) : StationRepsponse{
-        return StationRepsponse(null, Location("1","2","3"), emptyList())
+    fun getStationInfo(forceRefresh: Boolean = false) : StationResponse{
+        return StationResponse(null, Location("1","2","3"), emptyList())
     }
 
     fun getStationSuggestion() : StationSuggestion {
         return StationSuggestion(name,code)
+    }
+
+    fun toStationStub(): StationStub {
+        return StationStub(name)
     }
 
 
@@ -81,6 +87,8 @@ class Station(
             }
         }
     }
+
+
 
 
 }

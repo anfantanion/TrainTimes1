@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
 import com.arlib.floatingsearchview.FloatingSearchView
+import com.beust.klaxon.Klaxon
 import com.google.android.material.navigation.NavigationView
 
 
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+
+        var x = Klaxon()
+
 
 //        val fab: FloatingActionButton = findViewById(R.id.fab)
 //        fab.setOnClickListener { view ->

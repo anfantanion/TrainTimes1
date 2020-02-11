@@ -31,8 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10 Miles"
-        android:layout_below="@id/SearchLine1"
-        android:layout_toRightOf="@+id/SearchImage"
         android:id="@+id/SearchLine2"
         android:layout_marginTop="2dp"
         android:textColor="@color/colorSubtitleText"
