@@ -24,4 +24,15 @@
     <string name="action_voice_rec" />
     <string name="action_location" />
     <string name="platform">Plat.</string>
+    <string name="action_stationDetails_filter">Filter</string>
+    <string name="action_stationDetails_refresh">Refresh</string>
+    <string name="stationDetails_setFilter">Apply Filter</string>
+    <string name="stationDetails_remFilter">Cancel</string>
+    <string name="stationDetails_FilterMessage">Set Filter</string>
+    <string name="dialog_filter_loc_radio_none">No Filter</string>
+    <string name="dialog_filter_loc_radio_from">From:</string>
+    <string name="dialog_filter_loc_radio_to">To:</string>
+    <string name="dialog_filter_loc_checkbox">Location</string>
+    <string name="dialog_filter_date_checkbox">Date</string>
+    <string name="dialog_filter_time_checkbox">Time</string>
 </resources>

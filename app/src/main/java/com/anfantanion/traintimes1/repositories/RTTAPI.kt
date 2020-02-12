@@ -7,7 +7,6 @@ import com.android.volley.Response
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.cachedb.CStationResponse
 import com.anfantanion.traintimes1.repositories.cachedb.CacheDatabase
-import java.lang.StringBuilder
 
 object RTTAPI{
     val endpoint = "https://api.rtt.io/api/v1/json"
@@ -57,7 +56,7 @@ object RTTAPI{
         val urlBuilder = StringBuilder().append(endpoint,locationQuery,"/",station)
         if (to != null) urlBuilder.append("/",to)
         if (from != null) urlBuilder.append("/",from)
-        if (date != null) urlBuilder.append(",",date)
+        if (date != null) urlBuilder.append("/",date)
         return urlBuilder.toString()
     }
 

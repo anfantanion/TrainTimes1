@@ -8,7 +8,6 @@ import com.android.volley.toolbox.Volley
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 
 object StationRepo {
 
@@ -78,6 +77,9 @@ object StationRepo {
         }
 
         fun getStation(stationSuggestion: Station.StationSuggestion) : Station? {
+            var x = stations.filter {
+                it.code == "AXM"
+            }
             return stationCodeLookup[stationSuggestion.code]
         }
 
@@ -88,6 +90,8 @@ object StationRepo {
         ) {
             object : Filter() {
                 override fun performFiltering(constraint: CharSequence): FilterResults {
+                    //TODO: Need a much better sorting algorithm
+                    // This one introduces duplicates due to the two lists.
                     val suggestionListCodes: MutableList<Station.StationSuggestion> = ArrayList()
                     val suggestionListOther: MutableList<Station.StationSuggestion> = ArrayList()
                     if (!(constraint.isEmpty())) {

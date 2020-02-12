@@ -83,6 +83,9 @@
         <argument
             android:name="ActiveStation"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.StationStub" />
+        <action
+            android:id="@+id/action_stationDetails_to_selectFilterDialog"
+            app:destination="@id/selectFilterDialog" />
     </fragment>
     <fragment
         android:id="@+id/serviceDetails"
@@ -96,4 +99,11 @@
             android:id="@+id/action_serviceDetails_to_stationDetails"
             app:destination="@id/stationDetails" />
     </fragment>
+
+    <dialog
+        android:id="@+id/selectFilterDialog"
+        android:name="com.anfantanion.traintimes1.ui.stationDetails.SelectFilterDialog"
+        android:label="SelectFilterDialog" />
+
+
 </navigation>

@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
+    var currentOptionsMenu = R.menu.toolbarmain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StationRepo.setContext(applicationContext)
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         // Inflate the menu; this adds items to the action bar if it is present.
         //menuInflater.inflate(R.menu.toolbarmain, menu)
         //return true
-        menuInflater.inflate(R.menu.toolbarmain, menu)
+        //menuInflater.inflate(currentOptionsMenu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

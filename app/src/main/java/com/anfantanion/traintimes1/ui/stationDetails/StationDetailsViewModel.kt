@@ -8,8 +8,17 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
 
-class StationDetailsViewModel( var station : Station? = null) : ViewModel(){
+class StationDetailsViewModel : ViewModel(){
 
+    companion object sharedVM{
+        var shared : StationDetailsViewModel? = null
+    }
+
+    init {
+        shared=this
+    }
+
+    var station : Station? = null
     var stationResponse = MutableLiveData<StationResponse>()
     var isLoading = MutableLiveData<Boolean>()
     var isError = MutableLiveData<Boolean>()
@@ -17,7 +26,8 @@ class StationDetailsViewModel( var station : Station? = null) : ViewModel(){
 
 
 
-
+    var filter = emptyMap<String,String>()
+    private val maxAge = 0
 
     fun getServices(){
         val s = station ?: return
@@ -32,9 +42,11 @@ class StationDetailsViewModel( var station : Station? = null) : ViewModel(){
                 isError.value = true
                 isError.value = false
                 isLoading.value = false
-
-            }
-
+            },
+            to = filter["to"],
+            from = filter["from"],
+            date = filter["date"],
+            maxAge = maxAge.toLong()
             )
     }
 

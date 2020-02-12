@@ -1,21 +1,20 @@
 package com.anfantanion.traintimes1.ui.stationDetails
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import kotlinx.android.synthetic.main.fragment_station_details.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +34,7 @@ class StationDetails : Fragment() {
     private val TAG = "StationDetails"
 
 
-    private lateinit var viewModel: StationDetailsViewModel
+    lateinit var viewModel: StationDetailsViewModel
     private lateinit var stationDetailsRecylerAdapter: StationDetailsRecylerAdapter
 
 
@@ -45,7 +44,7 @@ class StationDetails : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
         receivedStation = StationRepo.getStation(arguments!!.getParcelable("ActiveStation"))
         Log.d(TAG,receivedStation!!.name)
     }
@@ -62,6 +61,7 @@ class StationDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(StationDetailsViewModel::class.java)
+        //viewModel.station = receivedStation
 
 
         stationDetailsRecylerAdapter = StationDetailsRecylerAdapter()
@@ -101,13 +101,18 @@ class StationDetails : Fragment() {
         listener?.onFragmentInteraction(uri)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-//        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_stationdetails, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.action_stationDetails_refresh -> viewModel.getServices()
+            R.id.action_stationDetails_filter -> findNavController().navigate(R.id.action_stationDetails_to_selectFilterDialog)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDetach() {
@@ -150,4 +155,6 @@ class StationDetails : Fragment() {
                 }
             }
     }
+
+
 }
