@@ -1,12 +1,9 @@
 package com.anfantanion.traintimes1
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -14,8 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.volley.Response
-import com.anfantanion.traintimes1.repositories.RTTAPI
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -87,20 +82,12 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         //menuInflater.inflate(R.menu.toolbarmain, menu)
         //return true
         menuInflater.inflate(R.menu.toolbarmain, menu)
-
-        val searchItem: MenuItem? = menu.findItem(R.id.action_search)
-        //searchItem.setOnMenuItemClickListener {  }
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView: SearchView? = searchItem?.actionView as SearchView
-
-        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         when (item.itemId) {
-            R.id.action_search -> navController.navigate(R.id.nav_frag_search)
             R.id.action_settings -> navController.navigate(R.id.nav_settings)
         }
         return super.onOptionsItemSelected(item)

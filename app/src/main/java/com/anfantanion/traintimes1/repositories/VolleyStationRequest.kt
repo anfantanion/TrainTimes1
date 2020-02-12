@@ -1,16 +1,17 @@
 package com.anfantanion.traintimes1.repositories
 
 import android.util.Base64
-import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.Response.ErrorListener
 import com.android.volley.Response.Listener
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import com.anfantanion.traintimes1.keys
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import java.nio.charset.Charset
 import java.util.*
 
@@ -23,7 +24,14 @@ class VolleyStationRequest(method: Int,
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<StationResponse> {
         val parsed = String(response!!.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers)))
-        return Response.success(Gson().fromJson(parsed,StationResponse::class.java),null)
+        try {
+            val gsoned = Gson().fromJson(parsed, StationResponse::class.java)
+            return Response.success(gsoned,null)
+        }catch (e : JsonSyntaxException){
+            return Response.error(VolleyError(e))
+        }
+
+
     }
 
     override fun deliverResponse(response: StationResponse?) {

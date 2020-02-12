@@ -36,7 +36,8 @@ object RTTAPI{
         maxAge: Long = 0
     ) {
         //Check Cache
-        val x = cacheDatabase.CStationResponceDao().getMatching(station,to,from,date,maxAge)
+        //val x = cacheDatabase.CStationResponceDao().getMatching(station,to,from,date,maxAge)
+        val x = emptyList<CStationResponse>()
         if(x.isNotEmpty()){
             listener.onResponse(x[0].cObject)
         }
@@ -71,7 +72,7 @@ object RTTAPI{
         val date : String?
     ) : Response.Listener<StationResponse>  {
         override fun onResponse(response: StationResponse) {
-            cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
+            //cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
             rl.onResponse(response)
         }
 
