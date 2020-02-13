@@ -49,7 +49,7 @@
                 android:id="@+id/dialog_filter_loc_textedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Southampton Central"
+                android:text="@string/dialog_filter_defaultLocationText"
                 android:layout_marginStart="10dp"
                 android:gravity="center_vertical"
                 android:visibility="visible"

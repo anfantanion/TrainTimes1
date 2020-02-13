@@ -7,6 +7,7 @@ import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
+import java.util.*
 
 class StationDetailsViewModel : ViewModel(){
 
@@ -23,6 +24,11 @@ class StationDetailsViewModel : ViewModel(){
     var isLoading = MutableLiveData<Boolean>()
     var isError = MutableLiveData<Boolean>()
     var lastError : VolleyError? = null
+
+    var stationFilter : Station? = null
+    var timeDateFilter : Calendar? = null
+    var timeFiltered = false
+    var dateFiltered = false
 
 
 

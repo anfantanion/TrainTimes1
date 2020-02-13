@@ -35,4 +35,5 @@
     <string name="dialog_filter_loc_checkbox">Location</string>
     <string name="dialog_filter_date_checkbox">Date</string>
     <string name="dialog_filter_time_checkbox">Time</string>
+    <string name="dialog_filter_defaultLocationText">Location</string>
 </resources>

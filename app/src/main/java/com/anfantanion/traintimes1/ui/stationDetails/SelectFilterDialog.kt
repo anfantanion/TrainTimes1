@@ -23,7 +23,6 @@ class SelectFilterDialog() : DialogFragment() {
     lateinit var actualView: View
 
     var time: Calendar = Calendar.getInstance()
-    var stationFilterText : String = ""
     var stationFilter : Station? = null
 
 
@@ -120,7 +119,38 @@ class SelectFilterDialog() : DialogFragment() {
 
 
         /**
-         * Builder
+         * Set contents from current filter
+         */
+        val oldFilter = stationDetailsViewModel.filter
+        if (oldFilter.containsKey("to")){
+            stationFilter = stationDetailsViewModel.stationFilter
+            dialog_filter_loc_checkbox.isChecked = true
+            dialog_filter_loc_radio_to.isChecked = true
+            dialog_filter_loc_radio_from.isChecked = false
+        }
+        else if (oldFilter.containsKey("from")){
+            stationFilter = stationDetailsViewModel.stationFilter
+            dialog_filter_loc_checkbox.isChecked = true
+            dialog_filter_loc_radio_from.isChecked = true
+            dialog_filter_loc_radio_to.isChecked = false
+        }
+        if (stationDetailsViewModel.dateFiltered){
+            dialog_filter_date_checkbox.isChecked = true
+            time = stationDetailsViewModel.timeDateFilter ?: Calendar.getInstance()
+        }
+        if (stationDetailsViewModel.timeFiltered){
+            dialog_filter_time_checkbox.isChecked = true
+            time = stationDetailsViewModel.timeDateFilter ?: Calendar.getInstance()
+
+        }
+
+        updateTimeDateGUI()
+
+        dialog_filter_loc_textedit.setText(stationFilter?.name ?: getString(R.string.dialog_filter_defaultLocationText),TextView.BufferType.NORMAL)
+
+
+        /**
+        * Builder
          */
         builder
             .setTitle(R.string.stationDetails_FilterMessage)
@@ -141,6 +171,11 @@ class SelectFilterDialog() : DialogFragment() {
                     stationDetailsViewModel.filter = newFilters
                     stationDetailsViewModel.getServices()
                 }
+                stationDetailsViewModel.stationFilter = stationFilter
+                stationDetailsViewModel.timeDateFilter = time
+                stationDetailsViewModel.timeFiltered = dialog_filter_time_checkbox.isChecked
+                stationDetailsViewModel.dateFiltered = dialog_filter_date_checkbox.isChecked
+
             }
             .setNegativeButton(R.string.stationDetails_remFilter) { dialog, id ->
                 if (stationDetailsViewModel.filter.isNotEmpty()) {
@@ -196,7 +231,7 @@ class SelectFilterDialog() : DialogFragment() {
             TextView.BufferType.NORMAL
         )
         dialog_filter_time_textedit.setText(
-            SimpleDateFormat.getTimeInstance().format(time.time),
+            SimpleDateFormat.getTimeInstance().format(time.time).dropLast(2),
             TextView.BufferType.NORMAL
         )
     }
