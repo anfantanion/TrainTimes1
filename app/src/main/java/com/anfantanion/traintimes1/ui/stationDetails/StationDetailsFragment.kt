@@ -72,7 +72,7 @@ class StationDetails : Fragment() {
         stationDetailsRecyclerView.adapter = stationDetailsRecylerAdapter
 
         viewModel.stationResponse.observe(viewLifecycleOwner, Observer {
-            stationDetailsRecylerAdapter.services = viewModel.stationResponse.value!!.services
+            stationDetailsRecylerAdapter.services = viewModel.stationResponse.value!!.services ?: emptyList()
             stationDetailsRecylerAdapter.notifyDataSetChanged()
         })
 
