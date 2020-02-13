@@ -54,8 +54,8 @@ object RTTAPI{
                      from : String?,
                      date : String?) : String{
         val urlBuilder = StringBuilder().append(endpoint,locationQuery,"/",station)
-        if (to != null) urlBuilder.append("/",to)
-        if (from != null) urlBuilder.append("/",from)
+        if (to != null) urlBuilder.append("/to/",to)
+        if (from != null) urlBuilder.append("/from/",from)
         if (date != null) urlBuilder.append("/",date)
         return urlBuilder.toString()
     }
