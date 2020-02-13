@@ -8,7 +8,9 @@ data class StationResponse(
     val services: List<Service>,
     val to : String?,
     val from : String?,
-    val date : Date?
+    val date : Date?,
+    val error: String?,
+    val errcode: String?
 ){
 
     val timestamp = System.currentTimeMillis()

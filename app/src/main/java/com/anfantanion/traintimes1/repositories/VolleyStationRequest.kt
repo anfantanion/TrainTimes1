@@ -26,6 +26,8 @@ class VolleyStationRequest(method: Int,
         val parsed = String(response!!.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers)))
         try {
             val gsoned = Gson().fromJson(parsed, StationResponse::class.java)
+            if (gsoned.error!=null)
+                return Response.error(VolleyError("From API: ${gsoned.error}"))
             return Response.success(gsoned,null)
         }catch (e : JsonSyntaxException){
             return Response.error(VolleyError(e))

@@ -133,7 +133,7 @@ class SelectFilterDialog() : DialogFragment() {
      */
     private fun dateToString(doTime: Boolean) : String{
         val sb = StringBuilder()
-        sb.append("${time.get(Calendar.YEAR)}/${padInt(time.get(Calendar.MONTH))}/${padInt(time.get(Calendar.DAY_OF_MONTH))}")
+        sb.append("${time.get(Calendar.YEAR)}/${padInt(time.get(Calendar.MONTH)+1)}/${padInt(time.get(Calendar.DAY_OF_MONTH))}")
         if (doTime)
             sb.append("/${padInt(time.get(Calendar.HOUR_OF_DAY))}${padInt(time.get(Calendar.MINUTE))}")
         return sb.toString()
