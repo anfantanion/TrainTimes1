@@ -58,6 +58,7 @@ object StationRepo {
     object SearchManager{
 
         private var recentStations = ArrayList<Station>()
+        var lastSearchTopStationSuggestion : Station.StationSuggestion? = null
 
         interface stationSuggestionListener {
             fun onResults(results: List<Station.StationSuggestion>)
@@ -110,6 +111,7 @@ object StationRepo {
                     suggestionListCodes.addAll(suggestionListOther)
                     results.values = suggestionListCodes
                     results.count = suggestionListCodes.size
+                    lastSearchTopStationSuggestion = suggestionListCodes[0]
                     return results
                 }
 

@@ -3,7 +3,6 @@ package com.anfantanion.traintimes1.ui.home
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,8 +115,12 @@ class HomeFragment : Fragment() {
             }
 
             override fun onSearchAction(query: String) {
-                Log.d(TAG, "onSearchAction()")
-                //TODO: Select top result
+                val station = StationRepo.SearchManager.getStation(StationRepo.SearchManager.lastSearchTopStationSuggestion as Station.StationSuggestion)
+                if (station!=null){
+                    Log.d(TAG, "onSearchAction()"+station.code)
+                    findNavController().navigate(R.id.action_nav_home_to_stationDetails, bundleOf("ActiveStation" to station.toStationStub()))
+                    mSearchView.clearSearchFocus()
+                }
             }
         })
 
