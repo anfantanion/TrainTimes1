@@ -1,136 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="20dp"
-    app:floatingSearch_searchBarMarginLeft="8dp"
-    app:floatingSearch_searchBarMarginTop="8dp"
-    app:floatingSearch_searchBarMarginRight="8dp"
-    >
 
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <CheckBox
-        android:id="@+id/dialog_filter_loc_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dialog_filter_loc_checkbox" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:id="@+id/dialog_filter_loc_linearlayout"
-        android:visibility="gone"
-        android:animateLayoutChanges="true"
-        >
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton android:id="@+id/dialog_filter_loc_radio_from"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_filter_loc_radio_from"
-                android:checked="true" />
-            <RadioButton android:id="@+id/dialog_filter_loc_radio_to"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_filter_loc_radio_to" />
-        </RadioGroup>
-
-        <com.arlib.floatingsearchview.FloatingSearchView
-            android:id="@+id/dialog_filter_search1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:visibility="visible"
-            app:floatingSearch_dimBackground="true"
-            app:floatingSearch_searchHint="Search Location"
-            app:floatingSearch_suggestionsListAnimDuration="250"
-            app:floatingSearch_showSearchKey="true"
-            app:floatingSearch_menu="@menu/menu_home"
-            app:floatingSearch_leftActionMode="showSearch"
-            app:floatingSearch_close_search_on_keyboard_dismiss="true"
-            />
-
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
         >
+
 
         <CheckBox
-            android:id="@+id/dialog_filter_date_checkbox"
+            android:id="@+id/dialog_filter_loc_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_filter_date_checkbox" />
+            android:text="@string/dialog_filter_loc_checkbox" />
 
-        <EditText
-            android:id="@+id/dialog_filter_date_textedit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2020-01-01"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            android:visibility="invisible"
-            android:inputType="none"
-            android:focusable="false"
+            android:orientation="vertical"
+            android:id="@+id/dialog_filter_loc_linearlayout"
+            android:visibility="gone"
+            android:animateLayoutChanges="true"
+            >
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/dialog_filter_loc_radio_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dialog_filter_loc_radio_from"
+                    android:checked="true" />
+                <RadioButton android:id="@+id/dialog_filter_loc_radio_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dialog_filter_loc_radio_to" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/dialog_filter_loc_textedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Southampton Central"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:visibility="visible"
+                android:inputType="none"
+                android:focusable="false"
+                >
+
+            </EditText>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             >
 
-        </EditText>
+            <CheckBox
+                android:id="@+id/dialog_filter_date_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_filter_date_checkbox" />
+
+            <EditText
+                android:id="@+id/dialog_filter_date_textedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020-01-01"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:visibility="invisible"
+                android:inputType="none"
+                android:focusable="false"
+                >
+
+            </EditText>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <CheckBox
+                android:id="@+id/dialog_filter_time_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_filter_time_checkbox" />
+
+            <EditText
+                android:id="@+id/dialog_filter_time_textedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1400"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                tools:ignore="HardcodedText"
+                android:visibility="invisible"
+                android:inputType="none"
+                android:focusable="false"
+                >
+
+
+            </EditText>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-        <CheckBox
-            android:id="@+id/dialog_filter_time_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dialog_filter_time_checkbox" />
-
-        <EditText
-            android:id="@+id/dialog_filter_time_textedit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1400"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            tools:ignore="HardcodedText"
-            android:visibility="invisible"
-            android:inputType="none"
-            android:focusable="false"
-            >
-
-
-        </EditText>
-
-    </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</LinearLayout>
+</FrameLayout>

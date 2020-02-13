@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.arlib.floatingsearchview.FloatingSearchView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dialog_search_search1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:floatingSearch_dimBackground="true"
+        app:floatingSearch_searchHint="Search Location"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_showSearchKey="true"
+        app:floatingSearch_menu="@menu/dialog_search_menu"
+        app:floatingSearch_leftActionMode="showHome"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_showVoiceInput="true"
+        />
+</LinearLayout>

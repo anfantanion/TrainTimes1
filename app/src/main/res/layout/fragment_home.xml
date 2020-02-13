@@ -26,7 +26,9 @@
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_leftActionMode="showHamburger"
         app:floatingSearch_menu="@menu/menu_home"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_showVoiceInput="true"
+        />
 
     <TextView
         android:id="@+id/text_home"

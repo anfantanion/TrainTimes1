@@ -9,12 +9,9 @@ import android.text.format.DateFormat
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.findNavController
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
-import com.arlib.floatingsearchview.FloatingSearchView
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -41,8 +38,6 @@ class SelectFilterDialog() : DialogFragment() {
         val dialog_filter_loc_linearlayout =
             view.findViewById<LinearLayout>(R.id.dialog_filter_loc_linearlayout)
 
-        val dialog_filter_search1 = view.findViewById<FloatingSearchView>(R.id.dialog_filter_search1)
-
         val dialog_filter_loc_radio_from = view.findViewById<RadioButton>(R.id.dialog_filter_loc_radio_from)
         val dialog_filter_loc_radio_to = view.findViewById<RadioButton>(R.id.dialog_filter_loc_radio_to)
 
@@ -53,23 +48,36 @@ class SelectFilterDialog() : DialogFragment() {
         val dialog_filter_time_checkbox =
             view.findViewById<CheckBox>(R.id.dialog_filter_time_checkbox)
 
+        val dialog_filter_loc_textedit =
+            view.findViewById<EditText>(R.id.dialog_filter_loc_textedit)
         val dialog_filter_date_textedit =
             view.findViewById<EditText>(R.id.dialog_filter_date_textedit)
         val dialog_filter_time_textedit =
             view.findViewById<EditText>(R.id.dialog_filter_time_textedit)
 
-        setupSearch(dialog_filter_search1)
+
+
 
         updateTimeDateGUI()
 
         /**
          * Location
          */
+        //setupSearch(dialog_filter_search1)
         dialog_filter_loc_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             when (isChecked) {
                 true -> dialog_filter_loc_linearlayout.visibility = View.VISIBLE
                 false -> dialog_filter_loc_linearlayout.visibility = View.GONE
             }
+        }
+        dialog_filter_loc_textedit.setOnClickListener {
+            val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
+                override fun onItemSelected(stationSuggestion: Station.StationSuggestion) {
+                    stationFilter = StationRepo.SearchManager.getStation(stationSuggestion)
+                    dialog_filter_loc_textedit.setText(stationFilter!!.name,TextView.BufferType.NORMAL)
+                }
+            })
+            sd.show(parentFragmentManager,"searchDialog")
         }
 
         /**
@@ -146,71 +154,6 @@ class SelectFilterDialog() : DialogFragment() {
         return builder.create()
 
     }
-
-    fun setupSearch(searchView: FloatingSearchView){
-
-        searchView.setOnQueryChangeListener{ oldQuery: String, newQuery: String ->
-            if (oldQuery != "" && newQuery == "") {
-                searchView.clearSuggestions()
-            }
-            else {
-                StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.stationSuggestionListener {
-                    override fun onResults(results: List<Station.StationSuggestion>) {
-
-                        searchView.swapSuggestions(results)
-                    }
-                })
-            }
-        }
-
-        searchView.setOnSearchListener(object : FloatingSearchView.OnSearchListener {
-            override fun onSuggestionClicked(searchSuggestion: SearchSuggestion) {
-                val station = StationRepo.SearchManager.getStation(searchSuggestion as Station.StationSuggestion)
-                if (station!=null){
-                    stationFilter = station
-                    stationFilterText = station.name
-                    searchView.clearSearchFocus()
-                }
-
-            }
-            override fun onSearchAction(query: String) {
-                val station = StationRepo.SearchManager.getStation(StationRepo.SearchManager.lastSearchTopStationSuggestion as Station.StationSuggestion)
-                if (station!=null){
-                    stationFilter = station
-                    stationFilterText = station.name
-                    searchView.clearSearchFocus()
-                }
-            }
-        })
-
-        searchView.setOnFocusChangeListener(object : FloatingSearchView.OnFocusChangeListener {
-            override fun onFocus() { //show suggestions when search bar gains focus (typically history suggestions)
-                searchView.swapSuggestions(StationRepo.SearchManager.getHistory(3))
-            }
-
-            override fun onFocusCleared() {
-                //set the title of the bar so that when focus is returned a new query begins
-                //searchView.setSearchBarTitle("")
-                searchView.setSearchText(stationFilterText)
-            }
-        })
-
-        searchView.setOnMenuItemClickListener { item ->
-            val navController = activity?.findNavController(R.id.nav_host_fragment)
-            when (item?.itemId) {
-                R.id.action_settings -> navController?.navigate(R.id.action_nav_home_to_nav_settings)
-                R.id.action_voice_rec -> null //TODO: Voice
-                R.id.action_location -> {
-                    StationRepo.SearchManager.findNearby(object : StationRepo.SearchManager.stationSuggestionListener {
-                        override fun onResults(results: List<Station.StationSuggestion>) {
-                            searchView.swapSuggestions(results)
-                        }
-                    })
-                }
-            }
-        }
-    }
-
 
 
     /**
