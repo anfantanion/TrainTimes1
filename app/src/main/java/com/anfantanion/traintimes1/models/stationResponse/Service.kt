@@ -1,5 +1,7 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
+import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+
 
 data class Service(
     val atocCode: String,
@@ -14,7 +16,7 @@ data class Service(
 )
 {
     fun time():String{
-        return locationDetail.gbttBookedDeparture
+        return locationDetail.gbttBookedDeparture ?: "----"
     }
 
     fun destination():String{
@@ -31,9 +33,14 @@ data class Service(
     }
 
     fun platform():String{
-        if(serviceType=="train")
-            return locationDetail.platform
-        else
-            return serviceType
+        return when (serviceType){
+            "train" -> locationDetail.platform?: ""
+            "bus" -> "Bus"
+            else -> ""
+        }
+    }
+
+    fun toServiceStub() : ServiceStub{
+        return ServiceStub(serviceUid,runDate.replace('-','/'))
     }
 }

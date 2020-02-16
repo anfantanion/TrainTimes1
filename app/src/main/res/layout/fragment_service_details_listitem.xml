@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="50dp"
+    >
 
     <ImageView
         android:id="@+id/serviceDetailsImageView"
@@ -115,33 +116,33 @@
 
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeArrival"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:text="1400"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:textSize="15sp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 />
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeDepart"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:text="1455"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:textSize="15sp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 />
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeDelay"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:text="+1"
+                android:text="+140"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:textSize="15sp"
-                android:gravity="center_vertical"
+                android:gravity="right"
                 />
 
         </LinearLayout>

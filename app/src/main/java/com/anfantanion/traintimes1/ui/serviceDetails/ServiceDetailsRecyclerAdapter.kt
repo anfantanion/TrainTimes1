@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
 
 class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
 
-    val locations = emptyList<LocationDetail>()
+    var locations = emptyList<LocationDetail>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val image = itemView.serviceDetailsImageView
@@ -45,9 +45,15 @@ class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecy
         holder.stationName.text = location.description
         holder.platformNo.text = location.platform
 
-        holder.timingRealArrival.text = location.realtimeArrival
-        holder.timingRealDepart.text = location.realtimeDeparture
-        holder.timingRealDelay.text = (location.realtimeDeparture.toInt() - location.gbttBookedDeparture.toInt()).toString()
+        holder.timingRealArrival.text = location.getArrivalTime()
+        holder.timingRealDepart.text = location.getDepartureTime()
+        holder.timingRealDelay.text = location.delayString()
+
+        when (position){
+            0 -> holder.image.setImageResource(R.drawable.ic_servicedetails_start)
+            locations.size-1 -> holder.image.setImageResource(R.drawable.ic_servicedetails_end)
+            else -> holder.image.setImageResource(R.drawable.ic_serivcedetails_station)
+        }
     }
 
 }

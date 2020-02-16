@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_station_details.*
 /**
  *
  */
-class StationDetails : Fragment() {
+class StationDetails : Fragment(), StationDetailsRecylerAdapter.OnServiceClick {
     private val TAG = "StationDetails"
 
 
@@ -50,7 +52,7 @@ class StationDetails : Fragment() {
         viewModel = ViewModelProvider(this).get(StationDetailsViewModel::class.java)
 
 
-        stationDetailsRecylerAdapter = StationDetailsRecylerAdapter()
+        stationDetailsRecylerAdapter = StationDetailsRecylerAdapter(this)
 
 
 
@@ -111,5 +113,17 @@ class StationDetails : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onServiceClick(position: Int) {
+        var x = viewModel.stationResponse.value?.services?.get(position)?.toServiceStub()
+        if (x != null)
+            findNavController().navigate(R.id.action_stationDetails_to_serviceDetails, bundleOf("ActiveService" to x))
+        else
+            Log.d(TAG,"Error finding service")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.title = viewModel.station?.name ?: getString(R.string.fragment_stationDetails_title)
+    }
 
 }

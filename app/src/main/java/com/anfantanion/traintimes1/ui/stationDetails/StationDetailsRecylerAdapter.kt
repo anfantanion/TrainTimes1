@@ -8,18 +8,24 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.stationResponse.Service
 import kotlinx.android.synthetic.main.fragment_station_details_listitem.view.*
 
-class StationDetailsRecylerAdapter : RecyclerView.Adapter<StationDetailsRecylerAdapter.ViewHolder>(){
+class StationDetailsRecylerAdapter(private val onServiceClick: OnServiceClick) : RecyclerView.Adapter<StationDetailsRecylerAdapter.ViewHolder>(){
 
     var services = emptyList<Service>()
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val time = itemView.stationDetailsLItemTime
+    class ViewHolder(itemView: View, val onServiceClick: OnServiceClick) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+            onServiceClick.onServiceClick(adapterPosition)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_station_details_listitem,parent,false)
-        return ViewHolder(view)
+        return ViewHolder(view, onServiceClick)
     }
 
     override fun getItemCount(): Int {
@@ -33,6 +39,10 @@ class StationDetailsRecylerAdapter : RecyclerView.Adapter<StationDetailsRecylerA
         iv.stationDetailsLItemName.text = service.destination()
         iv.stationDetailsLItemStatus.text = service.status()
         iv.stationDetailsLItemPlatform.text = service.platform()
+    }
+
+    interface OnServiceClick{
+        fun onServiceClick(position: Int)
     }
 
 

@@ -18,4 +18,9 @@ data class ServiceResponse(
     val trainIdentity: String
 ){
     val timestamp = System.currentTimeMillis()
+
+    fun getName(): String{
+        return origin[0].publicTime +" to " +destination[0].description
+    }
+
 }

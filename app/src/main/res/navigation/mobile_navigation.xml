@@ -89,9 +89,9 @@
     </fragment>
     <fragment
         android:id="@+id/serviceDetails"
-        android:name="com.anfantanion.traintimes1.ui.serviceDetails.serviceDetails"
+        android:name="com.anfantanion.traintimes1.ui.serviceDetails.ServiceDetailsFragment"
         android:label="@string/fragment_serviceDetails_title"
-        tools:layout="@layout/fragment_service_details" >
+        tools:layout="@layout/fragment_service_details">
         <argument
             android:name="ActiveService"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.ServiceStub" />

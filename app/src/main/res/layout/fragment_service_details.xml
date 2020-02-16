@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.serviceDetails.serviceDetails">
+    android:orientation="vertical"
+    tools:context=".ui.serviceDetails.ServiceDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/stationDetailsFilterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Platform | Arrival | Depart | Delay"
+        android:visibility="visible"
+        android:background="@color/additionalInfoBackground"
+        android:gravity="right"
+        >
+    </TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/serviceDetailsRecylcerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:scrollbars="vertical"
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true"
         />
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/serviceDetailsProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/black"
+        android:focusable="true">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
+
+    </FrameLayout>
+
+</LinearLayout>
