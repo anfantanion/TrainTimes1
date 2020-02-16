@@ -38,6 +38,7 @@ class StationDetailsViewModel : ViewModel(){
     fun getServices(){
         val s = station ?: return
         isLoading.value = true
+        isError.value = false
         RTTAPI.requestStation(s.code,
             listener = Response.Listener { response ->
                 stationResponse.value = response
@@ -46,7 +47,6 @@ class StationDetailsViewModel : ViewModel(){
             errorListener = Response.ErrorListener { error ->
                 lastError = error
                 isError.value = true
-                isError.value = false
                 isLoading.value = false
             },
             to = filter["to"],

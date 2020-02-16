@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.anfantanion.traintimes1.ui.serviceDetails.serviceDetails
 import kotlinx.android.synthetic.main.fragment_station_details.*
 
 
@@ -40,7 +41,7 @@ class StationDetails : Fragment() {
 
     private var receivedStation : Station? = null
 
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: serviceDetails.OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +74,11 @@ class StationDetails : Fragment() {
 
         viewModel.stationResponse.observe(viewLifecycleOwner, Observer {
             stationDetailsRecylerAdapter.services = viewModel.stationResponse.value!!.services ?: emptyList()
+            if (stationDetailsRecylerAdapter.services.isEmpty()){
+                stationDetailsEmpty.visibility=View.VISIBLE
+            }else {
+                stationDetailsEmpty.visibility=View.GONE
+            }
             stationDetailsRecylerAdapter.notifyDataSetChanged()
         })
 
