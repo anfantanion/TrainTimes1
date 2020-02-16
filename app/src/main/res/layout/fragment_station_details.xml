@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.stationDetails.StationDetails">
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/additionalInfoBackground"
+        >
+        <TextView
+            android:id="@+id/stationDetailsFilterInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filter:"
+            android:visibility="gone"
+
+            >
+        </TextView>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/stationDetailsEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/additionalInfoBackground"
+        android:text="@string/no_matching_services" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stationDetailsRecyclerView"
@@ -14,15 +41,10 @@
         android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
+        android:layout_below="@id/stationDetailsRecyclerView"
         />
 
-    <TextView
-        android:id="@+id/stationDetailsEmpty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="@string/no_matching_services" />
+
 
     <FrameLayout
         android:id="@+id/stationDetailsProgressBar"
@@ -44,4 +66,4 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -23,6 +23,7 @@ class StationDetailsViewModel : ViewModel(){
     var stationResponse = MutableLiveData<StationResponse>()
     var isLoading = MutableLiveData<Boolean>()
     var isError = MutableLiveData<Boolean>()
+    var isFiltered = MutableLiveData<Boolean>()
     var lastError : VolleyError? = null
 
     var stationFilter : Station? = null
@@ -39,6 +40,7 @@ class StationDetailsViewModel : ViewModel(){
         val s = station ?: return
         isLoading.value = true
         isError.value = false
+        isFiltered.value = filter.isNotEmpty()
         RTTAPI.requestStation(s.code,
             listener = Response.Listener { response ->
                 stationResponse.value = response
@@ -54,6 +56,20 @@ class StationDetailsViewModel : ViewModel(){
             date = filter["date"],
             maxAge = maxAge.toLong()
             )
+    }
+
+    fun filterToString() : String {
+        var stringBuilder = StringBuilder("Filtered -")
+        if (filter["to"] != null){
+            stringBuilder.append(" To: "+filter["to"])
+        }
+        if (filter["from"] != null){
+            stringBuilder.append(" From: "+filter["from"])
+        }
+        if (filter["date"] != null){
+            stringBuilder.append(" At: "+filter["date"])
+        }
+        return stringBuilder.toString()
     }
 
 

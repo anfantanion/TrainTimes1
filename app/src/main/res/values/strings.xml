@@ -27,7 +27,7 @@
     <string name="action_stationDetails_filter">Filter</string>
     <string name="action_stationDetails_refresh">Refresh</string>
     <string name="stationDetails_setFilter">Apply Filter</string>
-    <string name="stationDetails_remFilter">Cancel</string>
+    <string name="stationDetails_remFilter">Reset</string>
     <string name="stationDetails_FilterMessage">Set Filter</string>
     <string name="dialog_filter_loc_radio_none">No Filter</string>
     <string name="dialog_filter_loc_radio_from">From:</string>
