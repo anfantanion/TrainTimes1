@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
-import com.anfantanion.traintimes1.ui.serviceDetails.serviceDetails
 import kotlinx.android.synthetic.main.fragment_station_details.*
 
 
@@ -20,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_station_details.*
  *
  */
 class StationDetails : Fragment() {
-    // TODO: Rename and change types of parameters
     private val TAG = "StationDetails"
 
 
@@ -29,7 +27,6 @@ class StationDetails : Fragment() {
 
     private var receivedStation : Station? = null
 
-    private var listener: serviceDetails.OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,11 +109,6 @@ class StationDetails : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
 
