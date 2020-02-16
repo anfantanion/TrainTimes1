@@ -31,6 +31,9 @@ data class Service(
     }
 
     fun platform():String{
-        return locationDetail.platform
+        if(serviceType=="train")
+            return locationDetail.platform
+        else
+            return serviceType
     }
 }
