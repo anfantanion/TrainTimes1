@@ -43,8 +43,8 @@ data class LocationDetail(
     fun delayString() : String {
         var delay = delay()
         if (delay==null || delay==0) return ""
-        if (delay>0) return "-$delay"
         if (delay>0) return "+$delay"
+        if (delay>0) return "-$delay"
         return "0"
     }
 

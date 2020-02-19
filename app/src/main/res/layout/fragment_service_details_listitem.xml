@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="50dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
 
     <ImageView
         android:id="@+id/serviceDetailsImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_serivcedetails_station" />
 
     <TextView
         android:id="@+id/serviceDetailsTextStationCode"
         android:layout_width="40dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_toRightOf="@id/serviceDetailsImageView"
         android:gravity="center"
         android:textSize="15sp"
@@ -23,14 +24,18 @@
     <TextView
         android:id="@+id/serviceDetailsTextStationName"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_toRightOf="@id/serviceDetailsTextStationCode"
         android:layout_toLeftOf="@id/serviceDetailsTimingInfo"
         android:gravity="center_vertical"
-        android:textSize="20sp"
-        android:text="Southampton Central"
+        android:textSize="15sp"
+        android:text="Southampton Central Airport Line"
         android:textColor="@color/colorTitleText"
         android:paddingRight="5dp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeStepGranularity="2sp"
 
         />
 
@@ -49,7 +54,7 @@
         <TextView
             android:id="@+id/serviceDetailsTimingInfoPlatform"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:text="1"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -68,7 +73,7 @@
 
             <View
                 android:layout_width="1dip"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@color/colorSubtitleText"
                 android:textSize="15sp"
                 android:gravity="center_vertical"
@@ -78,7 +83,7 @@
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoPlannedArrival"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="1400"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -88,7 +93,7 @@
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoPlannedDepart"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="1455"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -101,7 +106,7 @@
 
         <View
             android:layout_width="1dip"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@color/colorSubtitleText"
             android:textSize="15sp"
             android:gravity="center_vertical"
@@ -117,7 +122,7 @@
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeArrival"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="1400"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -137,7 +142,7 @@
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeDelay"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="30sp"
                 android:text="+140"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

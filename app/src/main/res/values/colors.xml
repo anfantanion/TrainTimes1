@@ -6,4 +6,6 @@
     <color name="colorTitleText">#000</color>
     <color name="colorSubtitleText">#808080</color>
     <color name="additionalInfoBackground">#D6D6D6</color>
+
+    <color name="late">#AA0000</color>
 </resources>

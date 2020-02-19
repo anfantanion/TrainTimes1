@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.ui.serviceDetails
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,21 @@ class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecy
         holder.timingRealArrival.text = location.getArrivalTime()
         holder.timingRealDepart.text = location.getDepartureTime()
         holder.timingRealDelay.text = location.delayString()
+
+        if (location.realtimeArrivalActual == true)
+            holder.timingRealArrival.setTypeface(null,Typeface.BOLD)
+        else
+            holder.timingRealArrival.setTypeface(null,Typeface.NORMAL)
+
+        if (location.realtimeDepartureActual == true)
+            holder.timingRealDepart.setTypeface(null,Typeface.BOLD)
+        else
+            holder.timingRealDepart.setTypeface(null,Typeface.NORMAL)
+
+        if (location.delay() ?: 0 > 10)
+            holder.timingRealDelay.setTypeface(null,Typeface.BOLD)
+        else
+            holder.timingRealDelay.setTypeface(null,Typeface.NORMAL)
 
         when (position){
             0 -> holder.image.setImageResource(R.drawable.ic_servicedetails_start)

@@ -29,6 +29,8 @@ data class Service(
             "APPR_PLAT" -> return "Arriving"
             "AT_PLAT" -> return "At Platform"
         }
+        if (locationDetail.delay()?:0 > 5)
+            return "Expected at "+locationDetail.realtimeDeparture
         return "On Time"
     }
 
