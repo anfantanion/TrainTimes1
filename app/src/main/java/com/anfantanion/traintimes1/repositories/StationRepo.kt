@@ -39,7 +39,7 @@ object StationRepo {
 
     fun getStation(stationStub: StationStub?): Station? {
         if (stationStub == null) return null
-        return stationCodeLookup[stationStub.name]
+        return stationCodeLookup[stationStub.crs]
     }
 
     fun loadStations(){
