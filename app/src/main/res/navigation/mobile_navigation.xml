@@ -79,7 +79,12 @@
         tools:layout="@layout/fragment_station_details">
         <action
             android:id="@+id/action_stationDetails_to_serviceDetails"
-            app:destination="@+id/serviceDetails" />
+            app:destination="@+id/serviceDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            />
         <argument
             android:name="ActiveStation"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.StationStub" />
@@ -97,7 +102,12 @@
             app:argType="com.anfantanion.traintimes1.models.parcelizable.ServiceStub" />
         <action
             android:id="@+id/action_serviceDetails_to_stationDetails"
-            app:destination="@id/stationDetails" />
+            app:destination="@id/stationDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            />
         <argument
             android:name="FocusedStation"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.StationStub[]"
