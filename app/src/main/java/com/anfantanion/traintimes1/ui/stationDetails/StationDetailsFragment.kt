@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -114,9 +113,15 @@ class StationDetails : Fragment(), StationDetailsRecylerAdapter.OnServiceClick {
     }
 
     override fun onServiceClick(position: Int) {
-        var x = viewModel.stationResponse.value?.services?.get(position)?.toServiceStub()
-        if (x != null)
-            findNavController().navigate(R.id.action_stationDetails_to_serviceDetails, bundleOf("ActiveService" to x))
+        var serviceStub = viewModel.stationResponse.value?.services?.get(position)?.toServiceStub()
+        var activeStation = receivedStation?.toStationStub()!!
+        if (serviceStub != null) {
+            findNavController().navigate(
+                StationDetailsDirections.actionStationDetailsToServiceDetails(serviceStub, arrayOf(activeStation))
+            )
+
+
+        }
         else
             Log.d(TAG,"Error finding service")
     }

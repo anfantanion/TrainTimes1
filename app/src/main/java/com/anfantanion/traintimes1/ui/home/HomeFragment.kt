@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -108,7 +107,7 @@ class HomeFragment : Fragment() {
                 val station = StationRepo.SearchManager.getStation(searchSuggestion as Station.StationSuggestion)
                 if (station!=null){
                     Log.d(TAG, "onSuggestionClicked()"+station.code)
-                    findNavController().navigate(R.id.action_nav_home_to_stationDetails, bundleOf("ActiveStation" to station.toStationStub()))
+                    findNavController().navigate(HomeFragmentDirections.actionNavHomeToStationDetails(station.toStationStub()))
                     mSearchView.clearSearchFocus()
                 }
 
@@ -118,7 +117,7 @@ class HomeFragment : Fragment() {
                 val station = StationRepo.SearchManager.getStation(StationRepo.SearchManager.lastSearchTopStationSuggestion as Station.StationSuggestion)
                 if (station!=null){
                     Log.d(TAG, "onSearchAction()"+station.code)
-                    findNavController().navigate(R.id.action_nav_home_to_stationDetails, bundleOf("ActiveStation" to station.toStationStub()))
+                    findNavController().navigate(HomeFragmentDirections.actionNavHomeToStationDetails(station.toStationStub()))
                     mSearchView.clearSearchFocus()
                 }
             }

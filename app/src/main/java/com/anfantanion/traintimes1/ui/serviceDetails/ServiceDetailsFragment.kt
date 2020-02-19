@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
@@ -22,15 +23,25 @@ import kotlinx.android.synthetic.main.fragment_service_details.*
 class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.ServiceDetailsRecycClick {
 
     private val TAG = "ServiceDetails"
+
+    val args: ServiceDetailsFragmentArgs by navArgs()
+
+    var focusedStations : Array<StationStub>? = null
+
     lateinit var serviceStub : ServiceStub
     lateinit var serviceDetailsViewModel: ServiceDetailsViewModel
     lateinit var serviceDetailsRecyclerAdapter: ServiceDetailsRecyclerAdapter
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        serviceStub = arguments!!.getParcelable("ActiveService")!!
+
+        serviceStub = args.ActiveService
+        focusedStations = args.FocusedStation
+
         Log.d(TAG,serviceStub.serviceUid)
     }
 
