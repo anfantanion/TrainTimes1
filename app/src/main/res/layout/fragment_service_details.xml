@@ -6,6 +6,24 @@
     android:orientation="vertical"
     tools:context=".ui.serviceDetails.ServiceDetailsFragment">
 
+    <FrameLayout
+        android:id="@+id/serviceDetailsProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/black"
+        android:focusable="true">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/stationDetailsFilterInfo"
         android:layout_width="match_parent"
@@ -26,22 +44,5 @@
         android:fastScrollAlwaysVisible="true"
         />
 
-    <FrameLayout
-        android:id="@+id/serviceDetailsProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.2"
-        android:animateLayoutChanges="true"
-        android:background="@android:color/black"
-        android:focusable="true">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"/>
-
-    </FrameLayout>
 
 </LinearLayout>
