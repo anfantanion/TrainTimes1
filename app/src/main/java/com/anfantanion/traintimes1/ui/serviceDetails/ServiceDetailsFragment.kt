@@ -4,19 +4,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import kotlinx.android.synthetic.main.fragment_service_details.*
 
 /**
  * 
  */
-class ServiceDetailsFragment : Fragment() {
+class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.ServiceDetailsRecycClick {
 
     private val TAG = "ServiceDetails"
     lateinit var serviceStub : ServiceStub
@@ -44,7 +47,7 @@ class ServiceDetailsFragment : Fragment() {
         serviceDetailsViewModel = ViewModelProvider(this).get(ServiceDetailsViewModel::class.java)
         serviceDetailsViewModel.service = serviceStub
 
-        serviceDetailsRecyclerAdapter = ServiceDetailsRecyclerAdapter()
+        serviceDetailsRecyclerAdapter = ServiceDetailsRecyclerAdapter(this)
 
         serviceDetailsRecylcerView.layoutManager = LinearLayoutManager(context)
         serviceDetailsRecylcerView.adapter = serviceDetailsRecyclerAdapter
@@ -83,6 +86,18 @@ class ServiceDetailsFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.title = serviceDetailsViewModel.serviceResponse.value?.getName() ?: getString(R.string.fragment_serviceDetails_title)
     }
 
+    override fun onStationClick(position: Int) {
+        val x = serviceDetailsViewModel.serviceResponse.value?.locations?.get(position)
+        if (x != null) {
+            val stationStub = StationStub(x.crs)
+            findNavController().navigate(
+                R.id.action_serviceDetails_to_stationDetails,
+                bundleOf("ActiveStation" to stationStub)
+            )
+        }
+        else
+            Log.d(TAG,"Error finding service")
+    }
 
 
 }

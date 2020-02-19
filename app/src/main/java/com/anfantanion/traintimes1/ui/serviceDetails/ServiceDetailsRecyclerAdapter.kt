@@ -9,11 +9,21 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
 import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
 
-class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
+class ServiceDetailsRecyclerAdapter (
+    private val serviceDetailsRecycClick: ServiceDetailsRecycClick
+) : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
 
     var locations = emptyList<LocationDetail>()
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(
+        itemView: View,
+        private val serviceDetailsRecycClick: ServiceDetailsRecycClick
+    ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         val image = itemView.serviceDetailsImageView
         val stationCode = itemView.serviceDetailsTextStationCode
         val stationName = itemView.serviceDetailsTextStationName
@@ -27,12 +37,16 @@ class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecy
         val timingRealArrival = itemView.serviceDetailsTimingInfoRealTimeArrival
         val timingRealDepart = itemView.serviceDetailsTimingInfoRealTimeDepart
         val timingRealDelay = itemView.serviceDetailsTimingInfoRealTimeDelay
+
+        override fun onClick(v: View?) {
+            serviceDetailsRecycClick.onStationClick(adapterPosition)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_service_details_listitem,parent,false)
-        return ViewHolder(view)
+        return ViewHolder(view,serviceDetailsRecycClick)
     }
 
     override fun getItemCount(): Int {
@@ -70,6 +84,10 @@ class ServiceDetailsRecyclerAdapter () : RecyclerView.Adapter<ServiceDetailsRecy
             locations.size-1 -> holder.image.setImageResource(R.drawable.ic_servicedetails_end)
             else -> holder.image.setImageResource(R.drawable.ic_serivcedetails_station)
         }
+    }
+
+    interface ServiceDetailsRecycClick{
+        fun onStationClick(position: Int)
     }
 
 }
