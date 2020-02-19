@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_nav_saved_journeys_to_nav_active_journey"
             app:destination="@id/nav_active_journey" />
+        <action
+            android:id="@+id/action_nav_saved_journeys_to_newJourneyFragment"
+            app:destination="@id/new_Journey" />
     </fragment>
 
     <fragment
@@ -119,6 +122,15 @@
         android:id="@+id/selectFilterDialog"
         android:name="com.anfantanion.traintimes1.ui.stationDetails.SelectFilterDialog"
         android:label="SelectFilterDialog" />
+    <fragment
+        android:id="@+id/new_Journey"
+        android:name="com.anfantanion.traintimes1.ui.newJourney.NewJourneyFragment"
+        android:label="fragment_new_journey"
+        tools:layout="@layout/fragment_new_journey" >
+        <action
+            android:id="@+id/action_newJourneyFragment_to_nav_saved_journeys2"
+            app:destination="@id/nav_saved_journeys" />
+    </fragment>
 
 
 </navigation>

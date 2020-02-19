@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.cachedb.CStationResponse
@@ -25,6 +26,15 @@ object RTTAPI{
         temp.allowMainThreadQueries(        ) //TODO: REMOVE!!!
         temp.fallbackToDestructiveMigration()
         cacheDatabase = temp.build()
+    }
+
+    fun requestStation(
+        station: StationStub,
+        listener: Response.Listener<StationResponse>,
+        errorListener: Response.ErrorListener?,
+        filter: Filter? = null
+    ){
+        requestStation(station.crs,listener,errorListener,filter?.to,filter?.from,filter?.date)
     }
 
     fun requestStation(
@@ -78,6 +88,10 @@ object RTTAPI{
         runDate: String
     ) : String{
         return "$endpoint$serviceQuery/$serviceUID/$runDate"
+    }
+
+    data class Filter(val to: String?, val from: String?, val date: String?){
+
     }
 
     /**

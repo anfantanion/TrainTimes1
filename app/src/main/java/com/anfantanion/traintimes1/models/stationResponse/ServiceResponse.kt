@@ -1,5 +1,7 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
+
 data class ServiceResponse(
     val atocCode: String,
     val atocName: String,
@@ -21,6 +23,11 @@ data class ServiceResponse(
 
     fun getName(): String{
         return origin[0].publicTime +" to " +destination[0].description
+    }
+
+    fun getStationArrival(stationStub: StationStub) : String? {
+        val filtered = locations.filter{ it.crs == stationStub.crs }
+        return filtered[0].gbttBookedArrival
     }
 
 }

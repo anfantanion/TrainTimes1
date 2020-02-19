@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
+//        var x = Journey.JourneyPlanner()
+//        x.plan(listOf(StationStub("AXM"),StationStub("CLJ"),StationStub("RDH")))
 //        RTTAPI.requestStation(
 //            "AXM",
 //            listener = Response.Listener { response ->
