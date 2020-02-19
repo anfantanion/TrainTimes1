@@ -12,7 +12,7 @@
         />
 
     <item android:id="@+id/action_stationDetails_refresh"
-        android:title="@string/action_stationDetails_refresh"
+        android:title="@string/action_generic_refresh"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_refresh_black_24dp"

@@ -10,10 +10,12 @@ import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
 import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
 
 class ServiceDetailsRecyclerAdapter (
-    private val serviceDetailsRecycClick: ServiceDetailsRecycClick
+    private val serviceDetailsRecycClick: ServiceDetailsRecycClick,
+    var timeDisplayType: TimeView = TimeView()
 ) : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
 
     var locations = emptyList<LocationDetail>()
+
 
     class ViewHolder(
         itemView: View,
@@ -56,9 +58,27 @@ class ServiceDetailsRecyclerAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val location = locations[position]
 
+        when(timeDisplayType.current){
+            TimeView.Types.REALTIME -> {
+                holder.timingPlanned.visibility = View.GONE
+                holder.timingReal.visibility = View.VISIBLE
+            }
+            TimeView.Types.BOOKEDTIME -> {
+                holder.timingPlanned.visibility = View.VISIBLE
+                holder.timingReal.visibility = View.GONE
+            }
+            TimeView.Types.NONE -> {
+                holder.timingPlanned.visibility = View.GONE
+                holder.timingReal.visibility = View.GONE
+            }
+        }
+
         holder.stationCode.text = location.crs
         holder.stationName.text = location.description
         holder.platformNo.text = location.platform
+
+        holder.timingPlannedArrival.text = location.gbttBookedArrival
+        holder.timingPlannedDepart.text = location.gbttBookedDeparture
 
         holder.timingRealArrival.text = location.getArrivalTime()
         holder.timingRealDepart.text = location.getDepartureTime()
@@ -89,5 +109,23 @@ class ServiceDetailsRecyclerAdapter (
     interface ServiceDetailsRecycClick{
         fun onStationClick(position: Int)
     }
+
+    class TimeView(
+        var current: Types = Types.REALTIME
+    ){
+
+        enum class Types { REALTIME, BOOKEDTIME, NONE}
+
+        fun next() : Types{
+            current = when (current){
+                Types.REALTIME -> Types.BOOKEDTIME
+                Types.BOOKEDTIME -> Types.NONE
+                Types.NONE -> Types.REALTIME
+            }
+            return current
+        }
+
+    }
+
 
 }

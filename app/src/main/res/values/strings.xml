@@ -25,7 +25,7 @@
     <string name="action_location" />
     <string name="platform">Plat.</string>
     <string name="action_stationDetails_filter">Filter</string>
-    <string name="action_stationDetails_refresh">Refresh</string>
+    <string name="action_generic_refresh">Refresh</string>
     <string name="stationDetails_setFilter">Apply Filter</string>
     <string name="stationDetails_remFilter">Reset</string>
     <string name="stationDetails_FilterMessage">Set Filter</string>
@@ -37,4 +37,8 @@
     <string name="dialog_filter_time_checkbox">Time</string>
     <string name="dialog_filter_defaultLocationText">Location</string>
     <string name="no_matching_services">No Services Found</string>
+    <string name="action_serviceDetails_timeToggle">Change View</string>
+    <string name="action_serviceDetails_timeToggle_Realtime">Realtime Data</string>
+    <string name="action_serviceDetails_timeToggle_Booked">Timetabled Data</string>
+    <string name="action_serviceDetails_timeToggle_None">Hidden</string>
 </resources>

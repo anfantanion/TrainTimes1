@@ -82,6 +82,27 @@ class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.Service
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.action_serviceDetails_refresh -> serviceDetailsViewModel.getServiceDetails()
+            R.id.action_serviceDetails_timeToggle -> {
+                var x = serviceDetailsRecyclerAdapter.timeDisplayType.next()
+                serviceDetailsRecyclerAdapter.notifyDataSetChanged()
+                when (x){
+                    ServiceDetailsRecyclerAdapter.TimeView.Types.REALTIME ->
+                        Toast.makeText(context,R.string.action_serviceDetails_timeToggle_Realtime,Toast.LENGTH_SHORT).show()
+                    ServiceDetailsRecyclerAdapter.TimeView.Types.BOOKEDTIME ->
+                        Toast.makeText(context,R.string.action_serviceDetails_timeToggle_Booked,Toast.LENGTH_SHORT).show()
+                    ServiceDetailsRecyclerAdapter.TimeView.Types.NONE ->
+                        Toast.makeText(context,R.string.action_serviceDetails_timeToggle_None,Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setTitle() {
         (activity as MainActivity).supportActionBar?.title = serviceDetailsViewModel.serviceResponse.value?.getName() ?: getString(R.string.fragment_serviceDetails_title)
     }
