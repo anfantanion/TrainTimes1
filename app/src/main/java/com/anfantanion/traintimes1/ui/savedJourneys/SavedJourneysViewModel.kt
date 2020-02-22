@@ -1,13 +1,16 @@
 package com.anfantanion.traintimes1.ui.savedJourneys
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.anfantanion.traintimes1.models.Journey
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 
 class SavedJourneysViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+    val journeys = MutableLiveData<List<Journey>>()
+
+    fun getJourneys(){
+        journeys.value = JourneyRepo.getSavedJourneys()
     }
-    val text: LiveData<String> = _text
+
 }

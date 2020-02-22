@@ -7,13 +7,41 @@ import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
+import com.anfantanion.traintimes1.repositories.StationRepo
 
 class Journey(
     vararg var waypoints : StationStub,
-    var journeyPlanner: JourneyPlanner
-)
-{
+    var journeyPlanner: JourneyPlanner,
+    var givenName: String? = null,
+    var type: Type = Type.DYNAMIC
+){
     var journeyPlan = emptyList<ServiceStub>()
+
+    enum class Type{
+        DYNAMIC, STARTAT, ARRIVEBY
+    }
+
+    fun getOriginName() : String{
+        return StationRepo.getStation(waypoints[0])!!.name
+    }
+
+    fun getIntermidateName() : String?{
+        if (waypoints.size<3) return null
+        val stringBuilder = StringBuilder()
+        var seperator = ""
+        waypoints.forEachIndexed { i: Int, stationStub: StationStub ->
+            if (!(i==0 || i==waypoints.size-1)){
+                stringBuilder.append(seperator)
+                stringBuilder.append(StationRepo.getStation(stationStub)!!.name)
+                seperator = ","
+            }
+        }
+        return stringBuilder.toString()
+    }
+
+    fun getDestName() : String{
+        return StationRepo.getStation(waypoints[waypoints.size-1])!!.name
+    }
 
     fun plan(journeyListener: JourneyPlanner.JourneyListener){
         journeyPlanner.journeyListener = journeyListener
@@ -117,6 +145,7 @@ class Journey(
 //            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 //        }
 //    }
+
 
 
 }

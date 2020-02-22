@@ -5,7 +5,7 @@
 
     <item android:id="@+id/action_stationDetails_filter"
         android:title="@string/action_stationDetails_filter"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_filter_list_black_24dp"
         app:iconTint="#FFFFFF"
@@ -13,7 +13,7 @@
 
     <item android:id="@+id/action_stationDetails_refresh"
         android:title="@string/action_generic_refresh"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_refresh_black_24dp"
         app:iconTint="#FFFFFF"
