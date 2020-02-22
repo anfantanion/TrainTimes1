@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
@@ -40,6 +41,11 @@ class ServiceDetailsRecyclerAdapter (
         val timingRealDepart = itemView.serviceDetailsTimingInfoRealTimeDepart
         val timingRealDelay = itemView.serviceDetailsTimingInfoRealTimeDelay
 
+        val serviceDetailsCancelled = itemView.serviceDetailsCancelled
+        val serviceDetailsCancelledText = itemView.serviceDetailsCancelledText
+        val serviceDetailsCancelledReason = itemView.serviceDetailsCancelledReason
+
+
         override fun onClick(v: View?) {
             serviceDetailsRecycClick.onStationClick(adapterPosition)
         }
@@ -56,8 +62,11 @@ class ServiceDetailsRecyclerAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val context = holder.itemView.context
         val location = locations[position]
 
+        holder.platformNo.visibility = View.VISIBLE
+        holder.serviceDetailsCancelled .visibility = View.GONE
         when(timeDisplayType.current){
             TimeView.Types.REALTIME -> {
                 holder.timingPlanned.visibility = View.GONE
@@ -77,27 +86,59 @@ class ServiceDetailsRecyclerAdapter (
         holder.stationName.text = location.description
         holder.platformNo.text = location.platform
 
+        if (location.platformChanged == true) {
+            holder.platformNo.setTextColor(ContextCompat.getColor(context, R.color.late))
+            holder.timingRealArrival.setTypeface(null, Typeface.BOLD)
+        } else {
+            holder.platformNo.setTextColor(ContextCompat.getColor(context, R.color.colorTitleText))
+            holder.timingRealArrival.setTypeface(null, Typeface.NORMAL)
+        }
+
         holder.timingPlannedArrival.text = location.gbttBookedArrival
         holder.timingPlannedDepart.text = location.gbttBookedDeparture
+
 
         holder.timingRealArrival.text = location.getArrivalTime()
         holder.timingRealDepart.text = location.getDepartureTime()
         holder.timingRealDelay.text = location.delayString()
+
 
         if (location.realtimeArrivalActual == true)
             holder.timingRealArrival.setTypeface(null,Typeface.BOLD)
         else
             holder.timingRealArrival.setTypeface(null,Typeface.NORMAL)
 
-        if (location.realtimeDepartureActual == true)
-            holder.timingRealDepart.setTypeface(null,Typeface.BOLD)
-        else
+        if (location.realtimeDepartureActual == true) {
+            holder.timingRealDepart.setTypeface(null, Typeface.BOLD)
+        }else{
             holder.timingRealDepart.setTypeface(null,Typeface.NORMAL)
+        }
 
-        if (location.delay() ?: 0 > 10)
-            holder.timingRealDelay.setTypeface(null,Typeface.BOLD)
-        else
-            holder.timingRealDelay.setTypeface(null,Typeface.NORMAL)
+        if (location.delay() ?: 0 > 5) {
+            holder.timingRealDelay.setTypeface(null, Typeface.BOLD)
+            holder.timingRealDelay.setTextColor(ContextCompat.getColor(context,R.color.late))
+        }else {
+            holder.timingRealDelay.setTypeface(null, Typeface.NORMAL)
+            holder.timingRealDelay.setTextColor(ContextCompat.getColor(context,R.color.colorSubtitleText))
+        }
+
+        when(location.displayAs){
+            "CANCELLED_CALL" -> {
+                holder.timingPlanned.visibility = View.GONE
+                holder.timingReal.visibility = View.GONE
+                holder.timingReal.visibility = View.GONE
+                holder.serviceDetailsCancelled .visibility = View.VISIBLE
+                holder.platformNo.visibility = View.GONE
+                holder.serviceDetailsCancelledText.text = context.getString(R.string.Cancelled,location.cancelReasonCode?:"?")
+                holder.serviceDetailsCancelledReason.text = location.cancelReasonShortText?.capitalize() ?: context.getString(R.string.Unknown)
+            }
+
+            "STARTS" , "ORIGIN" -> {
+                holder.timingRealArrival.text = ""
+                holder.timingPlannedArrival.text = ""
+            }
+        }
+
 
         when (position){
             0 -> holder.image.setImageResource(R.drawable.ic_servicedetails_start)

@@ -40,11 +40,45 @@
         />
 
 
+    <LinearLayout
+        android:id="@+id/serviceDetailsCancelled"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
 
+        >
+
+        <TextView
+            android:id="@+id/serviceDetailsCancelledText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelled (YI)"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="15sp"
+            android:textColor="@color/late"
+            />
+
+        <TextView
+            android:id="@+id/serviceDetailsCancelledReason"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Inbound service late "
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/late"
+
+            />
+
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/serviceDetailsTimingInfo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
@@ -68,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <View
@@ -82,83 +116,78 @@
 
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoPlannedArrival"
-                android:layout_width="wrap_content"
+                android:layout_width="42sp"
                 android:layout_height="40dp"
                 android:text="1400"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:gravity="center_vertical"
                 />
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoPlannedDepart"
-                android:layout_width="wrap_content"
+                android:layout_width="42sp"
                 android:layout_height="40dp"
                 android:text="1455"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:gravity="center_vertical"
+                android:singleLine="true"
                 />
 
 
         </LinearLayout>
-
-        <View
-            android:layout_width="1dip"
-            android:layout_height="40dp"
-            android:background="@color/colorSubtitleText"
-            android:textSize="15sp"
-            android:gravity="center_vertical"
-
-            />
 
         <LinearLayout
             android:id="@+id/serviceDetailsTimingInfoRealTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible"
+            >
+
+            <View
+                android:layout_width="1dip"
+                android:layout_height="40dp"
+                android:background="@color/colorSubtitleText"
+                android:gravity="center_vertical"
+
+                />
 
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeArrival"
-                android:layout_width="50dp"
+                android:layout_width="42sp"
                 android:layout_height="40dp"
-                android:text="1400"
+                android:text="1500"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:textSize="15sp"
-                android:gravity="center"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
                 />
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeDepart"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="42sp"
+                android:layout_height="40dp"
                 android:text="1455"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:textSize="15sp"
-                android:gravity="center"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
                 />
+
             <TextView
                 android:id="@+id/serviceDetailsTimingInfoRealTimeDelay"
-                android:layout_width="50dp"
-                android:layout_height="30sp"
-                android:text="+140"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+100"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:textSize="15sp"
-                android:gravity="right"
+                android:paddingRight="0dp"
+                android:gravity="center_vertical|end"
+                android:textSize="14sp"
                 />
 
         </LinearLayout>
-
     </LinearLayout>
-
-
-
-
-
-
-
 
 </RelativeLayout>

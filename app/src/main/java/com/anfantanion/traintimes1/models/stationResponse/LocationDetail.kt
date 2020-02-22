@@ -21,6 +21,7 @@ data class LocationDetail(
     val realtimeArrivalActual: Boolean?,
     val realtimeDeparture: String?,
     val realtimeDepartureActual: Boolean?,
+    val realtimeDepartureNoReport: Boolean?,
     val displayAs: String,
     val line: String?,
     val lineConfirmed: Boolean?,
@@ -30,7 +31,10 @@ data class LocationDetail(
     val platformChanged: Boolean?,
     val platformConfirmed: Boolean?,
     val serviceLocation: String?,
-    val associations: List<Association>?
+    val associations: List<Association>?,
+    val cancelReasonCode: String?,
+    val cancelReasonShortText: String?,
+    val cancelReasonLongText: String?
 ){
 
     fun getArrivalTime(): String?{
@@ -43,12 +47,12 @@ data class LocationDetail(
         return gbttBookedDeparture
     }
 
+
     fun delayString() : String {
         var delay = delay()
         if (delay==null || delay==0) return ""
-        if (delay>0) return "+$delay"
-        if (delay>0) return "-$delay"
-        return ""
+        else return "$delay"
+
     }
 
     fun delay() : Int? {
@@ -56,8 +60,24 @@ data class LocationDetail(
         return if (realtimeDeparture != null && gbttBookedDeparture != null){
             val actual = TimeDate(startTime = realtimeDeparture)
             val booked = TimeDate(startTime = gbttBookedDeparture)
-            TimeUnit.MILLISECONDS.toMinutes(booked.calendar.timeInMillis - actual.calendar.timeInMillis).toInt()
+            TimeUnit.MILLISECONDS.toMinutes(
+                actual.calendar.timeInMillis - booked.calendar.timeInMillis).toInt()
         }else null
+    }
+
+    fun statusString():String{
+        when (displayAs){
+            "CANCELLED_CALL" -> {return "Cancelled (${cancelReasonCode}) - ${cancelReasonShortText?.capitalize()}"}
+            "STARTS" , "ORIGIN" -> {}
+        }
+        when (serviceLocation){ // Departed at?
+            "APPR_STAT" -> return "Approaching Station"
+            "APPR_PLAT" -> return "Arriving"
+            "AT_PLAT" -> return "At Platform"
+        }
+        if (delay()?:0 > 5)
+            return "Expected at "+realtimeDeparture
+        return "On Time"
     }
 
 

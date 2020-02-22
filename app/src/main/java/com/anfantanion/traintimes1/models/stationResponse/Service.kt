@@ -23,15 +23,8 @@ data class Service(
         return locationDetail.destination[0].description
     }
 
-    fun status():String{
-        when (locationDetail.serviceLocation){
-            "APPR_STAT" -> return "Approaching Station"
-            "APPR_PLAT" -> return "Arriving"
-            "AT_PLAT" -> return "At Platform"
-        }
-        if (locationDetail.delay()?:0 > 5)
-            return "Expected at "+locationDetail.realtimeDeparture
-        return "On Time"
+    fun statusString():String{
+        return locationDetail.statusString()
     }
 
     fun platform():String{

@@ -41,4 +41,6 @@
     <string name="action_serviceDetails_timeToggle_Realtime">Realtime Data</string>
     <string name="action_serviceDetails_timeToggle_Booked">Timetabled Data</string>
     <string name="action_serviceDetails_timeToggle_None">Hidden</string>
+    <string name="Cancelled">Cancelled (%1$s)</string>
+    <string name="Unknown">Unknown</string>
 </resources>
