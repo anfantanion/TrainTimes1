@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         StationRepo.setContext(applicationContext)
         StationRepo.loadStations()
+        JourneyRepo.load(context = applicationContext)
 
 
 
@@ -114,6 +116,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
 
     override fun onPause() {
         StationRepo.SearchManager.save()
+        JourneyRepo.save(applicationContext)
         super.onPause()
     }
 }

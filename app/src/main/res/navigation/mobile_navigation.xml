@@ -130,6 +130,10 @@
         <action
             android:id="@+id/action_newJourneyFragment_to_nav_saved_journeys2"
             app:destination="@id/nav_saved_journeys" />
+        <argument
+            android:name="editingJourney"
+            app:argType="com.anfantanion.traintimes1.models.parcelizable.JourneyStub"
+            app:nullable="true" />
     </fragment>
 
 
