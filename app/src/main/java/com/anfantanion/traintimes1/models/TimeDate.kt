@@ -2,8 +2,12 @@ package com.anfantanion.traintimes1.models
 
 import java.util.*
 
-class TimeDate{
+class TimeDate(startDate: String? = null, startTime: String? = null){
     var calendar = Calendar.getInstance()
+
+    init{
+        startTime?.let{setTime(it)}
+    }
 
     fun setTime(string: String){
         calendar.set(Calendar.HOUR_OF_DAY, (string.substring(0,2)).toInt())

@@ -1,5 +1,8 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
+import com.anfantanion.traintimes1.models.TimeDate
+import java.util.concurrent.TimeUnit
+
 data class LocationDetail(
     val realtimeActivated: Boolean,
     val tiploc: String,
@@ -45,13 +48,16 @@ data class LocationDetail(
         if (delay==null || delay==0) return ""
         if (delay>0) return "+$delay"
         if (delay>0) return "-$delay"
-        return "0"
+        return ""
     }
 
     fun delay() : Int? {
-        if (realtimeDeparture != null && gbttBookedDeparture != null){
-            return realtimeDeparture.toInt() - gbttBookedDeparture.toInt()
-        }else return null
+
+        return if (realtimeDeparture != null && gbttBookedDeparture != null){
+            val actual = TimeDate(startTime = realtimeDeparture)
+            val booked = TimeDate(startTime = gbttBookedDeparture)
+            TimeUnit.MILLISECONDS.toMinutes(booked.calendar.timeInMillis - actual.calendar.timeInMillis).toInt()
+        }else null
     }
 
 
