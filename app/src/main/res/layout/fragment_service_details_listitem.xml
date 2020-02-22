@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    >
 
     <ImageView
         android:id="@+id/serviceDetailsImageView"
@@ -94,8 +97,10 @@
             android:paddingRight="5dp"
             android:textSize="15sp"
             android:textColor="@color/colorTitleText"
-            android:gravity="center_vertical"
+            android:gravity=""
             />
+
+
 
         <LinearLayout
             android:id="@+id/serviceDetailsTimingInfoPlanned"
@@ -105,9 +110,11 @@
             android:visibility="visible"
             >
 
+
+
             <View
                 android:layout_width="1dip"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:background="@color/colorSubtitleText"
                 android:textSize="15sp"
                 android:gravity="center_vertical"
@@ -149,7 +156,7 @@
 
             <View
                 android:layout_width="1dip"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:background="@color/colorSubtitleText"
                 android:gravity="center_vertical"
 
@@ -188,6 +195,33 @@
                 />
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/serviceDetailsExtension"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/serviceDetailsImageView"
+        android:layout_toLeftOf="@id/serviceDetailsTimingInfo"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/serviceDetailsImageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_serivcedetails_extension" />
+
+        <TextView
+            android:id="@+id/serviceDetailsTextStationCode2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorTitleText"
+            android:background="@color/light_gray"
+            android:text="SOAfhklghngflkhnfglkhnfgkhnfgkhnfgknh"
+            />
     </LinearLayout>
 
 </RelativeLayout>
