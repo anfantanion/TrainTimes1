@@ -72,6 +72,7 @@ class SelectFilterDialog() : DialogFragment() {
         dialog_filter_loc_textedit.setOnClickListener {
             val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
                 override fun onItemSelected(stationSuggestion: Station.StationSuggestion) {
+                    StationRepo.SearchManager.addHistory(stationSuggestion)
                     stationFilter = StationRepo.SearchManager.getStation(stationSuggestion)
                     dialog_filter_loc_textedit.setText(stationFilter!!.name,TextView.BufferType.NORMAL)
                 }

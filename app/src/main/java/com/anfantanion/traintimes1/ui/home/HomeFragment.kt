@@ -107,6 +107,7 @@ class HomeFragment : Fragment() {
                 val station = StationRepo.SearchManager.getStation(searchSuggestion as Station.StationSuggestion)
                 if (station!=null){
                     Log.d(TAG, "onSuggestionClicked()"+station.code)
+                    StationRepo.SearchManager.addHistory(searchSuggestion)
                     findNavController().navigate(HomeFragmentDirections.actionNavHomeToStationDetails(station.toStationStub()))
                     mSearchView.clearSearchFocus()
                 }
@@ -117,6 +118,7 @@ class HomeFragment : Fragment() {
                 val station = StationRepo.SearchManager.getStation(StationRepo.SearchManager.lastSearchTopStationSuggestion as Station.StationSuggestion)
                 if (station!=null){
                     Log.d(TAG, "onSearchAction()"+station.code)
+                    StationRepo.SearchManager.addHistory(station.getStationSuggestion())
                     findNavController().navigate(HomeFragmentDirections.actionNavHomeToStationDetails(station.toStationStub()))
                     mSearchView.clearSearchFocus()
                 }
