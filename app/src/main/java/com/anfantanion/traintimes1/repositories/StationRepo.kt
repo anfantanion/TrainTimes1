@@ -1,6 +1,7 @@
 package com.anfantanion.traintimes1.repositories
 
 import android.content.Context
+import android.util.Log
 import android.widget.Filter
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.RequestQueue
@@ -8,6 +9,9 @@ import com.android.volley.toolbox.Volley
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
 
 object StationRepo {
 
@@ -27,6 +31,7 @@ object StationRepo {
         this.context = context
         volleyRequestQueue = Volley.newRequestQueue(context)
         rttAPI.setContext(context)
+        SearchManager.load()
     }
 
     fun getStations(): MutableLiveData<List<Station>> {
@@ -57,9 +62,10 @@ object StationRepo {
 
     object SearchManager{
 
+        private const val historyFileName = "history"
         private var recentStations = ArrayList<Station>()
         var lastSearchTopStationSuggestion : Station.StationSuggestion? = null
-        private val history = History()
+        private lateinit var history : History
 
         fun getHistory(count: Int): List<Station.StationSuggestion>{
             return history.getHistory(count)
@@ -71,6 +77,27 @@ object StationRepo {
 
         fun getStation(stationSuggestion: Station.StationSuggestion) : Station? {
             return stationCodeLookup[stationSuggestion.code]
+        }
+
+        fun save(){
+            context.openFileOutput(historyFileName,Context.MODE_PRIVATE).use{
+                ObjectOutputStream(it).use{it2 ->
+                    it2.writeObject(history)
+                }
+            }
+        }
+
+        fun load(){
+            try {
+                context.openFileInput(historyFileName).use { fis ->
+                    ObjectInputStream(fis).use { it2 ->
+                        history = it2.readObject() as? History ?: History()
+                    }
+                }
+            } catch (e: Exception){
+                Log.d("SEARCHMANAGER","History File not found ${e.localizedMessage}")
+                history = History()
+            }
         }
 
         fun findSuggestions(
@@ -117,14 +144,13 @@ object StationRepo {
             listener: stationSuggestionListener?
         ) {
             //TODO: Location Search
-
         }
 
         interface stationSuggestionListener {
             fun onResults(results: List<Station.StationSuggestion>)
         }
 
-        private class History(val size: Int = 3){
+        private class History(val size: Int = 3): Serializable{
 
             var history = Array<Station.StationSuggestion?>(3) {null}
             private var pointer = 0
@@ -138,8 +164,10 @@ object StationRepo {
             }
 
             fun add(stationSuggestion: Station.StationSuggestion){
-                history[pointer] = stationSuggestion
-                pointer = (pointer+1)%3
+                if (stationSuggestion !in history) {
+                    history[pointer] = stationSuggestion
+                    pointer = (pointer + 1) % 3
+                }
             }
 
         }

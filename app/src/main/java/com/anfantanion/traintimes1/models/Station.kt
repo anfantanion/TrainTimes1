@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import java.io.Serializable
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -49,7 +50,7 @@ class Station(
 
 
     class StationSuggestion(val name: String,
-                            val code: String) : SearchSuggestion {
+                            val code: String) : SearchSuggestion, Serializable {
 
 
         constructor(parcel: Parcel) : this(

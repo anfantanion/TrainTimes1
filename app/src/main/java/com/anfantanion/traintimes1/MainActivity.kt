@@ -112,4 +112,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         actionBar?.show()
     }
 
+    override fun onPause() {
+        StationRepo.SearchManager.save()
+        super.onPause()
+    }
 }
