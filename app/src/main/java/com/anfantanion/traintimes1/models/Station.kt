@@ -3,8 +3,6 @@ package com.anfantanion.traintimes1.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import com.anfantanion.traintimes1.models.stationResponse.Location
-import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -72,6 +70,21 @@ class Station(
             return 0
         }
 
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as StationSuggestion
+
+            if (code != other.code) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return code.hashCode()
+        }
+
         companion object CREATOR : Parcelable.Creator<StationSuggestion> {
             override fun createFromParcel(parcel: Parcel): StationSuggestion {
                 return StationSuggestion(parcel)
@@ -81,6 +94,8 @@ class Station(
                 return arrayOfNulls(size)
             }
         }
+
+
     }
 
 

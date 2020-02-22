@@ -59,28 +59,17 @@ object StationRepo {
 
         private var recentStations = ArrayList<Station>()
         var lastSearchTopStationSuggestion : Station.StationSuggestion? = null
-
-        interface stationSuggestionListener {
-            fun onResults(results: List<Station.StationSuggestion>)
-        }
+        private val history = History()
 
         fun getHistory(count: Int): List<Station.StationSuggestion>{
-            var history = ArrayList<Station.StationSuggestion>()
-            var i = 0
-            for (s: Station in recentStations){
-                history.add(s.getStationSuggestion())
-                i++
-                if (i>=count) break
-            }
-            history.add(stations[0].getStationSuggestion())
-            history.add(stations[1].getStationSuggestion())
-            return history
+            return history.getHistory(count)
+        }
+
+        fun addHistory(stationSuggestion: Station.StationSuggestion){
+            return history.add(stationSuggestion)
         }
 
         fun getStation(stationSuggestion: Station.StationSuggestion) : Station? {
-            var x = stations.filter {
-                it.code == "AXM"
-            }
             return stationCodeLookup[stationSuggestion.code]
         }
 
@@ -93,8 +82,8 @@ object StationRepo {
                 override fun performFiltering(constraint: CharSequence): FilterResults {
                     //TODO: Need a much better sorting algorithm
                     // This one introduces duplicates due to the two lists.
-                    val suggestionListCodes: MutableList<Station.StationSuggestion> = ArrayList()
-                    val suggestionListOther: MutableList<Station.StationSuggestion> = ArrayList()
+                    val suggestionListCodes = ArrayList<Station.StationSuggestion>()
+                    val suggestionListOther = ArrayList<Station.StationSuggestion>()
                     if (!(constraint.isEmpty())) {
                         for (station in stations) {
                             if (station.code.startsWith(constraint, ignoreCase = true)){
@@ -109,7 +98,7 @@ object StationRepo {
                     suggestionListCodes.sortBy{it.code}
                     suggestionListOther.sortBy{it.name}
                     suggestionListCodes.addAll(suggestionListOther)
-                    results.values = suggestionListCodes
+                    results.values = suggestionListCodes.distinct()
                     results.count = suggestionListCodes.size
                     lastSearchTopStationSuggestion = suggestionListCodes[0]
                     return results
@@ -119,9 +108,7 @@ object StationRepo {
                     constraint: CharSequence,
                     results: FilterResults
                 ) {
-                    if (listener != null) {
-                        listener.onResults(results.values as List<Station.StationSuggestion>)
-                    }
+                    listener?.onResults(results.values as? List<Station.StationSuggestion> ?: emptyList())
                 }
             }.filter(query)
         }
@@ -130,6 +117,30 @@ object StationRepo {
             listener: stationSuggestionListener?
         ) {
             //TODO: Location Search
+
+        }
+
+        interface stationSuggestionListener {
+            fun onResults(results: List<Station.StationSuggestion>)
+        }
+
+        private class History(val size: Int = 3){
+
+            var history = Array<Station.StationSuggestion?>(3) {null}
+            private var pointer = 0
+
+            fun getHistory(count: Int = size): List<Station.StationSuggestion>{
+                val list = ArrayList<Station.StationSuggestion>()
+                for(i in 0 until minOf(size,count)){
+                    history[(pointer+i)% size]?.let {list.add(it)}
+                }
+                return list
+            }
+
+            fun add(stationSuggestion: Station.StationSuggestion){
+                history[pointer] = stationSuggestion
+                pointer = (pointer+1)%3
+            }
 
         }
 
