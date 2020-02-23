@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anfantanion.traintimes1.R
 import kotlinx.android.synthetic.main.fragment_saved_journeys.*
@@ -44,6 +45,11 @@ class SavedJourneysFragment : Fragment(), SavedJourneyRecyclerAdapter.SavedJourn
         })
 
         savedJourneysViewModel.getJourneys()
+
+
+        savedJourneyAddButton.setOnClickListener {
+            findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNewJourneyFragment(null))
+        }
 
 
 

@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
+import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
 import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
 
 class ServiceDetailsRecyclerAdapter (

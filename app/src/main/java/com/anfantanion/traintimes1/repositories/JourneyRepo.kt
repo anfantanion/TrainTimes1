@@ -3,6 +3,7 @@ package com.anfantanion.traintimes1.repositories
 import android.content.Context
 import android.util.Log
 import com.anfantanion.traintimes1.models.Journey
+import com.anfantanion.traintimes1.models.parcelizable.JourneyStub
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.util.*
@@ -15,7 +16,12 @@ object JourneyRepo {
 
 
     fun addJourney(journey: Journey){
-        journeys.put(journey.uuid,journey)
+        journeys[journey.uuid] = journey
+    }
+
+    fun getJourney(journeyStub: JourneyStub?): Journey?{
+        journeyStub?.let { return journeys[journeyStub.uuid] }
+        return null
     }
 
     fun getSavedJourneys(): List<Journey>{

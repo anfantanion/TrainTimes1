@@ -43,4 +43,9 @@
     <string name="action_serviceDetails_timeToggle_None">Hidden</string>
     <string name="Cancelled">Cancelled (%1$s)</string>
     <string name="Unknown">Unknown</string>
+    <string name="newJourneyDynamic">Dynamic (Next Available Service)</string>
+    <string name="newJourneyDepart">Depart at:</string>
+    <string name="newJourneyArrive">Arrive By:</string>
+    <string name="newJourneyAddMode">Create Journey</string>
+    <string name="newJourneyEditMode">Edit Journey</string>
 </resources>
