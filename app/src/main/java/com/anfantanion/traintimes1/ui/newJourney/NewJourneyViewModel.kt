@@ -36,4 +36,10 @@ class NewJourneyViewModel {
         stations.value = x
     }
 
+    fun reverseStations(){
+        val x = stations.value?.toMutableList() ?: return
+        x.reverse()
+        stations.value = x
+    }
+
 }

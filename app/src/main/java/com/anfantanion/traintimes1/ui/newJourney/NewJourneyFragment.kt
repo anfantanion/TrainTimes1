@@ -8,7 +8,6 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -27,7 +26,6 @@ import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.stationDetails.SearchDialog
-import kotlinx.android.synthetic.main.dialog_filter.*
 import kotlinx.android.synthetic.main.fragment_new_journey.*
 import java.util.*
 
@@ -155,8 +153,16 @@ class NewJourneyFragment : Fragment(),
         sd.show(parentFragmentManager,"searchDialogNewJourneyAdd")
     }
 
-    override fun dragImageClicked(viewHolder: RecyclerView.ViewHolder) {
-        newJourneyTouchHelper.startDrag(viewHolder)
+    override fun dragImageTouchDown(
+        viewHolder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
+        // If Reverse Button
+        if (position == newJourneyViewModel.stations.value?.size ?: 0){
+            newJourneyViewModel.reverseStations()
+        }else {
+            newJourneyTouchHelper.startDrag(viewHolder)
+        }
     }
 
     override fun delImageClicked(position: Int) {

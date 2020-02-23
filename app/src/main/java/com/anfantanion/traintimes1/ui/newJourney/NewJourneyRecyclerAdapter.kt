@@ -4,13 +4,10 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import com.anfantanion.traintimes1.repositories.StationRepo
 import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
 
 
@@ -30,6 +27,7 @@ class NewJourneyRecyclerAdapter(
         var dragImage = itemView.newJourneyListItemImageDragger
         var delImage = itemView.newJourneyListItemImageRemove
         var addImage = itemView.newJourneyListItemImageAdd
+        var typeName = itemView.newJourneyListItemType
 
         init {
             stationName.setOnClickListener(this)
@@ -42,23 +40,22 @@ class NewJourneyRecyclerAdapter(
         override fun onClick(v: View?) {
             when (v){
                 stationName -> viewHolderListener.stationNameClicked(adapterPosition)
-                dragImage -> viewHolderListener.dragImageClicked(this)
+                dragImage -> viewHolderListener.dragImageTouchDown(this,adapterPosition)
                 delImage -> viewHolderListener.delImageClicked(adapterPosition)
                 addImage -> viewHolderListener.addImageClicked()
             }
         }
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
             if (event?.action == MotionEvent.ACTION_DOWN) {
-                viewHolderListener.dragImageClicked(this)
+                viewHolderListener.dragImageTouchDown(this,adapterPosition)
             }
             return false
         }
 
         interface ViewHolderListener{
             fun stationNameClicked(position: Int)
-            fun dragImageClicked(viewHolder: RecyclerView.ViewHolder)
+            fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int)
             fun delImageClicked(position: Int)
             fun addImageClicked()
         }
@@ -79,17 +76,28 @@ class NewJourneyRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == stations.size){
-            holder.dragImage.visibility = View.INVISIBLE
+        val context = holder.itemView.context
+        //If add button
+        if (position >= stations.size){
             holder.delImage.visibility = View.INVISIBLE
-            holder.addImage.visibility = View.VISIBLE
+            holder.typeName.visibility = View.GONE
             holder.stationName.visibility= View.GONE
+            holder.addImage.visibility = View.VISIBLE
+
+            holder.dragImage.setImageResource(R.drawable.ic_swap_vertical_circle_black_24dp)
         }else {
-            holder.dragImage.visibility = View.VISIBLE
             holder.delImage.visibility = View.VISIBLE
             holder.addImage.visibility = View.GONE
             holder.stationName.visibility= View.VISIBLE
+            holder.typeName.visibility = View.VISIBLE
+
             holder.stationName.text = stations[position].name
+            holder.dragImage.setImageResource(R.drawable.ic_drag_handle_black_24dp)
+            when (position) {
+                0 -> holder.typeName.text = context.getString(R.string.fragment_newJourney_Origin)
+                stations.size-1 -> holder.typeName.text = context.getString(R.string.fragment_newJourney_Destination)
+                else -> holder.typeName.text = context.getString(R.string.fragment_newJourney_Via)
+            }
         }
     }
 
@@ -104,7 +112,7 @@ class NewJourneyRAITLCallbacks(val itemTouchListener: NewJourneyRAItemTouchListe
         var dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         if (viewHolder.adapterPosition == 0)
             dragFlag = dragFlag xor ItemTouchHelper.UP
-        if (viewHolder.adapterPosition >= itemTouchListener.noStations())
+        if (viewHolder.adapterPosition+1 >= itemTouchListener.noStations())
             dragFlag = dragFlag xor ItemTouchHelper.DOWN
 
         return makeMovementFlags(
