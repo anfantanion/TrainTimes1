@@ -138,7 +138,7 @@ class NewJourneyRAITLCallbacks(val itemTouchListener: NewJourneyRAItemTouchListe
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return true
+        return false
     }
 
     interface NewJourneyRAItemTouchListener{

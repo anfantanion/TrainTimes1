@@ -51,4 +51,7 @@
     <string name="fragment_newJourney_Origin">Origin</string>
     <string name="fragment_newJourney_Via">Via</string>
     <string name="fragment_newJourney_Destination">Destination</string>
+    <string name="newJourney_Timing">Timing</string>
+    <string name="newJourney_JourneyName">Journey Name</string>
+    <string name="newJourney_StationStops">Stations</string>
 </resources>

@@ -84,7 +84,8 @@ class NewJourneyFragment : Fragment(),
         })
         newJourneyViewModel.stations.observe(viewLifecycleOwner, Observer{
             newJourneyRecyclerAdapter.stations = it
-            newJourneyRecyclerAdapter.notifyDataSetChanged()
+            if (newJourneyViewModel.shouldUpdate)
+                newJourneyRecyclerAdapter.notifyDataSetChanged()
         })
 
         newJourneyViewModel.stations.value = listOf(
@@ -180,7 +181,18 @@ class NewJourneyFragment : Fragment(),
     }
 
     override fun onMove(start: Int, end: Int) {
-        newJourneyViewModel.swapStations(start,end)
+        val noStations = newJourneyViewModel.stations.value?.size ?: 0
+        val end2 =
+            if (end+1 >= noStations )
+                noStations - 1
+            else
+                end
+
+
+        newJourneyViewModel.shouldUpdate = false
+        newJourneyViewModel.swapStations(start,end2)
+        newJourneyRecyclerAdapter.notifyItemMoved(start,end2)
+        newJourneyViewModel.shouldUpdate = true
     }
 
     override fun onSwipe(position: Int) {

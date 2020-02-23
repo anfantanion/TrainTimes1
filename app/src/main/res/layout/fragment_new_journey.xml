@@ -23,84 +23,163 @@
         android:orientation="vertical"
         >
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newJourneyRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="false"
-
-            />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton android:id="@+id/newJourneyDynamic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/newJourneyDynamic"
-                    android:checked="true"
-                    />
-            </LinearLayout>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
 
-                <RadioButton
-                    android:id="@+id/newJourneyDepart"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/newJourneyDepart"
-                    android:checked="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/newJourney_JourneyName"
+                        android:singleLine="true"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/newJourneyStations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/newJourney_StationStops"
+                    android:textColor="@color/colorTitleText"
+                    android:textSize="20sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     />
 
-                <EditText
-                    android:id="@+id/newJourneyDepartEdit"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newJourneyRecyclerView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/newJourneyDepart"
-                    android:enabled="false"
-                    android:text="0800"
-                    android:inputType="none"
-                    android:focusable="false"
+                    android:isScrollContainer="false"
+
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/newJourneyTiming"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/newJourney_Timing"
+                        android:textColor="@color/colorTitleText"
+                        android:textSize="20sp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <RadioButton android:id="@+id/newJourneyDynamic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/newJourneyDynamic"
+                                android:checked="true"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/newJourneyDepart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/newJourneyDepart"
+                                android:checked="false"
+                                />
+
+                            <EditText
+                                android:id="@+id/newJourneyDepartEdit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/newJourneyDepart"
+                                android:enabled="false"
+                                android:text="0800"
+                                android:inputType="none"
+                                android:focusable="false"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/newJourneyArrive"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/newJourneyArrive"
+                                android:checked="false" />
+
+                            <EditText
+                                android:id="@+id/newJourneyArriveEdit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:text="0800"
+                                android:inputType="none"
+                                android:focusable="false"
+
+                                />
+
+
+                        </LinearLayout>
+                    </RadioGroup>
+                </LinearLayout>
+
+
+
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/newJourneyArrive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/newJourneyArrive"
-                    android:checked="false" />
-
-                <EditText
-                    android:id="@+id/newJourneyArriveEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="0800"
-                    android:inputType="none"
-                    android:focusable="false"
-
-                    />
+        </ScrollView>
 
 
-            </LinearLayout>
-        </RadioGroup>
+
+
     </LinearLayout>
 
 

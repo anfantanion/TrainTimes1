@@ -11,6 +11,7 @@ class NewJourneyViewModel {
     var arriveTime = MutableLiveData<TimeDate>(TimeDate())
 
     var stations = MutableLiveData<List<Station>>(emptyList())
+    var shouldUpdate = true
 
     fun swapStations(start: Int, end: Int){
         val x = stations.value?.toMutableList() ?: return
