@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemTouchHelperCallbacks(private val itemTouchListener: NewJourneyRAItemTouchListener) : ItemTouchHelper.Callback(){
 
+    var itemViewSwipeEnabled = false
+    var longPressDragEnabled = false
+
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -29,11 +32,11 @@ class ItemTouchHelperCallbacks(private val itemTouchListener: NewJourneyRAItemTo
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
-        return false
+        return itemViewSwipeEnabled
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return false
+        return longPressDragEnabled
     }
 
     interface NewJourneyRAItemTouchListener{

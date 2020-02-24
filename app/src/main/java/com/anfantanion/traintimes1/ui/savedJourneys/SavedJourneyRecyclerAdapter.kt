@@ -1,6 +1,7 @@
 package com.anfantanion.traintimes1.ui.savedJourneys
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,15 +10,12 @@ import com.anfantanion.traintimes1.models.Journey
 import kotlinx.android.synthetic.main.fragment_saved_journeys_listitem.view.*
 
 class SavedJourneyRecyclerAdapter(
-    val savedJourneyOnClickListener: SavedJourneyRecycClick? = null
+    var viewHolderListener: SavedJourneyViewHolder.ViewHolderListener
 ) : RecyclerView.Adapter<SavedJourneyRecyclerAdapter.SavedJourneyViewHolder>() {
 
     var journeys = emptyList<Journey>()
 
-    class SavedJourneyViewHolder(itemView: View, val savedJourneyOnClickListener: SavedJourneyRecycClick?) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
-        init {
-            itemView.setOnClickListener(this)
-        }
+    class SavedJourneyViewHolder(itemView: View, private var viewHolderListener: ViewHolderListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnTouchListener{
         val title = itemView.savedJourneysListTitle!!
         val origin = itemView.savedJourneysListOrigin!!
         val to = itemView.savedJourneysListTo!!
@@ -27,16 +25,36 @@ class SavedJourneyRecyclerAdapter(
         val viaStops = itemView.savedJourneysListViaStops!!
         val timeInfo = itemView.savedJourneysListTimeInfo!!
 
+        init {
+            //itemView.setOnClickListener(this)
+            itemView.setOnTouchListener(this)
+        }
+
 
         override fun onClick(v: View?) {
-            savedJourneyOnClickListener?.onSavedJourneyClick(adapterPosition)
+            viewHolderListener.onSavedJourneyClick(adapterPosition)
         }
+
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+                viewHolderListener.dragImageTouchDown(this,adapterPosition)
+            }
+            return false
+        }
+
+        interface ViewHolderListener{
+            fun onSavedJourneyClick(position: Int)
+            fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int)
+            fun editImageClicked(position: Int)
+        }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedJourneyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_saved_journeys_listitem,parent,false)
-        return SavedJourneyViewHolder(view,savedJourneyOnClickListener)
+        return SavedJourneyViewHolder(view,viewHolderListener)
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +76,4 @@ class SavedJourneyRecyclerAdapter(
 
     }
 
-    interface SavedJourneyRecycClick{
-        fun onSavedJourneyClick(position: Int)
-    }
 }
