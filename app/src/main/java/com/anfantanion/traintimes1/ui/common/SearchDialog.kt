@@ -10,6 +10,7 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.arlib.floatingsearchview.util.Util
 import kotlinx.android.synthetic.main.dialog_search.view.*
 
 class SearchDialog(
@@ -32,7 +33,6 @@ class SearchDialog(
             else {
                 StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.stationSuggestionListener {
                     override fun onResults(results: List<Station.StationSuggestion>) {
-
                         searchView.swapSuggestions(results)
                     }
                 })
@@ -42,11 +42,11 @@ class SearchDialog(
         searchView.setOnSearchListener(object : FloatingSearchView.OnSearchListener {
             override fun onSuggestionClicked(searchSuggestion: SearchSuggestion) {
                 searchDialogListener(searchSuggestion as Station.StationSuggestion)
-                dialog!!.dismiss()
+                destroy()
             }
-            override fun onSearchAction(query: String) {
-                searchDialogListener(StationRepo.SearchManager.lastSearchTopStationSuggestion!!)
-                dialog!!.dismiss()
+            override fun onSearchAction(query: String?) {
+                StationRepo.SearchManager.lastSearchTopStationSuggestion?.let{searchDialogListener(it)}
+                destroy()
             }
         })
 
@@ -60,11 +60,12 @@ class SearchDialog(
                 //searchView.setSearchBarTitle("")
                 dialog!!.dismiss()
 
+
             }
         })
 
         searchView.setOnHomeActionClickListener {
-            dialog!!.dismiss()
+            destroy()
         }
 
         val finalDialog = builder.create()
@@ -74,8 +75,15 @@ class SearchDialog(
             WindowManager.LayoutParams.MATCH_PARENT)
 
         finalDialog.setOnShowListener {
-            searchView.setSearchFocused(true);
+            searchView.setSearchFocused(true)
         }
         return finalDialog
+    }
+
+    private fun destroy(){
+        searchView.setSearchFocused(false)
+        searchView.clearSearchFocus()
+
+
     }
 }

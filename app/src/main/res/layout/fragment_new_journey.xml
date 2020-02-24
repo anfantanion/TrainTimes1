@@ -48,8 +48,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/newJourney_JourneyName"
                         android:singleLine="true"
-
-                        />
+                        android:imeOptions="actionDone"
+                                                />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
