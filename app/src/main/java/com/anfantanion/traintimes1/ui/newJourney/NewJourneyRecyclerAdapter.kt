@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
@@ -102,48 +101,3 @@ class NewJourneyRecyclerAdapter(
 
 }
 
-class NewJourneyRAITLCallbacks(val itemTouchListener: NewJourneyRAItemTouchListener) : ItemTouchHelper.Callback(){
-
-    override fun getMovementFlags(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder
-    ): Int {
-//        var dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-//        if (viewHolder.adapterPosition == 0)
-//            dragFlag = dragFlag xor ItemTouchHelper.UP
-//        if (viewHolder.adapterPosition+1 >= itemTouchListener.noStations())
-//            dragFlag = dragFlag xor ItemTouchHelper.DOWN
-
-        return makeMovementFlags(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.START or ItemTouchHelper.END)
-    }
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
-        itemTouchListener.onMove(viewHolder.adapterPosition,target.adapterPosition)
-        return true
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isItemViewSwipeEnabled(): Boolean {
-        return false
-    }
-
-    override fun isLongPressDragEnabled(): Boolean {
-        return false
-    }
-
-    interface NewJourneyRAItemTouchListener{
-        fun onMove(start: Int, end: Int)
-        fun onSwipe(position: Int)
-        fun noStations() : Int
-    }
-
-}

@@ -25,10 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
-import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.anfantanion.traintimes1.ui.common.ItemTouchHelperCallbacks
 import com.anfantanion.traintimes1.ui.common.SearchDialog
 import kotlinx.android.synthetic.main.fragment_new_journey.*
 import java.util.*
@@ -39,7 +39,7 @@ import java.util.*
 class NewJourneyFragment : Fragment(),
     View.OnClickListener,
     NewJourneyRecyclerAdapter.ViewHolder.ViewHolderListener,
-    NewJourneyRAITLCallbacks.NewJourneyRAItemTouchListener {
+    ItemTouchHelperCallbacks.NewJourneyRAItemTouchListener {
 
     private lateinit var newJourneyViewModel : NewJourneyViewModel
     private lateinit var newJourneyRecyclerAdapter: NewJourneyRecyclerAdapter
@@ -130,7 +130,8 @@ class NewJourneyFragment : Fragment(),
         }
 
 
-        val callbacks = NewJourneyRAITLCallbacks(this)
+        val callbacks =
+            ItemTouchHelperCallbacks(this)
         newJourneyTouchHelper = ItemTouchHelper(callbacks)
         newJourneyTouchHelper.attachToRecyclerView(newJourneyRecyclerView)
 
@@ -229,10 +230,6 @@ class NewJourneyFragment : Fragment(),
 
     override fun onSwipe(position: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun noStations(): Int {
-        return newJourneyViewModel.stations.value!!.size
     }
 
 
