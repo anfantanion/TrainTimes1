@@ -19,6 +19,10 @@ object JourneyRepo {
         journeys[journey.uuid] = journey
     }
 
+    fun updateJourney(journey: Journey){
+        journeys[journey.uuid] = journey
+    }
+
     fun getJourney(journeyStub: JourneyStub?): Journey?{
         journeyStub?.let { return journeys[journeyStub.uuid] }
         return null

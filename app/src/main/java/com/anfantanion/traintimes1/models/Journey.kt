@@ -11,13 +11,14 @@ import java.util.*
 class Journey (
     vararg var waypoints : StationStub,
     var givenName: String? = null,
-    var type: Type = Type.DYNAMIC
+    var type: Type = Type.DYNAMIC,
+    var time: String? = null
 ): Serializable{
     var journeyPlan = emptyList<ServiceStub>()
     var uuid = UUID.randomUUID()
 
     enum class Type{
-        DYNAMIC, STARTAT, ARRIVEBY
+        DYNAMIC, DEPARTAT, ARRIVEBY
     }
 
     fun getOriginName() : String{

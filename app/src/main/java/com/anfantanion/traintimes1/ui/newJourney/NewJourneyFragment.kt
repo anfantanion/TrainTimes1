@@ -4,15 +4,20 @@ package com.anfantanion.traintimes1.ui.newJourney
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +80,7 @@ class NewJourneyFragment : Fragment(),
         newJourneyDepart.setOnClickListener(this)
         newJourneyArriveEdit.setOnClickListener(this)
         newJourneyDepartEdit.setOnClickListener(this)
+        newJourneySaveButton.setOnClickListener(this)
 
         newJourneyViewModel.arriveTime.observe(viewLifecycleOwner, Observer{
             newJourneyArriveEdit.setText(it.getTime())
@@ -87,15 +93,51 @@ class NewJourneyFragment : Fragment(),
             if (newJourneyViewModel.shouldUpdate)
                 newJourneyRecyclerAdapter.notifyDataSetChanged()
         })
+        newJourneyViewModel.originalJourney.observe(viewLifecycleOwner, Observer{
+            if (it!=null){
+                newJourneyTitle.setText(it.givenName)
+                //TODO: Update Radio Buttons
+            }
+        })
 
-        newJourneyViewModel.stations.value = listOf(
-            StationRepo.getStation(StationStub("AXM"))!!,
-            StationRepo.getStation(StationStub("CLJ"))!!)
+        newJourneyViewModel.radioSelection.observe(viewLifecycleOwner, Observer {
+            newJourneyDynamic.isChecked = false
+            newJourneyArrive.isChecked = false
+            newJourneyDepart.isChecked = false
+            newJourneyDepartEdit.isEnabled = false
+            newJourneyArriveEdit.isEnabled = false
+            when (it) {
+                Journey.Type.DYNAMIC -> {
+                    newJourneyDynamic.isChecked = true
+                }
+                Journey.Type.ARRIVEBY  -> {
+                    newJourneyArrive.isChecked = true
+                    newJourneyArriveEdit.isEnabled = true
+                }
+                Journey.Type.DEPARTAT  -> {
+                    newJourneyDepart.isChecked = true
+                    newJourneyDepartEdit.isEnabled = true
+                }
+            }
+        })
+
+        newJourneyViewModel.journeyTitleChanged.observe(viewLifecycleOwner, Observer {
+            newJourneyTitle.setText(newJourneyViewModel.journeyTitle.value)
+        })
+
+        newJourneyTitle.addTextChangedListener { text: Editable? ->
+            newJourneyViewModel.journeyTitle.value = text.toString()
+            Log.d("HJH",text.toString())
+        }
 
 
         val callbacks = NewJourneyRAITLCallbacks(this)
         newJourneyTouchHelper = ItemTouchHelper(callbacks)
         newJourneyTouchHelper.attachToRecyclerView(newJourneyRecyclerView)
+
+        newJourneyViewModel.setEditingJourney(args.editingJourney)
+
+
 
     }
 
@@ -112,18 +154,13 @@ class NewJourneyFragment : Fragment(),
     override fun onClick(v: View?) {
         when(v){
             newJourneyDynamic -> {
-                uncheckAll()
-                newJourneyDynamic.isChecked = true
+                newJourneyViewModel.radioSelection.value = Journey.Type.DYNAMIC
             }
             newJourneyArrive -> {
-                uncheckAll()
-                newJourneyArrive.isChecked = true
-                newJourneyArriveEdit.isEnabled = true
+                newJourneyViewModel.radioSelection.value = Journey.Type.ARRIVEBY
             }
             newJourneyDepart -> {
-                uncheckAll()
-                newJourneyDepart.isChecked = true
-                newJourneyDepartEdit.isEnabled = true
+                newJourneyViewModel.radioSelection.value = Journey.Type.DEPARTAT
             }
             newJourneyArriveEdit -> {
                 TimePickerFragment(newJourneyViewModel.arriveTime).show(parentFragmentManager,"newJourneyTimePicker1")
@@ -131,18 +168,18 @@ class NewJourneyFragment : Fragment(),
             newJourneyDepartEdit -> {
                 TimePickerFragment(newJourneyViewModel.departTime).show(parentFragmentManager,"newJourneyTimePicker2")
             }
+            newJourneySaveButton -> {
+                if (!newJourneyViewModel.saveJourney()){
+                    Toast.makeText(context,R.string.newJourneyErrorNoStations, Toast.LENGTH_LONG).show()
+                }else {
+                    findNavController().popBackStack()
+                }
+            }
         }
     }
 
 
 
-    private fun uncheckAll(){
-        newJourneyDynamic.isChecked = false
-        newJourneyArrive.isChecked = false
-        newJourneyDepart.isChecked = false
-        newJourneyDepartEdit.isEnabled = false
-        newJourneyArriveEdit.isEnabled = false
-    }
 
     override fun stationNameClicked(position: Int) {
         val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
