@@ -19,7 +19,7 @@ object JourneyRepo {
 
     fun addJourney(journey: Journey){
         if (journey.uuid in journeyLookup){
-            orderedJourneys.add(orderedJourneys.indexOf(journey),journey)
+            orderedJourneys[orderedJourneys.indexOf(journey)] = journey
             journeyLookup[journey.uuid] = journey
         }
         else {
