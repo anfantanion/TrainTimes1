@@ -12,8 +12,7 @@ import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
 
 
 class NewJourneyRecyclerAdapter(
-    var viewHolderListener: ViewHolder.ViewHolderListener,
-    var newJourneyRAItemTouchListener: NewJourneyRAITLCallbacks.NewJourneyRAItemTouchListener
+    var viewHolderListener: ViewHolder.ViewHolderListener
 ) : RecyclerView.Adapter<NewJourneyRecyclerAdapter.ViewHolder>()  {
 
 
@@ -109,14 +108,14 @@ class NewJourneyRAITLCallbacks(val itemTouchListener: NewJourneyRAItemTouchListe
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        var dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        if (viewHolder.adapterPosition == 0)
-            dragFlag = dragFlag xor ItemTouchHelper.UP
-        if (viewHolder.adapterPosition+1 >= itemTouchListener.noStations())
-            dragFlag = dragFlag xor ItemTouchHelper.DOWN
+//        var dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+//        if (viewHolder.adapterPosition == 0)
+//            dragFlag = dragFlag xor ItemTouchHelper.UP
+//        if (viewHolder.adapterPosition+1 >= itemTouchListener.noStations())
+//            dragFlag = dragFlag xor ItemTouchHelper.DOWN
 
         return makeMovementFlags(
-            dragFlag,
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.START or ItemTouchHelper.END)
     }
 

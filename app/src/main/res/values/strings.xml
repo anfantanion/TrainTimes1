@@ -19,7 +19,6 @@
     <string name="menu_main_search">Search</string>
     <string name="menu_search">Search</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_voice_rec" />
     <string name="action_location" />
@@ -47,6 +46,7 @@
     <string name="newJourneyDepart">Depart at:</string>
     <string name="newJourneyArrive">Arrive By:</string>
     <string name="newJourneyAddMode">Create Journey</string>
+    <string name="fragment_new_journey_title">Create Journey</string>
     <string name="newJourneyEditMode">Edit Journey</string>
     <string name="fragment_newJourney_Origin">Origin</string>
     <string name="fragment_newJourney_Via">Via</string>

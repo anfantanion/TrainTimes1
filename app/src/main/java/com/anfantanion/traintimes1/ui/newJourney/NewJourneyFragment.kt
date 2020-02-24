@@ -27,7 +27,6 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.stationDetails.SearchDialog
@@ -71,7 +70,7 @@ class NewJourneyFragment : Fragment(),
 
         newJourneyViewModel = NewJourneyViewModel()
 
-        newJourneyRecyclerAdapter = NewJourneyRecyclerAdapter(this,this)
+        newJourneyRecyclerAdapter = NewJourneyRecyclerAdapter(this)
         newJourneyRecyclerView.layoutManager = LinearLayoutManager(context)
         newJourneyRecyclerView.adapter = newJourneyRecyclerAdapter
 
