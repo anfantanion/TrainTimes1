@@ -29,7 +29,7 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
-import com.anfantanion.traintimes1.ui.stationDetails.SearchDialog
+import com.anfantanion.traintimes1.ui.common.SearchDialog
 import kotlinx.android.synthetic.main.fragment_new_journey.*
 import java.util.*
 
@@ -181,12 +181,10 @@ class NewJourneyFragment : Fragment(),
 
 
     override fun stationNameClicked(position: Int) {
-        val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
-            override fun onItemSelected(stationSuggestion: Station.StationSuggestion) {
-                StationRepo.SearchManager.addHistory(stationSuggestion)
-                newJourneyViewModel.replaceStation(position,StationRepo.SearchManager.getStation(stationSuggestion)?: return)
-            }
-        })
+        val sd = SearchDialog {stationSuggestion ->
+            StationRepo.SearchManager.addHistory(stationSuggestion)
+            StationRepo.SearchManager.getStation(stationSuggestion)?.let{newJourneyViewModel.replaceStation(position,it)}
+        }
         sd.show(parentFragmentManager,"searchDialogNewJourneyAdd")
     }
 
@@ -207,12 +205,10 @@ class NewJourneyFragment : Fragment(),
     }
 
     override fun addImageClicked() {
-        val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
-            override fun onItemSelected(stationSuggestion: Station.StationSuggestion) {
-                StationRepo.SearchManager.addHistory(stationSuggestion)
-                newJourneyViewModel.addStation(StationRepo.SearchManager.getStation(stationSuggestion)?: return)
+        val sd = SearchDialog {stationSuggestion ->
+            StationRepo.SearchManager.addHistory(stationSuggestion)
+            StationRepo.SearchManager.getStation(stationSuggestion)?.let{newJourneyViewModel.addStation(it)}
             }
-        })
         sd.show(parentFragmentManager,"searchDialogNewJourneyAdd")
     }
 

@@ -12,6 +12,8 @@ import androidx.fragment.app.DialogFragment
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.anfantanion.traintimes1.ui.common.SearchDialog
+import kotlinx.android.synthetic.main.dialog_filter.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -70,13 +72,14 @@ class SelectFilterDialog() : DialogFragment() {
             }
         }
         dialog_filter_loc_textedit.setOnClickListener {
-            val sd = SearchDialog(object: SearchDialog.SearchDialogListener{
-                override fun onItemSelected(stationSuggestion: Station.StationSuggestion) {
-                    StationRepo.SearchManager.addHistory(stationSuggestion)
-                    stationFilter = StationRepo.SearchManager.getStation(stationSuggestion)
-                    dialog_filter_loc_textedit.setText(stationFilter!!.name,TextView.BufferType.NORMAL)
-                }
-            })
+            val sd = SearchDialog{stationSuggestion ->
+                StationRepo.SearchManager.addHistory(stationSuggestion)
+                stationFilter = StationRepo.SearchManager.getStation(stationSuggestion)
+                dialog_filter_loc_textedit.setText(
+                    stationFilter!!.name,
+                    TextView.BufferType.NORMAL
+                )
+            }
             sd.show(parentFragmentManager,"searchDialog")
         }
 

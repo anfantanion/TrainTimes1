@@ -1,4 +1,4 @@
-package com.anfantanion.traintimes1.ui.stationDetails
+package com.anfantanion.traintimes1.ui.common
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -10,8 +10,12 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import kotlinx.android.synthetic.main.dialog_search.view.*
 
-class SearchDialog(val searchDialogListener: SearchDialogListener) : DialogFragment(){
+class SearchDialog(
+    val searchDialogListener: (stationSuggestion: Station.StationSuggestion) -> Unit
+) : DialogFragment(){
+
     lateinit var searchView : FloatingSearchView
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -19,7 +23,7 @@ class SearchDialog(val searchDialogListener: SearchDialogListener) : DialogFragm
         val view = requireActivity().layoutInflater.inflate(R.layout.dialog_search, null)
         builder.setView(view)
 
-        searchView = view.findViewById<FloatingSearchView>(R.id.dialog_search_search1)
+        searchView = view.dialog_search_search1
 
         searchView.setOnQueryChangeListener{ oldQuery: String, newQuery: String ->
             if (oldQuery != "" && newQuery == "") {
@@ -37,11 +41,11 @@ class SearchDialog(val searchDialogListener: SearchDialogListener) : DialogFragm
 
         searchView.setOnSearchListener(object : FloatingSearchView.OnSearchListener {
             override fun onSuggestionClicked(searchSuggestion: SearchSuggestion) {
-                searchDialogListener.onItemSelected(searchSuggestion as Station.StationSuggestion)
+                searchDialogListener(searchSuggestion as Station.StationSuggestion)
                 dialog!!.dismiss()
             }
             override fun onSearchAction(query: String) {
-                searchDialogListener.onItemSelected(StationRepo.SearchManager.lastSearchTopStationSuggestion!!)
+                searchDialogListener(StationRepo.SearchManager.lastSearchTopStationSuggestion!!)
                 dialog!!.dismiss()
             }
         })
@@ -73,13 +77,5 @@ class SearchDialog(val searchDialogListener: SearchDialogListener) : DialogFragm
             searchView.setSearchFocused(true);
         }
         return finalDialog
-    }
-
-
-
-    interface SearchDialogListener{
-
-        fun onItemSelected(stationSuggestion: Station.StationSuggestion)
-
     }
 }
