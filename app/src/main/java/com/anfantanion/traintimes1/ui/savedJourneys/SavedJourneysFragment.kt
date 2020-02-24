@@ -13,13 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.ui.common.ItemTouchHelperCallbacks
-import kotlinx.android.synthetic.main.fragment_new_journey.*
 import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
-class SavedJourneysFragment : Fragment(), SavedJourneyRecyclerAdapter.SavedJourneyViewHolder.ViewHolderListener, ItemTouchHelperCallbacks.NewJourneyRAItemTouchListener {
+class SavedJourneysFragment : Fragment(), SavedJourneysRecyclerAdapter.SavedJourneyViewHolder.ViewHolderListener, ItemTouchHelperCallbacks.ItemTouchHelperListener {
 
     private lateinit var savedJourneysViewModel: SavedJourneysViewModel
-    private lateinit var savedJourneyRecyclerAdapter: SavedJourneyRecyclerAdapter
+    private lateinit var savedJourneysRecyclerAdapter: SavedJourneysRecyclerAdapter
     private lateinit var savedJourneyTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,16 +38,16 @@ class SavedJourneysFragment : Fragment(), SavedJourneyRecyclerAdapter.SavedJourn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedJourneyRecyclerAdapter = SavedJourneyRecyclerAdapter(this)
-        savedJourneyRecyclerAdapter.journeys = savedJourneysViewModel.journeys.value ?: emptyList()
+        savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
+        savedJourneysRecyclerAdapter.journeys = savedJourneysViewModel.journeys.value ?: emptyList()
 
         savedJourneysRecyclerView.layoutManager = LinearLayoutManager(context)
-        savedJourneysRecyclerView.adapter = savedJourneyRecyclerAdapter
+        savedJourneysRecyclerView.adapter = savedJourneysRecyclerAdapter
 
         savedJourneysViewModel.journeys.observe(viewLifecycleOwner, Observer{
-            savedJourneyRecyclerAdapter.journeys = it ?: emptyList()
+            savedJourneysRecyclerAdapter.journeys = it ?: emptyList()
             if (savedJourneysViewModel.doUpdate)
-                savedJourneyRecyclerAdapter.notifyDataSetChanged()
+                savedJourneysRecyclerAdapter.notifyDataSetChanged()
         })
 
         savedJourneysViewModel.getJourneys()
@@ -84,7 +83,7 @@ class SavedJourneysFragment : Fragment(), SavedJourneyRecyclerAdapter.SavedJourn
 
     override fun onMove(start: Int, end: Int) {
         savedJourneysViewModel.swapJourneys(start,end)
-        savedJourneyRecyclerAdapter.notifyItemMoved(start,end)
+        savedJourneysRecyclerAdapter.notifyItemMoved(start,end)
     }
 
     override fun onSwipe(position: Int) {

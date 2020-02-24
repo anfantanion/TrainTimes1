@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_station_details.*
 /**
  *
  */
-class StationDetails : Fragment(), StationDetailsRecylerAdapter.OnServiceClick {
+class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServiceClick {
     private val TAG = "StationDetails"
 
 

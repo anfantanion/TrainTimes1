@@ -9,9 +9,9 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
 import kotlinx.android.synthetic.main.fragment_saved_journeys_listitem.view.*
 
-class SavedJourneyRecyclerAdapter(
+class SavedJourneysRecyclerAdapter(
     var viewHolderListener: SavedJourneyViewHolder.ViewHolderListener
-) : RecyclerView.Adapter<SavedJourneyRecyclerAdapter.SavedJourneyViewHolder>() {
+) : RecyclerView.Adapter<SavedJourneysRecyclerAdapter.SavedJourneyViewHolder>() {
 
     var journeys = emptyList<Journey>()
 

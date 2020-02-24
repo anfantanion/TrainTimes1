@@ -3,7 +3,7 @@ package com.anfantanion.traintimes1.ui.common
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemTouchHelperCallbacks(private val itemTouchListener: NewJourneyRAItemTouchListener) : ItemTouchHelper.Callback(){
+class ItemTouchHelperCallbacks(private val itemTouchListener: ItemTouchHelperListener) : ItemTouchHelper.Callback(){
 
     var itemViewSwipeEnabled = false
     var longPressDragEnabled = false
@@ -39,7 +39,7 @@ class ItemTouchHelperCallbacks(private val itemTouchListener: NewJourneyRAItemTo
         return longPressDragEnabled
     }
 
-    interface NewJourneyRAItemTouchListener{
+    interface ItemTouchHelperListener{
         fun onMove(start: Int, end: Int)
         fun onSwipe(position: Int)
     }

@@ -77,7 +77,7 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/stationDetails"
-        android:name="com.anfantanion.traintimes1.ui.stationDetails.StationDetails"
+        android:name="com.anfantanion.traintimes1.ui.stationDetails.StationDetailsFragment"
         android:label="@string/fragment_stationDetails_title"
         tools:layout="@layout/fragment_station_details">
         <action

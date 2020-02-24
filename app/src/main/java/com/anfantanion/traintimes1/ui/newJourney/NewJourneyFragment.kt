@@ -39,7 +39,7 @@ import java.util.*
 class NewJourneyFragment : Fragment(),
     View.OnClickListener,
     NewJourneyRecyclerAdapter.ViewHolder.ViewHolderListener,
-    ItemTouchHelperCallbacks.NewJourneyRAItemTouchListener {
+    ItemTouchHelperCallbacks.ItemTouchHelperListener {
 
     private lateinit var newJourneyViewModel : NewJourneyViewModel
     private lateinit var newJourneyRecyclerAdapter: NewJourneyRecyclerAdapter
