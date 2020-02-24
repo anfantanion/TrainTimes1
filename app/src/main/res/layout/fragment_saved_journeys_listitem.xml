@@ -21,6 +21,8 @@
         card_view:cardElevation="4dp"
         >
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,10 +35,24 @@
 
             <TextView
                 android:id="@+id/savedJourneysListTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Journey 1"
+                android:layout_toLeftOf="@id/savedJourneysListTimeInfo"
+                android:layout_alignParentRight="false"
+                android:singleLine="true"
                 />
+
+            <TextView
+                android:id="@+id/savedJourneysListTimeInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Departing at 0800)"
+                android:paddingStart="5sp"
+                android:textColor="@color/colorSubtitleText"
+                android:layout_alignParentRight="true"
+                />
+
             <TextView
                 android:id="@+id/savedJourneysListOrigin"
                 android:layout_width="wrap_content"
@@ -63,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/savedJourneysListTitle"
-                android:text="Exeter"
+                android:text="Exetergfgfdggfdggdgf"
                 android:layout_toEndOf="@id/savedJourneysListTo"
                 android:textColor="@color/colorTitleText"
                 android:textSize="20sp"
@@ -99,25 +115,21 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/savedJourneysListTimeInfoLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/savedJourneysListViaLayout"
                 android:orientation="horizontal"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/savedJourneysListTitle"
                 android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/savedJourneysListTimeInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="at 0800"
-                    android:textColor="@color/colorTitleText"
-                    android:textSize="20sp"
-                    />
+
             </LinearLayout>
 
 
         </RelativeLayout>
+
+
+
 
 
 
