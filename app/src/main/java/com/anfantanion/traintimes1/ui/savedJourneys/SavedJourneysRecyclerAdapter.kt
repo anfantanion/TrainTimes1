@@ -14,6 +14,7 @@ class SavedJourneysRecyclerAdapter(
 ) : RecyclerView.Adapter<SavedJourneysRecyclerAdapter.SavedJourneyViewHolder>() {
 
     var journeys = emptyList<Journey>()
+    var editMode = false
 
     class SavedJourneyViewHolder(itemView: View, private var viewHolderListener: ViewHolderListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnTouchListener{
         val title = itemView.savedJourneysListTitle!!
@@ -23,16 +24,31 @@ class SavedJourneysRecyclerAdapter(
         val viaLayout = itemView.savedJourneysListViaLayout!!
         val viaLabel = itemView.savedJourneysListVia!!
         val viaStops = itemView.savedJourneysListViaStops!!
-        val timeInfo = itemView.savedJourneysListTimeInfo!!
+        val timeInfo = itemView.savedJourneysListTimeInfoLarge!!
+
+        val editLayout = itemView.savedJourneysListEditLayout!!
+        val editButton = itemView.savedJourneysListEditEdit!!
+        val copyButton = itemView.savedJourneysListEditCopy!!
+        val deleteButton = itemView.savedJourneysListEditDelete!!
+
 
         init {
-            //itemView.setOnClickListener(this)
+            itemView.setOnClickListener(this)
             itemView.setOnTouchListener(this)
+            editButton.setOnClickListener(this)
+            copyButton.setOnClickListener(this)
+            deleteButton.setOnClickListener(this)
         }
 
 
         override fun onClick(v: View?) {
-            viewHolderListener.onSavedJourneyClick(adapterPosition)
+            when (v){
+                editButton -> viewHolderListener.onEditButtonClick(adapterPosition)
+                copyButton -> viewHolderListener.onCopyButtonClick(adapterPosition)
+                deleteButton -> viewHolderListener.onDeleteButtonClick(adapterPosition)
+                else -> viewHolderListener.onSavedJourneyClick(adapterPosition)
+            }
+
         }
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -44,6 +60,9 @@ class SavedJourneysRecyclerAdapter(
 
         interface ViewHolderListener{
             fun onSavedJourneyClick(position: Int)
+            fun onEditButtonClick(position: Int)
+            fun onCopyButtonClick(position: Int)
+            fun onDeleteButtonClick(position: Int)
             fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int)
             fun editImageClicked(position: Int)
         }
@@ -62,16 +81,29 @@ class SavedJourneysRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: SavedJourneyViewHolder, position: Int) {
+        val context = holder.itemView.context
         val journey = journeys[position]
         holder.title.text = journey.givenName ?: "Journey "+(position+1)
         holder.origin.text = journey.getOriginName()
         holder.dest.text = journey.getDestName()
         val via = journey.getIntermidateName()
         if (via == null){
-            holder.viaLayout.visibility=View.GONE
+            holder.viaLayout.visibility=View.INVISIBLE
         }else {
             holder.viaLayout.visibility=View.VISIBLE
             holder.viaStops.text = via
+        }
+        when(journey.type){
+            Journey.Type.DYNAMIC -> holder.timeInfo.text = context.getString(R.string.savedJourneys_Dynamic)
+            Journey.Type.DEPARTAT -> holder.timeInfo.text = context.getString(R.string.savedJourneys_DepartAt,journey.time)
+            Journey.Type.ARRIVEBY -> holder.timeInfo.text = context.getString(R.string.savedJourneys_ArriveBy,journey.time)
+        }
+        if (editMode){
+            holder.timeInfo.visibility = View.GONE
+            holder.editLayout.visibility = View.VISIBLE
+        }else{
+            holder.timeInfo.visibility = View.VISIBLE
+            holder.editLayout.visibility = View.GONE
         }
 
     }

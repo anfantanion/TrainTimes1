@@ -37,6 +37,11 @@ object JourneyRepo {
         return null
     }
 
+    fun removeJourney(journey: Journey){
+        orderedJourneys.remove(journey)
+        journeyLookup.remove(journey.uuid)
+    }
+
     fun getSavedJourneys(): List<Journey>{
         return orderedJourneys
     }

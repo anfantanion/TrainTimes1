@@ -8,4 +8,5 @@
     <color name="additionalInfoBackground">#D6D6D6</color>
 
     <color name="late">#AA0000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

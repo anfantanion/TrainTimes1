@@ -53,6 +53,15 @@ class Journey (
         return JourneyStub(uuid)
     }
 
+    fun getCopy() : Journey{
+        return Journey(
+            *waypoints,
+            givenName = this.givenName,
+            type = this.type,
+            time = this.time
+            )
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

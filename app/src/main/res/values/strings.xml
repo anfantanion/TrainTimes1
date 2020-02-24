@@ -56,4 +56,9 @@
     <string name="newJourney_StationStops">Stations</string>
     <string name="newJourneyErrorNoStations">A journey must contain at least 2 stations.</string>
     <string name="action__savedJourneys_edit">Edit</string>
+    <string name="savedJourneys_EditModeOn">Editing Enabled</string>
+    <string name="savedJourneys_EditModeOff">Editing Disabled</string>
+    <string name="savedJourneys_Dynamic">Dynamic</string>
+    <string name="savedJourneys_DepartAt">Depart\nat\n%1$s</string>
+    <string name="savedJourneys_ArriveBy">Arrive\nby\n%1$s</string>
 </resources>
