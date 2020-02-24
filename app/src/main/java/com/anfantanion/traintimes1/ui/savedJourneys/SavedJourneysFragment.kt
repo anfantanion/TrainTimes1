@@ -1,9 +1,7 @@
 package com.anfantanion.traintimes1.ui.savedJourneys
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -62,10 +60,11 @@ class SavedJourneysFragment : Fragment(), SavedJourneysRecyclerAdapter.SavedJour
         savedJourneyTouchHelper = ItemTouchHelper(callbacks)
         savedJourneyTouchHelper.attachToRecyclerView(savedJourneysRecyclerView)
 
+    }
 
-
-
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_savedjourneys, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onSavedJourneyClick(position: Int) {

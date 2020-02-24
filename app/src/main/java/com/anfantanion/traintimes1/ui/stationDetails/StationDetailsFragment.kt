@@ -117,7 +117,7 @@ class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServic
         var activeStation = receivedStation?.toStationStub()!!
         if (serviceStub != null) {
             findNavController().navigate(
-                StationDetailsDirections.actionStationDetailsToServiceDetails(serviceStub, arrayOf(activeStation))
+                StationDetailsFragmentDirections.actionStationDetailsToServiceDetails(serviceStub, arrayOf(activeStation))
             )
 
 

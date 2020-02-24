@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.format.DateFormat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -139,6 +137,11 @@ class NewJourneyFragment : Fragment(),
 
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_newjourney, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 

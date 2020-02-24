@@ -55,4 +55,5 @@
     <string name="newJourney_JourneyName">Journey Name</string>
     <string name="newJourney_StationStops">Stations</string>
     <string name="newJourneyErrorNoStations">A journey must contain at least 2 stations.</string>
+    <string name="action__savedJourneys_edit">Edit</string>
 </resources>
