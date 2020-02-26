@@ -4,6 +4,8 @@ import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlanner
 import com.anfantanion.traintimes1.models.parcelizable.JourneyStub
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
+import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
+import com.anfantanion.traintimes1.repositories.RTTAPI
 import com.anfantanion.traintimes1.repositories.StationRepo
 import java.io.Serializable
 import java.util.*
@@ -14,7 +16,9 @@ class Journey (
     var type: Type = Type.DYNAMIC,
     var time: String? = null
 ): Serializable{
+
     var journeyPlan = emptyList<ServiceStub>()
+    @Transient var journeyPlanServices = emptyList<ServiceResponse>()
     var uuid = UUID.randomUUID()
 
     enum class Type{
@@ -47,6 +51,12 @@ class Journey (
         val x = JourneyPlanner()
         x.journeyListener = journeyListener
         x.plan(waypoints.toList())
+    }
+
+    fun getPlannedServices() : List<ServiceStub>{
+        //TODO:
+        //if (journeyPlan.isEmpty())
+        return emptyList()
     }
 
     fun toJourneyStub(): JourneyStub{

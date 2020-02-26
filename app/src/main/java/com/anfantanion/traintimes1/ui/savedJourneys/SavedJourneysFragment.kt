@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.models.Journey
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.ui.common.ItemTouchHelperCallbacks
 import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
@@ -103,6 +105,7 @@ class SavedJourneysFragment :
 
     override fun onSavedJourneyClick(position: Int) {
         val clicked = savedJourneysViewModel.journeys.value!!.get(position)
+        JourneyRepo.activeJourney = clicked
         findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
     }
 

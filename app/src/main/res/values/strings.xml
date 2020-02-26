@@ -61,4 +61,6 @@
     <string name="savedJourneys_Dynamic">Dynamic</string>
     <string name="savedJourneys_DepartAt">Depart\nat\n%1$s</string>
     <string name="savedJourneys_ArriveBy">Arrive\nby\n%1$s</string>
+    <string name="activeJourneyConnectionTitle">Next Connection Details</string>
+    <string name="activeJourneyListItemTitle">Train 1</string>
 </resources>
