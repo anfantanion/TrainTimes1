@@ -119,6 +119,9 @@
             app:argType="com.anfantanion.traintimes1.models.parcelizable.StationStub[]"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_serviceDetails_self"
+            app:destination="@id/serviceDetails" />
     </fragment>
 
     <dialog

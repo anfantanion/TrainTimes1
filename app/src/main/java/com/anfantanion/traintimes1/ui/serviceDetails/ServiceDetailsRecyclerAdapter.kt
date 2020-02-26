@@ -8,54 +8,69 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
+import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
 import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
 
 class ServiceDetailsRecyclerAdapter (
-    private val serviceDetailsRecycClick: ServiceDetailsRecycClick,
+    val viewHolderListener: ViewHolder.ViewHolderListener,
     var timeDisplayType: TimeView = TimeView()
 ) : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
 
+    var serviceResponse : ServiceResponse? = null
     var locations = emptyList<LocationDetail>()
 
 
     class ViewHolder(
         itemView: View,
-        private val serviceDetailsRecycClick: ServiceDetailsRecycClick
+        private val viewHolderListener: ViewHolderListener
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+        val image = itemView.serviceDetailsImageView!!
+        val stationCode = itemView.serviceDetailsTextStationCode!!
+        val stationName = itemView.serviceDetailsTextStationName!!
+        val platformNo = itemView.serviceDetailsTimingInfoPlatform!!
+
+        val timingPlanned = itemView.serviceDetailsTimingInfoPlanned!!
+        val timingPlannedArrival = itemView.serviceDetailsTimingInfoPlannedArrival!!
+        val timingPlannedDepart = itemView.serviceDetailsTimingInfoPlannedDepart!!
+
+        val timingReal = itemView.serviceDetailsTimingInfoRealTime!!
+        val timingRealArrival = itemView.serviceDetailsTimingInfoRealTimeArrival!!
+        val timingRealDepart = itemView.serviceDetailsTimingInfoRealTimeDepart!!
+        val timingRealDelay = itemView.serviceDetailsTimingInfoRealTimeDelay!!
+
+        val serviceDetailsCancelled = itemView.serviceDetailsCancelled!!
+        val serviceDetailsCancelledText = itemView.serviceDetailsCancelledText!!
+        val serviceDetailsCancelledReason = itemView.serviceDetailsCancelledReason!!
+
+        val serviceDetailsExtension = itemView.serviceDetailsExtension!!
+        val serviceDetailsExtensionImage = itemView.serviceDetailsExtensionImage!!
+        val serviceDetailsTextAdditionalInfo = itemView.serviceDetailsTextAdditionalInfo!!
+        val serviceDetailsTextAdditionalInfoButton = itemView.serviceDetailsTextAdditionalInfoButton!!
+
         init {
+            serviceDetailsTextAdditionalInfoButton.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
 
-        val image = itemView.serviceDetailsImageView
-        val stationCode = itemView.serviceDetailsTextStationCode
-        val stationName = itemView.serviceDetailsTextStationName
-        val platformNo = itemView.serviceDetailsTimingInfoPlatform
-
-        val timingPlanned = itemView.serviceDetailsTimingInfoPlanned
-        val timingPlannedArrival = itemView.serviceDetailsTimingInfoPlannedArrival
-        val timingPlannedDepart = itemView.serviceDetailsTimingInfoPlannedDepart
-
-        val timingReal = itemView.serviceDetailsTimingInfoRealTime
-        val timingRealArrival = itemView.serviceDetailsTimingInfoRealTimeArrival
-        val timingRealDepart = itemView.serviceDetailsTimingInfoRealTimeDepart
-        val timingRealDelay = itemView.serviceDetailsTimingInfoRealTimeDelay
-
-        val serviceDetailsCancelled = itemView.serviceDetailsCancelled
-        val serviceDetailsCancelledText = itemView.serviceDetailsCancelledText
-        val serviceDetailsCancelledReason = itemView.serviceDetailsCancelledReason
-
-
         override fun onClick(v: View?) {
-            serviceDetailsRecycClick.onStationClick(adapterPosition)
+            when (v){
+                serviceDetailsTextAdditionalInfoButton -> viewHolderListener.onAdditionalInfoButtonClick(adapterPosition)
+                itemView -> viewHolderListener.onMainClick(adapterPosition)
+            }
+        }
+
+        interface ViewHolderListener{
+            fun onMainClick(position: Int)
+            fun onAdditionalInfoButtonClick(position: Int)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_service_details_listitem,parent,false)
-        return ViewHolder(view,serviceDetailsRecycClick)
+        return ViewHolder(view,viewHolderListener)
     }
 
     override fun getItemCount(): Int {
@@ -145,6 +160,47 @@ class ServiceDetailsRecyclerAdapter (
             0 -> holder.image.setImageResource(R.drawable.ic_servicedetails_start)
             locations.size-1 -> holder.image.setImageResource(R.drawable.ic_servicedetails_end)
             else -> holder.image.setImageResource(R.drawable.ic_serivcedetails_station)
+        }
+
+        //Splitting/ Joining Trains
+        if (!location.associations.isNullOrEmpty()){
+            holder.serviceDetailsExtension.visibility = View.VISIBLE
+
+            //If Last position hide image
+            if (position == locations.size-1)
+                holder.serviceDetailsExtensionImage.visibility = View.INVISIBLE
+            else
+                holder.serviceDetailsExtensionImage.visibility = View.VISIBLE
+
+            holder.serviceDetailsTextAdditionalInfo.visibility = View.VISIBLE
+
+            when (location.associations[0].type){
+                "join" -> {
+                    holder.serviceDetailsTextAdditionalInfo.visibility = View.GONE
+                    val x = serviceResponse?.destination?.getOrNull(0)?.description
+                        ?: context.getString(R.string.Unknown)
+                    if (position == locations.size-1){ // If last stop, change text to continue
+                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceContinues, x)
+                    }else {
+                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceJoinsAnother)
+                    }
+                }
+                "divide" -> {
+                    holder.serviceDetailsTextAdditionalInfo.text =
+                        context.getString(R.string.serviceDetailsTrainDivide)
+                    val x= serviceResponse?.destination?.getOrNull(1)?.description
+                    if (x == null){
+                        holder.serviceDetailsTextAdditionalInfo.visibility = View.GONE
+                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceDivided, location.associations[0].associatedUid)
+                    }
+                    else
+                    holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceTo, x)
+                }
+            }
+
+
+        }else{
+            holder.serviceDetailsExtension.visibility = View.GONE
         }
     }
 

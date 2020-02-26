@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_service_details.*
 /**
  * 
  */
-class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.ServiceDetailsRecycClick {
+class ServiceDetailsFragment : Fragment(),
+    ServiceDetailsRecyclerAdapter.ViewHolder.ViewHolderListener {
 
     private val TAG = "ServiceDetails"
 
@@ -65,6 +66,7 @@ class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.Service
 
         serviceDetailsViewModel.serviceResponse.observe(viewLifecycleOwner, Observer{
             serviceDetailsRecyclerAdapter.locations=it.locations
+            serviceDetailsRecyclerAdapter.serviceResponse = it
             serviceDetailsRecyclerAdapter.notifyDataSetChanged()
             setTitle()
         })
@@ -118,13 +120,23 @@ class ServiceDetailsFragment : Fragment(), ServiceDetailsRecyclerAdapter.Service
         (activity as MainActivity).supportActionBar?.title = serviceDetailsViewModel.serviceResponse.value?.getName() ?: getString(R.string.fragment_serviceDetails_title)
     }
 
-    override fun onStationClick(position: Int) {
+    override fun onMainClick(position: Int) {
         val x = serviceDetailsViewModel.serviceResponse.value?.locations?.get(position)
         if (x != null) {
             val stationStub = StationStub(x.crs)
             findNavController().navigate(
-                R.id.action_serviceDetails_to_stationDetails,
-                bundleOf("ActiveStation" to stationStub)
+                ServiceDetailsFragmentDirections.actionServiceDetailsToStationDetails(stationStub)
+            )
+        }
+        else
+            Log.d(TAG,"Error finding service")
+    }
+
+    override fun onAdditionalInfoButtonClick(position: Int) {
+        val x = serviceDetailsViewModel.serviceResponse.value?.locations?.get(position)?.associations?.get(0)?.toServiceStub()
+        if (x != null) {
+            findNavController().navigate(
+                ServiceDetailsFragmentDirections.actionServiceDetailsSelf(x)
             )
         }
         else

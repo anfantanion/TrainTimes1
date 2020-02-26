@@ -65,4 +65,11 @@
     <string name="activeJourneyListItemTitle">Train 1</string>
     <string name="activeJourneyNoActiveJourney">No journey is currently active.</string>
     <string name="activeJourneySelectOrCreateJourney">Select or Create a Journey</string>
+    <string name="serviceDetailsTrainJoin">Joins Another Service Here</string>
+    <string name="serviceDetailsTrainDivide">Train Divides Here</string>
+    <string name="serviceDetailsTrainServiceTo">Service to %1$s</string>
+    <string name="serviceDetailsTrainServiceContinues">Continues to %1$s</string>
+    <string name="serviceDetailsTrainServiceJoinsAnother">Joins Another Service Here</string>
+    <string name="serviceDetailsTrainServiceFrom">Service from %1$s</string>
+    <string name="serviceDetailsTrainServiceDivided">Service divided here (%1$s)</string>
 </resources>
