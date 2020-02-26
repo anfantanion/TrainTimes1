@@ -1,6 +1,7 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
 import com.anfantanion.traintimes1.models.destinationName
+import com.anfantanion.traintimes1.models.differenceOfTimes
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import java.lang.StringBuilder
@@ -33,8 +34,17 @@ data class ServiceResponse(
         return filtered[0].gbttBookedArrival
     }
 
+    fun getStationDeparture(stationStub: StationStub) : String? {
+        val filtered = locations.filter{ it.crs == stationStub.crs }
+        return filtered[0].gbttBookedDeparture
+    }
+
     fun toServiceStub() : ServiceStub{
         return ServiceStub(serviceUid,runDate)
+    }
+
+    fun getTimeOnTrain(start: StationStub, end: StationStub): Int{
+        return differenceOfTimes(getStationDeparture(start)!!,getStationArrival(end)!!)
     }
 
 }

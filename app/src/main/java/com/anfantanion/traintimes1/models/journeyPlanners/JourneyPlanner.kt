@@ -13,11 +13,13 @@ class JourneyPlanner(
     var journeyListener: (List<ServiceStub>?) -> (Unit)
 ) : Response.ErrorListener {
 
-    var services = ArrayList<ServiceStub>()
+    var serviceStubs = ArrayList<ServiceStub>()
+    var services = ArrayList<ServiceResponse>()
     var waypoints = emptyList<StationStub>()
     var index = 0
     var timeDate = TimeDate()
     val leeway = 0
+    val maxTrainsChecked = 10
 
     fun plan(waypoints: List<StationStub>) {
         this.waypoints = waypoints
@@ -26,7 +28,7 @@ class JourneyPlanner(
 
     fun nextStation(){
         if (index > waypoints.size-2){
-            journeyListener(services)
+            journeyListener(serviceStubs)
             return
         }
         val filter = RTTAPI.Filter(
@@ -43,15 +45,34 @@ class JourneyPlanner(
     }
 
     fun stationResponse(response: StationResponse?){
-        index++
         if (response?.services == null) return errorOut()
-        val interestedService = response.nextService(timeDate) ?: return errorOut()
-        services.add(interestedService.toServiceStub())
-        RTTAPI.requestService(
-            interestedService.toServiceStub(),
-            ServiceResponseListener(),
-            this
+
+        index++
+
+        RTTAPI.requestServices(
+            serviceStubs = response.services.take(maxTrainsChecked).map{it.toServiceStub()},
+            listener = {
+                serviceResponseList(it)
+            },
+            errorListener = this
         )
+//        RTTAPI.requestService(
+//            interestedService.toServiceStub(),
+//            ServiceResponseListener(),
+//            this
+//        )
+    }
+
+    fun serviceResponseList(response: List<ServiceResponse>) {
+
+        val times = response.sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis }
+        val fastestService = times.first()
+
+        val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()
+        serviceStubs.add(fastestService.toServiceStub())
+        services.add(fastestService)
+        timeDate.setTime(arrivalTime)
+        nextStation()
     }
 
     fun serviceResponse(response: ServiceResponse?) {
