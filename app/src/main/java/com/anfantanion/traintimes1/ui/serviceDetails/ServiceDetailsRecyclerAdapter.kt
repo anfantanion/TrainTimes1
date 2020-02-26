@@ -172,29 +172,27 @@ class ServiceDetailsRecyclerAdapter (
             else
                 holder.serviceDetailsExtensionImage.visibility = View.VISIBLE
 
-            holder.serviceDetailsTextAdditionalInfo.visibility = View.VISIBLE
+            holder.serviceDetailsTextAdditionalInfo.visibility = View.GONE
 
             when (location.associations[0].type){
                 "join" -> {
-                    holder.serviceDetailsTextAdditionalInfo.visibility = View.GONE
-                    val x = serviceResponse?.destination?.getOrNull(0)?.description
-                        ?: context.getString(R.string.Unknown)
-                    if (position == locations.size-1){ // If last stop, change text to continue
-                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceContinues, x)
-                    }else {
-                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceJoinsAnother)
-                    }
+                    val otherDest = if (serviceResponse?.origin?.get(0) == location.origin.get(0))
+                        serviceResponse?.origin?.get(1)?.description
+                    else
+                        serviceResponse?.origin?.get(0)?.description
+
+                    holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceFrom, otherDest)
+
                 }
                 "divide" -> {
+                    val otherDest = if (serviceResponse?.destination?.get(0) == location.destination.get(0))
+                        serviceResponse?.destination?.get(1)?.description
+                    else
+                        serviceResponse?.destination?.get(0)?.description
+
                     holder.serviceDetailsTextAdditionalInfo.text =
                         context.getString(R.string.serviceDetailsTrainDivide)
-                    val x= serviceResponse?.destination?.getOrNull(1)?.description
-                    if (x == null){
-                        holder.serviceDetailsTextAdditionalInfo.visibility = View.GONE
-                        holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceDivided, location.associations[0].associatedUid)
-                    }
-                    else
-                    holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceTo, x)
+                    holder.serviceDetailsTextAdditionalInfoButton.text = context.getString(R.string.serviceDetailsTrainServiceTo, otherDest ?: "")
                 }
             }
 

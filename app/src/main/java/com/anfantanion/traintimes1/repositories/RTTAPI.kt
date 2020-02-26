@@ -170,6 +170,7 @@ object RTTAPI{
                     val original = response.locations.toMutableList()
                     original.addAll(newLocations)
                     response.locations = original
+                    response.origin = otherResponse.origin
                     rl.onResponse(response)
                 },
                 errorListener = Response.ErrorListener {
@@ -186,10 +187,10 @@ object RTTAPI{
                 listener = Response.Listener{ otherResponse ->
                     val newEnd = otherResponse.locations.indexOfFirst{ ld -> ld.crs == firstKnown.crs }
                     val newLocations = otherResponse.locations.subList(0,newEnd).toMutableList()
-//                    newLocations.forEach{ld ->
-//                        ld.destination = firstKnown.destination
-//                    }
-                    response.origin = otherResponse.origin
+                    newLocations.forEach{ld ->
+                        ld.destination = firstKnown.destination
+                    }
+                    response.destination = otherResponse.destination
                     newLocations.addAll(response.locations)
                     response.locations = newLocations
                     rl.onResponse(response)
