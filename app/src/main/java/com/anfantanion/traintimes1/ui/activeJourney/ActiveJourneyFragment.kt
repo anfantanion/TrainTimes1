@@ -47,6 +47,7 @@ class ActiveJourneyFragment : Fragment(),
 
 
 
+
     }
 
     override fun onItemJourneyClick(position: Int) {

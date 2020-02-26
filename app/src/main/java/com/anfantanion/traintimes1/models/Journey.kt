@@ -17,7 +17,7 @@ class Journey (
     var time: String? = null
 ): Serializable{
 
-    var journeyPlan = emptyList<ServiceStub>()
+    private var journeyPlan = emptyList<ServiceStub>()
     @Transient var journeyPlanServices = emptyList<ServiceResponse>()
     var uuid = UUID.randomUUID()
 
