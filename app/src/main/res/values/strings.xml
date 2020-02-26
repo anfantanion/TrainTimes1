@@ -63,4 +63,6 @@
     <string name="savedJourneys_ArriveBy">Arrive\nby\n%1$s</string>
     <string name="activeJourneyConnectionTitle">Next Connection Details</string>
     <string name="activeJourneyListItemTitle">Train 1</string>
+    <string name="activeJourneyNoActiveJourney">No journey is currently active.</string>
+    <string name="activeJourneySelectOrCreateJourney">Select or Create a Journey</string>
 </resources>

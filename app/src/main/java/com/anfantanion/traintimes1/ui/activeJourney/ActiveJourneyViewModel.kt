@@ -8,11 +8,12 @@ import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.RTTAPI
 
 class ActiveJourneyViewModel : ViewModel() {
 
-    var activeJourney = MutableLiveData<Journey>()
+    var activeJourney = MutableLiveData<Journey>(JourneyRepo.activeJourney)
 
     var serviceResponses = MutableLiveData<List<ServiceResponse>>()
 
@@ -27,7 +28,7 @@ class ActiveJourneyViewModel : ViewModel() {
             return
         }
         isLoading.value = true
-        journey.plan {onPlanned(it)}
+        journey.getPlannedServices {onPlanned(it)}
     }
 
     private fun onPlanned(serviceStubs : List<ServiceStub>?){

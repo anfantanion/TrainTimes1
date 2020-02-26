@@ -2,10 +2,43 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+
+    <LinearLayout
+        android:id="@+id/activeJourneyNoActiveJourney"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/activeJourneyNoActiveJourney"
+            android:textColor="@color/colorSubtitleText"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/activeJourneySelectOrCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/activeJourneySelectOrCreateJourney"
+            />
+
+
+    </LinearLayout>
+
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/activeJourneyConnectionCardView"
         android:layout_gravity="center"

@@ -17,6 +17,10 @@ class Journey (
     var time: String? = null
 ): Serializable{
 
+    companion object {
+        private const val serialVersionUID: Long = 1
+    }
+
     private var journeyPlan = emptyList<ServiceStub>()
     @Transient var journeyPlanServices = emptyList<ServiceResponse>()
     var uuid = UUID.randomUUID()
@@ -47,7 +51,7 @@ class Journey (
         return StationRepo.getStation(waypoints[waypoints.size-1])!!.name
     }
 
-    fun plan(journeyListener: (List<ServiceStub>?) -> (Unit)){
+    private fun plan(journeyListener: (List<ServiceStub>?) -> (Unit)){
         val x = when (type){
             Type.DYNAMIC -> JourneyPlanner(journeyListener)
             Type.ARRIVEBY -> JourneyPlanner(journeyListener)
@@ -56,8 +60,14 @@ class Journey (
         x.plan(waypoints.toList())
     }
 
+    /**
+     * Checks if journey is already planned, if so returns that.
+     */
     fun getPlannedServices(journeyListener: (List<ServiceStub>?) -> (Unit)) {
-        if (journeyPlan.isEmpty()) plan(journeyListener)
+        if (journeyPlan.isEmpty()) plan{
+            journeyPlan = it ?: journeyPlan
+            journeyListener(it)
+        }
         else journeyListener(journeyPlan)
     }
 

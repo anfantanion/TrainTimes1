@@ -36,6 +36,6 @@ data class Service(
     }
 
     fun toServiceStub() : ServiceStub{
-        return ServiceStub(serviceUid,runDate.replace('-','/'))
+        return ServiceStub(serviceUid,runDate)
     }
 }

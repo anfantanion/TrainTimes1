@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_active_journey.*
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.*
 
 class ActiveJourneyFragment : Fragment(),
+    View.OnClickListener,
     ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder.ViewHolderListener {
 
     private lateinit var activeJourneyViewModel: ActiveJourneyViewModel
@@ -44,10 +46,39 @@ class ActiveJourneyFragment : Fragment(),
         activeJourneyServiceRecycler.layoutManager = LinearLayoutManager(context)
         activeJourneyServiceRecycler.adapter = activeJourneyRecyclerAdapter
 
+        activeJourneyViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
+            when(it){
+                null -> {
+                    activeJourneyNoActiveJourney.visibility = View.VISIBLE
+                }
+                else -> {
+                    activeJourneyNoActiveJourney.visibility = View.GONE
+                }
+            }
+            activeJourneyViewModel.getServices()
+        })
+
+        activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
+            if (it.size>1){// If number of services is greater than 1, show connection Info
+                activeJourneyConnectionCardView.visibility = View.VISIBLE
+            }
+        })
+
+
+        activeJourneySelectOrCreate.setOnClickListener(this)
 
 
 
 
+
+
+
+    }
+
+    override fun onClick(v: View?) {
+        when (v){
+            activeJourneySelectOrCreate -> findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToNavSavedJourneys())
+        }
     }
 
     override fun onItemJourneyClick(position: Int) {

@@ -97,7 +97,7 @@ object RTTAPI{
         serviceUID : String,
         runDate: String
     ) : String{
-        return "$endpoint$serviceQuery/$serviceUID/$runDate"
+        return "$endpoint$serviceQuery/$serviceUID/${runDate.replace('-','/')}"
     }
 
     data class Filter(val to: String?, val from: String?, val date: String?){
@@ -156,9 +156,10 @@ object RTTAPI{
         }
 
         override fun onResponse(response: ServiceResponse?) {
-            if (response == null) return onErrorResponse(VolleyError("Response was null!"))
+            val pos = serviceStubs.indexOf(response?.toServiceStub())
+            if (response == null || pos < 0) return onErrorResponse(VolleyError("Response was null!"))
             //Maintain order
-            val pos = serviceStubs.indexOf(response.toServiceStub())
+
             serviceResponses[pos] = response
             responseCount++
             //When all responses arrived

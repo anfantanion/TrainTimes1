@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_nav_active_journey_to_serviceDetails"
             app:destination="@id/serviceDetails" />
+        <action
+            android:id="@+id/action_nav_active_journey_to_nav_saved_journeys"
+            app:destination="@id/nav_saved_journeys" />
     </fragment>
 
     <fragment
