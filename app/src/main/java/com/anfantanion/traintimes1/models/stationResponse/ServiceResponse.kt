@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
+import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 
 data class ServiceResponse(
@@ -28,6 +29,10 @@ data class ServiceResponse(
     fun getStationArrival(stationStub: StationStub) : String? {
         val filtered = locations.filter{ it.crs == stationStub.crs }
         return filtered[0].gbttBookedArrival
+    }
+
+    fun toServiceStub() : ServiceStub{
+        return ServiceStub(serviceUid,runDate)
     }
 
 }

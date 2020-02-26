@@ -9,9 +9,10 @@ import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
 
-class JourneyPlanner : Response.ErrorListener
-{
-    var journeyListener: JourneyListener? = null
+class JourneyPlanner(
+    var journeyListener: (List<ServiceStub>?) -> (Unit)
+) : Response.ErrorListener {
+
     var services = ArrayList<ServiceStub>()
     var waypoints = emptyList<StationStub>()
     var index = 0
@@ -25,7 +26,7 @@ class JourneyPlanner : Response.ErrorListener
 
     fun nextStation(){
         if (index > waypoints.size-2){
-            journeyListener?.journeyPlanned(services)
+            journeyListener(services)
             return
         }
         val filter = RTTAPI.Filter(
@@ -61,15 +62,11 @@ class JourneyPlanner : Response.ErrorListener
     }
 
     private fun errorOut(){
-        journeyListener?.journeyPlanned(null)
+        journeyListener(null)
     }
 
     override fun onErrorResponse(error: VolleyError?) {
         var x = 0
-    }
-
-    interface JourneyListener{
-        fun journeyPlanned(journey : List<ServiceStub>?)
     }
 
     inner class StationResponseListener :

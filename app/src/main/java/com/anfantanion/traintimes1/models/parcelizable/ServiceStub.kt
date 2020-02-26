@@ -8,4 +8,23 @@ import java.io.Serializable
 data class ServiceStub(
     val serviceUid: String,
     val runDate: String
-) : Parcelable, Serializable
+) : Parcelable, Serializable {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ServiceStub
+
+        if (serviceUid != other.serviceUid) return false
+        if (runDate != other.runDate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = serviceUid.hashCode()
+        result = 31 * result + runDate.hashCode()
+        return result
+    }
+}

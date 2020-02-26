@@ -1,9 +1,11 @@
 package com.anfantanion.traintimes1.repositories
 
 import android.content.Context
+import android.os.Handler
 import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
@@ -83,6 +85,14 @@ object RTTAPI{
         StationRepo.volleyRequestQueue.add(req)
     }
 
+    fun requestServices(
+        serviceStubs : List<ServiceStub>,
+        listener: (List<ServiceResponse>) -> (Unit),
+        errorListener: Response.ErrorListener?
+    ){
+        MultiRequest(serviceStubs,listener,errorListener).perform()
+    }
+
     fun buildServiceRequest(
         serviceUID : String,
         runDate: String
@@ -118,6 +128,48 @@ object RTTAPI{
         override fun onResponse(response: ServiceResponse) {
             //cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
             rl.onResponse(response)
+        }
+    }
+
+    class MultiRequest(
+        val serviceStubs: List<ServiceStub>,
+        val listener: (List<ServiceResponse>) -> (Unit),
+        val errorListener: Response.ErrorListener?,
+        val timeOut : Long = 4000
+    ) : Response.Listener<ServiceResponse>, Response.ErrorListener {
+
+        val serviceResponses: MutableList<ServiceResponse?> =
+            MutableList(serviceStubs.size) { null }
+        var responseCount = 0
+        var errorOccured = false
+
+        fun perform() {
+            serviceStubs.forEach {
+                requestService(it,this,this)
+            }
+            Handler().postDelayed({
+                if (responseCount != serviceStubs.size && !errorOccured){
+                    errorOccured = true
+                    errorListener?.onErrorResponse((VolleyError("Timeout after $timeOut ms")))
+                }
+            },timeOut)
+        }
+
+        override fun onResponse(response: ServiceResponse?) {
+            if (response == null) return onErrorResponse(VolleyError("Response was null!"))
+            //Maintain order
+            val pos = serviceStubs.indexOf(response.toServiceStub())
+            serviceResponses[pos] = response
+            responseCount++
+            //When all responses arrived
+            if (responseCount == serviceStubs.size){
+                listener(serviceResponses.filterNotNull().toList())
+            }
+        }
+
+        override fun onErrorResponse(error: VolleyError?) {
+            errorOccured = true
+            errorListener?.onErrorResponse(error)
         }
     }
 

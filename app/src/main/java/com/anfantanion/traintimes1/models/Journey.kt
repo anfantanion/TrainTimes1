@@ -47,16 +47,18 @@ class Journey (
         return StationRepo.getStation(waypoints[waypoints.size-1])!!.name
     }
 
-    fun plan(journeyListener: JourneyPlanner.JourneyListener){
-        val x = JourneyPlanner()
-        x.journeyListener = journeyListener
+    fun plan(journeyListener: (List<ServiceStub>?) -> (Unit)){
+        val x = when (type){
+            Type.DYNAMIC -> JourneyPlanner(journeyListener)
+            Type.ARRIVEBY -> JourneyPlanner(journeyListener)
+            Type.DEPARTAT -> JourneyPlanner(journeyListener)
+        }
         x.plan(waypoints.toList())
     }
 
-    fun getPlannedServices() : List<ServiceStub>{
-        //TODO:
-        //if (journeyPlan.isEmpty())
-        return emptyList()
+    fun getPlannedServices(journeyListener: (List<ServiceStub>?) -> (Unit)) {
+        if (journeyPlan.isEmpty()) plan(journeyListener)
+        else journeyListener(journeyPlan)
     }
 
     fun toJourneyStub(): JourneyStub{
