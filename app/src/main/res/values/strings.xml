@@ -72,4 +72,6 @@
     <string name="serviceDetailsTrainServiceJoinsAnother">Joins Another Service Here</string>
     <string name="serviceDetailsTrainServiceFrom">Joins service from %1$s</string>
     <string name="serviceDetailsTrainServiceDivided">Service divided here (%1$s)</string>
+    <string name="activeJourneyConnectionPlace">Changing at (%1$s)</string>
+    <string name="activeJourneyChangeAt">Change at %1$s in (%2$s) minutes</string>
 </resources>

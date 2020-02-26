@@ -34,9 +34,19 @@ data class ServiceResponse(
         return filtered[0].gbttBookedArrival
     }
 
+    fun getRTStationArrival(stationStub: StationStub) : String? {
+        val filtered = locations.filter{ it.crs == stationStub.crs }
+        return filtered[0].realtimeArrival
+    }
+
     fun getStationDeparture(stationStub: StationStub) : String? {
         val filtered = locations.filter{ it.crs == stationStub.crs }
         return filtered[0].gbttBookedDeparture
+    }
+
+    fun getRTStationDeparture(stationStub: StationStub) : String? {
+        val filtered = locations.filter{ it.crs == stationStub.crs }
+        return filtered[0].realtimeDeparture
     }
 
     fun toServiceStub() : ServiceStub{

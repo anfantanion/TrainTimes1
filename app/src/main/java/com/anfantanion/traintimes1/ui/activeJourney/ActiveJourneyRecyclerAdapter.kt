@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
+import com.anfantanion.traintimes1.models.Station
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.view.*
 
@@ -15,6 +17,7 @@ class ActiveJourneyRecyclerAdapter(
 ) : RecyclerView.Adapter<ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder>() {
 
     var services = emptyList<ServiceResponse>()
+    var waypoints = emptyList<Station>()
 
     class ActiveJourneyViewHolder(itemView: View, private var viewHolderListener: ViewHolderListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnTouchListener{
         val titleLayout = itemView.activeJourneyListItemTitleLayout!!
@@ -75,6 +78,16 @@ class ActiveJourneyRecyclerAdapter(
     override fun onBindViewHolder(holder: ActiveJourneyViewHolder, position: Int) {
         val context = holder.itemView.context
         val service = services[position]
+
+        holder.title.text = service.getName()
+        if (position+1 < waypoints.size-1){
+            holder.change.text = context.getString(R.string.activeJourneyChangeAt,waypoints[position+1].name,"0")
+            holder.change.visibility = View.VISIBLE
+        }
+        else
+            holder.change.visibility = View.GONE
+
+        holder.activeJourneyListItemRecycler.visibility = View.GONE
 
     }
 

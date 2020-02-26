@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,12 +57,16 @@ class ActiveJourneyFragment : Fragment(),
                 }
             }
             activeJourneyViewModel.getServices()
+            activeJourneyRecyclerAdapter.waypoints = activeJourneyViewModel.getWaypointStations()
         })
 
         activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
             if (it.size>1){// If number of services is greater than 1, show connection Info
                 activeJourneyConnectionCardView.visibility = View.VISIBLE
-            }
+                activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,"")
+            }else activeJourneyConnectionCardView.visibility = View.VISIBLE
+            activeJourneyRecyclerAdapter.services = it
+            activeJourneyRecyclerAdapter.notifyDataSetChanged()
         })
 
 
@@ -82,18 +87,19 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onItemJourneyClick(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onDetailsButtonClick(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var serviceStub = activeJourneyViewModel.serviceResponses.value!!.get(position).toServiceStub()
+        findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToServiceDetails(serviceStub))
     }
 
     override fun onMapButtonClick(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }
