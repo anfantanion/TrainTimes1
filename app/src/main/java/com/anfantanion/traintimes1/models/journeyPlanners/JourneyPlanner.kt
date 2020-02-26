@@ -56,7 +56,11 @@ class JourneyPlanner(
 
     fun serviceResponse(response: ServiceResponse?) {
         if (response?.locations == null) return errorOut()
-        val arrivalTime = response.getStationArrival(waypoints[index])!!
+        val arrivalTime = response.getStationArrival(waypoints[index])
+        if (arrivalTime == null){
+            //TODO Splitting trains need more work
+            return errorOut()
+        }
         timeDate.setTime(arrivalTime)
         nextStation()
     }

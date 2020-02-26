@@ -8,10 +8,10 @@ import java.lang.StringBuilder
 data class ServiceResponse(
     val atocCode: String,
     val atocName: String,
-    val destination: List<Destination>,
     val isPassenger: Boolean,
-    val locations: List<LocationDetail>,
-    val origin: List<Origin>,
+    var locations: List<LocationDetail>,
+    var origin: List<Origin>,
+    var destination: List<Destination>,
     val performanceMonitored: Boolean,
     val powerType: String,
     val realtimeActivated: Boolean,

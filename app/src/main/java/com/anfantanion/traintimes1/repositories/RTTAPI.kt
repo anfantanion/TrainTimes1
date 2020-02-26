@@ -8,6 +8,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
+import com.anfantanion.traintimes1.models.stationResponse.Association
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.cachedb.CStationResponse
@@ -79,8 +80,20 @@ object RTTAPI{
         listener: Response.Listener<ServiceResponse>,
         errorListener: Response.ErrorListener?
     ){
+        requestService(serviceStub,listener,errorListener,true)
+    }
+
+    private fun requestService(
+        serviceStub: ServiceStub,
+        listener: Response.Listener<ServiceResponse>,
+        errorListener: Response.ErrorListener?,
+        interceptResponse: Boolean
+    ){
         val request = buildServiceRequest(serviceStub.serviceUid,serviceStub.runDate)
-        val req = VolleyServiceRequest(Request.Method.GET,request,MiniServiceRepsonse(listener,serviceStub.serviceUid,serviceStub.runDate),errorListener)
+        val req = if (interceptResponse)
+            VolleyServiceRequest(Request.Method.GET,request,MiniServiceRepsonse(listener,serviceStub.serviceUid,serviceStub.runDate),errorListener)
+        else
+            VolleyServiceRequest(Request.Method.GET,request,listener,errorListener)
         req.setShouldCache(false)
         StationRepo.volleyRequestQueue.add(req)
     }
@@ -126,8 +139,66 @@ object RTTAPI{
         val runDate: String
     ) : Response.Listener<ServiceResponse>  {
         override fun onResponse(response: ServiceResponse) {
+            //Extra processing if service joins another and does not expose information for later stops
+
+            val firstAssociation = response.locations.first().associations
+            val lastAssociation = response.locations.last().associations
+            when {
+                lastAssociation != null -> {
+                    findJoiningService(response,lastAssociation[0])
+                }
+                firstAssociation != null -> {
+                    findStartingService(response,firstAssociation[0])
+                }
+                else -> {
+                    rl.onResponse(response)
+                }
+            }
             //cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
-            rl.onResponse(response)
+
+        }
+
+        fun findJoiningService(response: ServiceResponse, association: Association){
+            val lastKnown = response.locations.last()
+            requestService(association.toServiceStub(),
+                listener = Response.Listener{ otherResponse ->
+                    val newStart = otherResponse.locations.indexOfFirst{ ld -> ld.crs == lastKnown.crs }
+                    val newLocations = otherResponse.locations.subList(newStart+1,otherResponse.locations.size)
+                    newLocations.forEach{ld ->
+                        ld.origin = lastKnown.origin
+                    }
+                    val original = response.locations.toMutableList()
+                    original.addAll(newLocations)
+                    response.locations = original
+                    rl.onResponse(response)
+                },
+                errorListener = Response.ErrorListener {
+                    rl.onResponse(response)
+                },
+                interceptResponse = false
+
+            )
+        }
+
+        fun findStartingService(response: ServiceResponse, association: Association){
+            val firstKnown = response.locations.first()
+            requestService(association.toServiceStub(),
+                listener = Response.Listener{ otherResponse ->
+                    val newEnd = otherResponse.locations.indexOfFirst{ ld -> ld.crs == firstKnown.crs }
+                    val newLocations = otherResponse.locations.subList(0,newEnd).toMutableList()
+//                    newLocations.forEach{ld ->
+//                        ld.destination = firstKnown.destination
+//                    }
+                    response.origin = otherResponse.origin
+                    newLocations.addAll(response.locations)
+                    response.locations = newLocations
+                    rl.onResponse(response)
+                },
+                errorListener = Response.ErrorListener {
+                    rl.onResponse(response)
+                },
+                interceptResponse = false
+            )
         }
     }
 
