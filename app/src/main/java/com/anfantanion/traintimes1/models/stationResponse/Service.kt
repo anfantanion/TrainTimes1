@@ -1,6 +1,8 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.repositories.StationRepo
+import java.lang.StringBuilder
 
 
 data class Service(
@@ -20,7 +22,7 @@ data class Service(
     }
 
     fun destination():String{
-        return locationDetail.destination[0].description
+        return locationDetail.destinationName()
     }
 
     fun statusString():String{

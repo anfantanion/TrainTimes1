@@ -1,6 +1,7 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
 import com.anfantanion.traintimes1.models.TimeDate
+import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
 data class LocationDetail(
@@ -45,6 +46,10 @@ data class LocationDetail(
     fun getDepartureTime(): String?{
         if (realtimeDeparture != null) return realtimeDeparture
         return gbttBookedDeparture
+    }
+
+    fun destinationName():String{
+        return com.anfantanion.traintimes1.models.destinationName(destination)
     }
 
 
