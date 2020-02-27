@@ -35,8 +35,9 @@ class ActiveJourneyViewModel : ViewModel() {
         journey.getPlannedServices {onPlanned(it)}
     }
 
-    fun getWaypointStations(): List<Station>{
-        return activeJourney!!.value!!.waypoints.mapNotNull{sS -> StationRepo.getStation(sS) }
+    fun getWaypointStations(): List<Station>?{
+        if (activeJourney.value == null) return null
+        return activeJourney.value!!.waypoints.mapNotNull{sS -> StationRepo.getStation(sS) }
     }
 
 

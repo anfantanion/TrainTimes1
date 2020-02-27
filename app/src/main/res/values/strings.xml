@@ -74,4 +74,8 @@
     <string name="serviceDetailsTrainServiceDivided">Service divided here (%1$s)</string>
     <string name="activeJourneyConnectionPlace">Changing at (%1$s)</string>
     <string name="activeJourneyChangeAt">Change at %1$s in (%2$s) minutes</string>
+    <string name="savedJourneys_Dialog_OverwriteTitle">Existing Journey</string>
+    <string name="savedJourneys_Dialog_OverwriteMessage">A journey is already being monitored. Would you like to replace it?</string>
+    <string name="savedJourneys_Dialog_OverwritePositive">Yes</string>
+    <string name="savedJourneys_Dialog_OverwriteNegative">No</string>
 </resources>

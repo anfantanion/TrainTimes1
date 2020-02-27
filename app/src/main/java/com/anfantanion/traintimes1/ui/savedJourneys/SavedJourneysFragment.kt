@@ -1,5 +1,7 @@
 package com.anfantanion.traintimes1.ui.savedJourneys
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -105,8 +107,22 @@ class SavedJourneysFragment :
 
     override fun onSavedJourneyClick(position: Int) {
         val clicked = savedJourneysViewModel.journeys.value!!.get(position)
-        JourneyRepo.activeJourney = clicked
-        findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
+        if (JourneyRepo.activeJourney != null){
+
+            AlertDialog.Builder(context)
+                .setTitle(R.string.savedJourneys_Dialog_OverwriteTitle)
+                .setMessage(R.string.savedJourneys_Dialog_OverwriteMessage)
+                .setPositiveButton(R.string.savedJourneys_Dialog_OverwritePositive) { dialog, id ->
+                    JourneyRepo.activeJourney = clicked
+                    findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
+                }
+                .setNegativeButton(R.string.savedJourneys_Dialog_OverwriteNegative,null)
+                .show()
+        }else{
+            JourneyRepo.activeJourney = clicked
+            findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
+        }
+
     }
 
     override fun onEditButtonClick(position: Int) {

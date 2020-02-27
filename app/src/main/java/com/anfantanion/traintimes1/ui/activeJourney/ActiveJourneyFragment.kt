@@ -57,7 +57,7 @@ class ActiveJourneyFragment : Fragment(),
                 }
             }
             activeJourneyViewModel.getServices()
-            activeJourneyRecyclerAdapter.waypoints = activeJourneyViewModel.getWaypointStations()
+            activeJourneyRecyclerAdapter.waypoints = activeJourneyViewModel.getWaypointStations() ?: emptyList()
         })
 
         activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
