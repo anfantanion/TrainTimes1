@@ -80,4 +80,6 @@
     <string name="savedJourneys_Dialog_OverwriteNegative">No</string>
     <string name="newJourney_TimeForChanges">Allow time for changes:</string>
     <string name="newJourney_TimeForChangesSuffix">Minutes</string>
+    <string name="activeJourneyLoadedPreviousTrue">Loaded a Previous Journey</string>
+    <string name="activeJourneyLoadedPreviousFalse">Planning Journey</string>
 </resources>

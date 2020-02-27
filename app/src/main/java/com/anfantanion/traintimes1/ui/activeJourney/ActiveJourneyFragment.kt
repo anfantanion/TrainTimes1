@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -67,6 +68,13 @@ class ActiveJourneyFragment : Fragment(),
             }else activeJourneyConnectionCardView.visibility = View.VISIBLE
             activeJourneyRecyclerAdapter.services = it
             activeJourneyRecyclerAdapter.notifyDataSetChanged()
+        })
+
+        activeJourneyViewModel.loadedPreviouslyPlannedRoute.observe(viewLifecycleOwner, Observer {
+            if (it)
+                Toast.makeText(context,R.string.activeJourneyLoadedPreviousTrue,Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(context,R.string.activeJourneyLoadedPreviousFalse,Toast.LENGTH_SHORT).show()
         })
 
 

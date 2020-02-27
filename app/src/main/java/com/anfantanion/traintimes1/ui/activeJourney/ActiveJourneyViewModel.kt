@@ -22,6 +22,8 @@ class ActiveJourneyViewModel : ViewModel() {
 
     var serviceResponses = MutableLiveData<List<ServiceResponse>>()
 
+    var loadedPreviouslyPlannedRoute = MutableLiveData<Boolean>(false)
+
     var isLoading = MutableLiveData<Boolean>(false)
     var isError = MutableLiveData<Boolean>(false)
     var lastError = VolleyError()
@@ -33,7 +35,7 @@ class ActiveJourneyViewModel : ViewModel() {
             return
         }
         isLoading.value = true
-        journey.getPlannedServices {onPlanned(it)}
+        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices {onPlanned(it)}
     }
 
     fun getWaypointStations(): List<Station>?{
