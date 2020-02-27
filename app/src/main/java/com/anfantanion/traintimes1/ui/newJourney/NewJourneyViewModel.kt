@@ -20,6 +20,9 @@ class NewJourneyViewModel {
     var journeyTitle = MutableLiveData<String>()
     var journeyTitleChanged = MutableLiveData<Boolean>()
 
+    var changeTime = MutableLiveData<Int>()
+    var changeTimeChanged = MutableLiveData<Boolean>()
+
 
     var stations = MutableLiveData<List<Station>>(emptyList())
     var shouldUpdate = true
@@ -39,6 +42,8 @@ class NewJourneyViewModel {
 
         journeyTitle.value = journey.givenName
         journeyTitleChanged.value = true
+        changeTimeChanged.value = true
+        changeTime.value = journey.allowChangeTime
     }
 
     fun saveJourney() : Boolean {
@@ -51,6 +56,7 @@ class NewJourneyViewModel {
             Journey.Type.DEPARTAT -> journey.time = departTime.value!!.getTime()
             Journey.Type.ARRIVEBY -> journey.time = arriveTime.value!!.getTime()
         }
+        journey.allowChangeTime = changeTime.value?:journey.allowChangeTime
         JourneyRepo.addJourney(journey)
         return true
     }

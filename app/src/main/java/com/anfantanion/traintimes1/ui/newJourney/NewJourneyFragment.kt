@@ -29,6 +29,7 @@ import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.common.ItemTouchHelperCallbacks
 import com.anfantanion.traintimes1.ui.common.SearchDialog
 import kotlinx.android.synthetic.main.fragment_new_journey.*
+import java.lang.NumberFormatException
 import java.util.*
 
 /**
@@ -122,9 +123,20 @@ class NewJourneyFragment : Fragment(),
             newJourneyTitle.setText(newJourneyViewModel.journeyTitle.value)
         })
 
+        newJourneyViewModel.changeTimeChanged.observe(viewLifecycleOwner, Observer {
+            newJourneyChangeInput.setText(newJourneyViewModel.changeTime.value.toString())
+        })
+
         newJourneyTitle.addTextChangedListener { text: Editable? ->
             newJourneyViewModel.journeyTitle.value = text.toString()
-            Log.d("HJH",text.toString())
+        }
+
+        newJourneyChangeInput.addTextChangedListener { text: Editable? ->
+            try {
+                newJourneyViewModel.changeTime.value = text.toString().toInt()
+            } catch (e : NumberFormatException){
+
+            }
         }
 
 
@@ -136,6 +148,10 @@ class NewJourneyFragment : Fragment(),
         newJourneyViewModel.setEditingJourney(args.editingJourney)
 
 
+
+    }
+
+    fun setChangeTime(int: Int){
 
     }
 

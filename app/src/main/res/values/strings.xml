@@ -78,4 +78,6 @@
     <string name="savedJourneys_Dialog_OverwriteMessage">A journey is already being monitored. Would you like to replace it?</string>
     <string name="savedJourneys_Dialog_OverwritePositive">Yes</string>
     <string name="savedJourneys_Dialog_OverwriteNegative">No</string>
+    <string name="newJourney_TimeForChanges">Allow time for changes:</string>
+    <string name="newJourney_TimeForChangesSuffix">Minutes</string>
 </resources>

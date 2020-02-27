@@ -14,11 +14,12 @@ open class Journey (
     vararg var waypoints : StationStub,
     var givenName: String? = null,
     var type: Type = Type.DYNAMIC,
-    var time: String? = null
+    var time: String? = null,
+    var allowChangeTime: Int = 0
 ): Serializable{
 
     companion object {
-        private const val serialVersionUID: Long = 1
+        private const val serialVersionUID: Long = 2
     }
 
     var uuid = UUID.randomUUID()
