@@ -39,6 +39,10 @@ class TimeDate(startDate: String? = null, startTime: String? = null){
         calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE))
     }
 
+    fun addMinutes(minutes: Int){
+        calendar.add(Calendar.MINUTE,minutes)
+    }
+
     private fun dateToString(doTime: Boolean) : String{
         val sb = StringBuilder()
         sb.append("${calendar.get(Calendar.YEAR)}/${padInt(calendar.get(Calendar.MONTH)+1)}/${padInt(calendar.get(Calendar.DAY_OF_MONTH))}")

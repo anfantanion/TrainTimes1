@@ -10,7 +10,8 @@ import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
 
 class JourneyPlanner(
-    var journeyListener: (List<ServiceStub>?) -> (Unit)
+    var journeyListener: (List<ServiceStub>?) -> (Unit),
+    var allowChangeTimeOf: Int
 ) : Response.ErrorListener {
 
     var serviceStubs = ArrayList<ServiceStub>()
@@ -18,7 +19,6 @@ class JourneyPlanner(
     var waypoints = emptyList<StationStub>()
     var index = 0
     var lastTimeDate = TimeDate()
-    val leeway = 0
     val maxTrainsChecked = 10
 
     fun plan(waypoints: List<StationStub>) {
@@ -75,6 +75,7 @@ class JourneyPlanner(
         serviceStubs.add(fastestService.toServiceStub())
         services.add(fastestService)
         lastTimeDate.setTime(arrivalTime)
+        lastTimeDate.addMinutes(allowChangeTimeOf)
         nextStation()
     }
 

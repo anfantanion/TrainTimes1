@@ -60,7 +60,8 @@ open class Journey (
             *waypoints,
             givenName = this.givenName,
             type = this.type,
-            time = this.time
+            time = this.time,
+            allowChangeTime = this.allowChangeTime
             )
     }
 

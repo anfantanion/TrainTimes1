@@ -12,7 +12,8 @@ class ActiveJourney(
     *journey.waypoints,
     givenName = journey.givenName,
     type = journey.type,
-    time = journey.time
+    time = journey.time,
+    allowChangeTime = journey.allowChangeTime
 ),
     Serializable {
 
@@ -24,22 +25,27 @@ class ActiveJourney(
 
     private fun plan(journeyListener: (List<ServiceStub>?) -> (Unit)) {
         val x = when (type) {
-            Type.DYNAMIC -> JourneyPlanner(journeyListener)
-            Type.ARRIVEBY -> JourneyPlanner(journeyListener)
-            Type.DEPARTAT -> JourneyPlanner(journeyListener)
+            Type.DYNAMIC -> JourneyPlanner(journeyListener,allowChangeTime)
+            Type.ARRIVEBY -> JourneyPlanner(journeyListener,allowChangeTime)
+            Type.DEPARTAT -> JourneyPlanner(journeyListener,allowChangeTime)
         }
         x.plan(waypoints.toList())
     }
 
     /**
      * Checks if journey is already planned, if so returns that.
+     * Returns true if using already calculated journey.
      */
-    fun getPlannedServices(journeyListener: (List<ServiceStub>?) -> (Unit)) {
-        if (journeyPlan.isEmpty()) plan {
-            journeyPlan = it ?: journeyPlan
-            journeyListener(it)
+    fun getPlannedServices(journeyListener: (List<ServiceStub>?) -> (Unit)) : Boolean {
+        if (journeyPlan.isEmpty()){
+            plan {
+                journeyPlan = it ?: journeyPlan
+                journeyListener(it)
+            }
+            return false
         }
         else journeyListener(journeyPlan)
+        return true
     }
 
 }
