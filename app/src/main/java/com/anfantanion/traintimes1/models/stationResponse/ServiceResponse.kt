@@ -29,24 +29,25 @@ data class ServiceResponse(
         return origin[0].publicTime +" to " + destinationName(destination)
     }
 
+    fun getName(stationStub : StationStub): String{
+        val locationDetail = filterLocations(stationStub)?.first() ?: return getName()
+        return locationDetail.getDepartureTime() +" to " + destinationName(destination)
+    }
+
     fun getStationArrival(stationStub: StationStub) : String? {
-        val filtered = locations?.filter{ it.crs == stationStub.crs }
-        return filtered?.get(0)?.gbttBookedArrival
+        return filterLocations(stationStub)?.get(0)?.gbttBookedArrival
     }
 
     fun getRTStationArrival(stationStub: StationStub) : String? {
-        val filtered = locations?.filter{ it.crs == stationStub.crs }
-        return filtered?.get(0)?.realtimeArrival
+        return filterLocations(stationStub)?.get(0)?.realtimeArrival
     }
 
     fun getStationDeparture(stationStub: StationStub) : String? {
-        val filtered = locations?.filter{ it.crs == stationStub.crs }
-        return filtered?.get(0)?.gbttBookedDeparture
+        return filterLocations(stationStub)?.get(0)?.gbttBookedDeparture
     }
 
     fun getRTStationDeparture(stationStub: StationStub) : String? {
-        val filtered = locations?.filter{ it.crs == stationStub.crs }
-        return filtered?.get(0)?.realtimeDeparture
+        return filterLocations(stationStub)?.get(0)?.realtimeDeparture
     }
 
     fun toServiceStub() : ServiceStub{
@@ -55,6 +56,10 @@ data class ServiceResponse(
 
     fun getTimeOnTrain(start: StationStub, end: StationStub): Int{
         return differenceOfTimes(getStationDeparture(start)!!,getStationArrival(end)!!)
+    }
+
+    fun filterLocations(stationStub: StationStub): List<LocationDetail>?{
+        return locations?.filter{ it.crs == stationStub.crs }
     }
 
 }

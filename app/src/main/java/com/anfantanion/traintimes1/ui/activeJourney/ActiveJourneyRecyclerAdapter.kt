@@ -79,7 +79,7 @@ class ActiveJourneyRecyclerAdapter(
         val context = holder.itemView.context
         val service = services[position]
 
-        holder.title.text = service.getName()
+        holder.title.text = service.getName(waypoints[position].toStationStub())
         if (position+1 < waypoints.size-1){
             holder.change.text = context.getString(R.string.activeJourneyChangeAt,waypoints[position+1].name,"0")
             holder.change.visibility = View.VISIBLE
