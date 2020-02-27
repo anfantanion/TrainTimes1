@@ -2,6 +2,7 @@ package com.anfantanion.traintimes1.repositories
 
 import android.content.Context
 import android.util.Log
+import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.parcelizable.JourneyStub
 import java.io.ObjectInputStream
@@ -12,15 +13,7 @@ import kotlin.collections.HashMap
 
 object JourneyRepo {
 
-    private var activeJourneyUUID : UUID? = null
-    var activeJourney: Journey? = null
-    set(value) {
-        activeJourneyUUID = value?.uuid
-        field = value
-    }
-    get() {
-        return journeyLookup[activeJourneyUUID]
-    }
+    var activeJourney: ActiveJourney? = null
 
     var orderedJourneys = ArrayList<Journey>()
     var journeyLookup = HashMap<UUID,Journey>()
@@ -60,7 +53,7 @@ object JourneyRepo {
         context.openFileOutput(journeyFIleName,Context.MODE_PRIVATE).use{
             ObjectOutputStream(it).use{ it2 ->
                 it2.writeObject(orderedJourneys)
-                it2.writeObject(activeJourneyUUID)
+                it2.writeObject(activeJourney)
             }
         }
     }
@@ -70,12 +63,11 @@ object JourneyRepo {
             context.openFileInput(journeyFIleName).use { fis ->
                 ObjectInputStream(fis).use { it2 ->
                     orderedJourneys = it2.readObject() as? ArrayList<Journey> ?: ArrayList()
-                    activeJourneyUUID = it2.readObject() as UUID?
+                    activeJourney = it2.readObject() as ActiveJourney?
                 }
             }
         } catch (e: Exception){
             Log.d("SEARCHMANAGER","History File not found ${e.localizedMessage}")
-            orderedJourneys = ArrayList()
         }
         for (j in orderedJourneys) journeyLookup[j.uuid] = j
     }

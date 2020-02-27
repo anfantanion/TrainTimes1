@@ -113,13 +113,13 @@ class SavedJourneysFragment :
                 .setTitle(R.string.savedJourneys_Dialog_OverwriteTitle)
                 .setMessage(R.string.savedJourneys_Dialog_OverwriteMessage)
                 .setPositiveButton(R.string.savedJourneys_Dialog_OverwritePositive) { dialog, id ->
-                    JourneyRepo.activeJourney = clicked
+                    JourneyRepo.activeJourney = clicked.getActiveJourneyCopy()
                     findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
                 }
                 .setNegativeButton(R.string.savedJourneys_Dialog_OverwriteNegative,null)
                 .show()
         }else{
-            JourneyRepo.activeJourney = clicked
+            JourneyRepo.activeJourney = clicked.getActiveJourneyCopy()
             findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
         }
 

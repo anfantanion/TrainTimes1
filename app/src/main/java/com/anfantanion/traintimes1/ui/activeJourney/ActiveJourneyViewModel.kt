@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
@@ -17,7 +18,7 @@ import com.anfantanion.traintimes1.repositories.StationRepo
 
 class ActiveJourneyViewModel : ViewModel() {
 
-    var activeJourney = MutableLiveData<Journey>(JourneyRepo.activeJourney)
+    var activeJourney = MutableLiveData<ActiveJourney>(JourneyRepo.activeJourney)
 
     var serviceResponses = MutableLiveData<List<ServiceResponse>>()
 
