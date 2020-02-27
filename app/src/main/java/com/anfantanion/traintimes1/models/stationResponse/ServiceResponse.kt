@@ -10,7 +10,7 @@ data class ServiceResponse(
     val atocCode: String,
     val atocName: String,
     val isPassenger: Boolean,
-    var locations: List<LocationDetail>,
+    var locations: List<LocationDetail>?,
     var origin: List<Origin>,
     var destination: List<Destination>,
     val performanceMonitored: Boolean,
@@ -30,23 +30,23 @@ data class ServiceResponse(
     }
 
     fun getStationArrival(stationStub: StationStub) : String? {
-        val filtered = locations.filter{ it.crs == stationStub.crs }
-        return filtered[0].gbttBookedArrival
+        val filtered = locations?.filter{ it.crs == stationStub.crs }
+        return filtered?.get(0)?.gbttBookedArrival
     }
 
     fun getRTStationArrival(stationStub: StationStub) : String? {
-        val filtered = locations.filter{ it.crs == stationStub.crs }
-        return filtered[0].realtimeArrival
+        val filtered = locations?.filter{ it.crs == stationStub.crs }
+        return filtered?.get(0)?.realtimeArrival
     }
 
     fun getStationDeparture(stationStub: StationStub) : String? {
-        val filtered = locations.filter{ it.crs == stationStub.crs }
-        return filtered[0].gbttBookedDeparture
+        val filtered = locations?.filter{ it.crs == stationStub.crs }
+        return filtered?.get(0)?.gbttBookedDeparture
     }
 
     fun getRTStationDeparture(stationStub: StationStub) : String? {
-        val filtered = locations.filter{ it.crs == stationStub.crs }
-        return filtered[0].realtimeDeparture
+        val filtered = locations?.filter{ it.crs == stationStub.crs }
+        return filtered?.get(0)?.realtimeDeparture
     }
 
     fun toServiceStub() : ServiceStub{

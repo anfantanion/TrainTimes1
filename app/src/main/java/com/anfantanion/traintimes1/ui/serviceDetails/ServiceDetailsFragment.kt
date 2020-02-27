@@ -65,7 +65,7 @@ class ServiceDetailsFragment : Fragment(),
         serviceDetailsRecylcerView.adapter = serviceDetailsRecyclerAdapter
 
         serviceDetailsViewModel.serviceResponse.observe(viewLifecycleOwner, Observer{
-            serviceDetailsRecyclerAdapter.locations=it.locations
+            serviceDetailsRecyclerAdapter.locations=it.locations ?: emptyList()
             serviceDetailsRecyclerAdapter.serviceResponse = it
             serviceDetailsRecyclerAdapter.notifyDataSetChanged()
             setTitle()

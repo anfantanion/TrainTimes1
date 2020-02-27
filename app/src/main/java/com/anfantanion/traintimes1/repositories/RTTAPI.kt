@@ -141,8 +141,8 @@ object RTTAPI{
         override fun onResponse(response: ServiceResponse) {
             //Extra processing if service joins another and does not expose information for later stops
 
-            val firstAssociation = response.locations.first().associations
-            val lastAssociation = response.locations.last().associations
+            val firstAssociation = response.locations?.first()?.associations
+            val lastAssociation = response.locations?.last()?.associations
             when {
                 lastAssociation != null -> {
                     findJoiningService(response,lastAssociation[0])
@@ -159,15 +159,18 @@ object RTTAPI{
         }
 
         fun findJoiningService(response: ServiceResponse, association: Association){
-            val lastKnown = response.locations.last()
+            val lastKnown = response.locations?.last() ?: return
+            val originalLocations = response.locations ?: return
             requestService(association.toServiceStub(),
                 listener = Response.Listener{ otherResponse ->
-                    val newStart = otherResponse.locations.indexOfFirst{ ld -> ld.crs == lastKnown.crs }
-                    val newLocations = otherResponse.locations.subList(newStart+1,otherResponse.locations.size)
+                    val otherResponseLocations = otherResponse?.locations
+                    if (otherResponseLocations == null) {rl.onResponse(response); return@Listener}
+                    val newStart = otherResponseLocations.indexOfFirst{ ld -> ld.crs == lastKnown.crs }
+                    val newLocations = otherResponseLocations.subList(newStart+1,otherResponseLocations.size)
                     newLocations.forEach{ld ->
                         ld.origin = lastKnown.origin
                     }
-                    val original = response.locations.toMutableList()
+                    val original = originalLocations.toMutableList()
                     original.addAll(newLocations)
                     response.locations = original
                     response.origin = otherResponse.origin
@@ -182,16 +185,19 @@ object RTTAPI{
         }
 
         fun findStartingService(response: ServiceResponse, association: Association){
-            val firstKnown = response.locations.first()
+            val firstKnown = response.locations?.first() ?: return
+            val originalLocations = response.locations ?: return
             requestService(association.toServiceStub(),
                 listener = Response.Listener{ otherResponse ->
-                    val newEnd = otherResponse.locations.indexOfFirst{ ld -> ld.crs == firstKnown.crs }
-                    val newLocations = otherResponse.locations.subList(0,newEnd).toMutableList()
+                    val otherResponseLocations = otherResponse?.locations
+                    if (otherResponseLocations == null) {rl.onResponse(response); return@Listener}
+                    val newEnd = otherResponseLocations.indexOfFirst{ ld -> ld.crs == firstKnown.crs }
+                    val newLocations = otherResponseLocations.subList(0,newEnd).toMutableList()
                     newLocations.forEach{ld ->
                         ld.destination = firstKnown.destination
                     }
                     response.destination = otherResponse.destination
-                    newLocations.addAll(response.locations)
+                    newLocations.addAll(originalLocations)
                     response.locations = newLocations
                     rl.onResponse(response)
                 },
