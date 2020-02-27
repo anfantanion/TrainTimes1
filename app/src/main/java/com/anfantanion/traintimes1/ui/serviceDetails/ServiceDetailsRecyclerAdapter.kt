@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.ui.serviceDetails
 
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
@@ -19,6 +21,7 @@ class ServiceDetailsRecyclerAdapter (
 
     var serviceResponse : ServiceResponse? = null
     var locations = emptyList<LocationDetail>()
+    var focused = emptyList<StationStub>()
 
 
     class ViewHolder(
@@ -100,8 +103,16 @@ class ServiceDetailsRecyclerAdapter (
 
         holder.stationCode.text = location.crs
         holder.stationName.text = location.description
+
+        //Underline Focused Stations
+        if (location.toStationStub() in focused)
+            holder.stationName.paintFlags = holder.stationName.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        else
+            holder.stationName.paintFlags = holder.stationName.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+
         holder.platformNo.text = location.platform
 
+        //Color + Bold Changed platforms
         if (location.platformChanged == true) {
             holder.platformNo.setTextColor(ContextCompat.getColor(context, R.color.late))
             holder.timingRealArrival.setTypeface(null, Typeface.BOLD)

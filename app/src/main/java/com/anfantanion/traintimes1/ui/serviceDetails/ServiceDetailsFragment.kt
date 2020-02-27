@@ -70,12 +70,13 @@ class ServiceDetailsFragment : Fragment(),
             serviceDetailsRecyclerAdapter.notifyDataSetChanged()
             setTitle()
 
-            focusedStations?.let {it1 ->
-                if (it1.isNotEmpty()){
-                    serviceDetailsViewModel.getPositionOfStation(it1[0])?.let{it2 ->
-                        serviceDetailsRecylerLayout.scrollToPosition(it2)
+            focusedStations?.let {focusedStationArray ->
+                if (focusedStationArray.isNotEmpty()){
+                    serviceDetailsViewModel.getPositionOfStation(focusedStationArray[0])?.let{firstFocused ->
+                        serviceDetailsRecylerLayout.scrollToPosition(firstFocused)
                     }
                 }
+                serviceDetailsRecyclerAdapter.focused = focusedStationArray.asList()
             }
         })
 
