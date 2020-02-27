@@ -65,7 +65,9 @@ class JourneyPlanner(
 
     fun serviceResponseList(response: List<ServiceResponse>) {
 
-        val times = response.sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis }
+        val times = response
+            .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis } //Sort by time
+            .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > TimeDate().calendar.timeInMillis } //Only future
         val fastestService = times.first()
 
         val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()
