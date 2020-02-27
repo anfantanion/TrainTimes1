@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
 
@@ -30,6 +31,11 @@ class ServiceDetailsViewModel() : ViewModel() {
                 isError.value = true
                 isLoading.value = false
             })
+    }
+
+    fun getPositionOfStation(stationStub: StationStub) :Int?{
+        val x = serviceResponse.value?.locations ?: return null
+        return x.indexOfFirst{ ld -> ld.crs == stationStub.crs }
     }
 
 }

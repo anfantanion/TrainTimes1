@@ -2,6 +2,7 @@ package com.anfantanion.traintimes1.models.stationResponse
 
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimes
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
@@ -81,6 +82,10 @@ data class LocationDetail(
         if (delay()?:0 > 5)
             return "Expected at "+realtimeDeparture
         return "On Time"
+    }
+
+    fun toStationStub() : StationStub{
+        return StationStub(crs)
     }
 
 

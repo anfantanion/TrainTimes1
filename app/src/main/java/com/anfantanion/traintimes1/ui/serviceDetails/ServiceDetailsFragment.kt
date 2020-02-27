@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -61,7 +60,8 @@ class ServiceDetailsFragment : Fragment(),
 
         serviceDetailsRecyclerAdapter = ServiceDetailsRecyclerAdapter(this)
 
-        serviceDetailsRecylcerView.layoutManager = LinearLayoutManager(context)
+        val serviceDetailsRecylerLayout = LinearLayoutManager(context)
+        serviceDetailsRecylcerView.layoutManager = serviceDetailsRecylerLayout
         serviceDetailsRecylcerView.adapter = serviceDetailsRecyclerAdapter
 
         serviceDetailsViewModel.serviceResponse.observe(viewLifecycleOwner, Observer{
@@ -69,6 +69,14 @@ class ServiceDetailsFragment : Fragment(),
             serviceDetailsRecyclerAdapter.serviceResponse = it
             serviceDetailsRecyclerAdapter.notifyDataSetChanged()
             setTitle()
+
+            focusedStations?.let {it1 ->
+                if (it1.isNotEmpty()){
+                    serviceDetailsViewModel.getPositionOfStation(it1[0])?.let{it2 ->
+                        serviceDetailsRecylerLayout.scrollToPosition(it2)
+                    }
+                }
+            }
         })
 
         serviceDetailsViewModel.isLoading.observe(viewLifecycleOwner,Observer{
@@ -133,10 +141,11 @@ class ServiceDetailsFragment : Fragment(),
     }
 
     override fun onAdditionalInfoButtonClick(position: Int) {
-        val x = serviceDetailsViewModel.serviceResponse.value?.locations?.get(position)?.associations?.get(0)?.toServiceStub()
-        if (x != null) {
+        val focusedLocation = serviceDetailsViewModel.serviceResponse.value?.locations?.get(position)
+        val associatedService = focusedLocation?.associations?.get(0)?.toServiceStub()
+        if (associatedService != null) {
             findNavController().navigate(
-                ServiceDetailsFragmentDirections.actionServiceDetailsSelf(x)
+                ServiceDetailsFragmentDirections.actionServiceDetailsSelf(associatedService,arrayOf(focusedLocation.toStationStub()))
             )
         }
         else
