@@ -25,9 +25,9 @@ class ActiveJourney(
 
     private fun plan(journeyListener: (List<ServiceStub>?) -> (Unit)) {
         val x = when (type) {
-            Type.DYNAMIC -> JourneyPlanner(journeyListener,allowChangeTime)
-            Type.ARRIVEBY -> JourneyPlanner(journeyListener,allowChangeTime)
-            Type.DEPARTAT -> JourneyPlanner(journeyListener,allowChangeTime)
+            Type.DYNAMIC -> JourneyPlanner(journeyListener,allowChangeTime,null)
+            Type.ARRIVEBY -> JourneyPlanner(journeyListener,allowChangeTime,null)
+            Type.DEPARTAT -> JourneyPlanner(journeyListener,allowChangeTime,time)
         }
         x.plan(waypoints.toList())
     }

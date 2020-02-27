@@ -35,7 +35,9 @@ data class ServiceResponse(
     }
 
     fun getStationArrival(stationStub: StationStub) : String? {
-        return filterLocations(stationStub)?.get(0)?.gbttBookedArrival
+        var x = filterLocations(stationStub)
+        if (x==null || x.isEmpty()) return null
+        return x?.get(0)?.gbttBookedArrival
     }
 
     fun getRTStationArrival(stationStub: StationStub) : String? {

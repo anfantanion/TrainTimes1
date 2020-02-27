@@ -11,14 +11,15 @@ import com.anfantanion.traintimes1.repositories.RTTAPI
 
 class JourneyPlanner(
     var journeyListener: (List<ServiceStub>?) -> (Unit),
-    var allowChangeTimeOf: Int
+    var allowChangeTimeOf: Int,
+    var startTime: String?
 ) : Response.ErrorListener {
 
     var serviceStubs = ArrayList<ServiceStub>()
     var services = ArrayList<ServiceResponse>()
     var waypoints = emptyList<StationStub>()
     var index = 0
-    var lastTimeDate = TimeDate()
+    var lastTimeDate = TimeDate(startTime=startTime)
     val maxTrainsChecked = 10
 
     fun plan(waypoints: List<StationStub>) {
@@ -69,6 +70,7 @@ class JourneyPlanner(
             .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future
             .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by time
 
+        if (times.isEmpty()) errorOut()
         val fastestService = times.first()
 
         val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()

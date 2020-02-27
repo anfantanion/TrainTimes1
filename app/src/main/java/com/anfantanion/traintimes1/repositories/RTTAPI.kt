@@ -100,6 +100,7 @@ object RTTAPI{
 
     fun requestServices(
         serviceStubs : List<ServiceStub>,
+        destination: StationStub? = null,
         listener: (List<ServiceResponse>) -> (Unit),
         errorListener: Response.ErrorListener?
     ){
