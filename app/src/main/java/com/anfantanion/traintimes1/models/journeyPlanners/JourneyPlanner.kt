@@ -17,7 +17,7 @@ class JourneyPlanner(
     var services = ArrayList<ServiceResponse>()
     var waypoints = emptyList<StationStub>()
     var index = 0
-    var timeDate = TimeDate()
+    var lastTimeDate = TimeDate()
     val leeway = 0
     val maxTrainsChecked = 10
 
@@ -34,7 +34,7 @@ class JourneyPlanner(
         val filter = RTTAPI.Filter(
             from = null,
             to = waypoints[index + 1].crs,
-            date = timeDate.getDateTime()
+            date = lastTimeDate.getDateTime()
         )
         RTTAPI.requestStation(
             waypoints[index],
@@ -66,14 +66,15 @@ class JourneyPlanner(
     fun serviceResponseList(response: List<ServiceResponse>) {
 
         val times = response
-            .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis } //Sort by time
-            .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > TimeDate().calendar.timeInMillis } //Only future
+            .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future
+            .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by time
+
         val fastestService = times.first()
 
         val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()
         serviceStubs.add(fastestService.toServiceStub())
         services.add(fastestService)
-        timeDate.setTime(arrivalTime)
+        lastTimeDate.setTime(arrivalTime)
         nextStation()
     }
 
@@ -84,7 +85,7 @@ class JourneyPlanner(
             //TODO Splitting trains need more work
             return errorOut()
         }
-        timeDate.setTime(arrivalTime)
+        lastTimeDate.setTime(arrivalTime)
         nextStation()
     }
 
