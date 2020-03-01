@@ -80,18 +80,19 @@ object RTTAPI{
         listener: Response.Listener<ServiceResponse>,
         errorListener: Response.ErrorListener?
     ){
-        requestService(serviceStub,listener,errorListener,true)
+        requestService(serviceStub,listener,errorListener,true,null)
     }
 
     private fun requestService(
         serviceStub: ServiceStub,
         listener: Response.Listener<ServiceResponse>,
         errorListener: Response.ErrorListener?,
-        interceptResponse: Boolean
+        interceptResponse: Boolean,
+        requireStation : StationStub?
     ){
         val request = buildServiceRequest(serviceStub.serviceUid,serviceStub.runDate)
         val req = if (interceptResponse)
-            VolleyServiceRequest(Request.Method.GET,request,MiniServiceRepsonse(listener,serviceStub.serviceUid,serviceStub.runDate),errorListener)
+            VolleyServiceRequest(Request.Method.GET,request,MiniServiceRepsonse(listener,serviceStub.serviceUid,serviceStub.runDate,requireStation),errorListener)
         else
             VolleyServiceRequest(Request.Method.GET,request,listener,errorListener)
         req.setShouldCache(false)
@@ -102,9 +103,10 @@ object RTTAPI{
         serviceStubs : List<ServiceStub>,
         destination: StationStub? = null,
         listener: (List<ServiceResponse>) -> (Unit),
-        errorListener: Response.ErrorListener?
+        errorListener: Response.ErrorListener?,
+        requireStation: StationStub? = null
     ){
-        MultiRequest(serviceStubs,listener,errorListener).perform()
+        MultiRequest(serviceStubs,listener,errorListener, requireStation).perform()
     }
 
     fun buildServiceRequest(
@@ -137,7 +139,8 @@ object RTTAPI{
     class MiniServiceRepsonse(
         val rl : Response.Listener<ServiceResponse>,
         val serviceUID : String,
-        val runDate: String
+        val runDate: String,
+        val requireStation : StationStub? = null
     ) : Response.Listener<ServiceResponse>  {
         override fun onResponse(response: ServiceResponse) {
             //Extra processing if service joins another and does not expose information for later stops
@@ -145,6 +148,9 @@ object RTTAPI{
             val firstAssociation = response.locations?.first()?.associations
             val lastAssociation = response.locations?.last()?.associations
             when {
+                requireStation != null -> {
+                    findCounterpartService(response)
+                }
                 lastAssociation != null -> {
                     findJoiningService(response,lastAssociation[0])
                 }
@@ -156,6 +162,43 @@ object RTTAPI{
                 }
             }
             //cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
+
+        }
+
+        fun findCounterpartService(response: ServiceResponse){
+
+            //Check each location for an association
+            var association : Association? = null
+            response.locations?.forEach {
+                if (it.crs == requireStation!!.crs) {
+                    association = null // Set to null, as it is the correct service.
+                    return@forEach
+                }else
+                    association = it.associations?.get(0)
+            }
+
+            if (association != null) {
+                val x = association!!.toServiceStub()
+                requestService(
+                    x,
+                    rl,
+                    errorListener = Response.ErrorListener {
+                        //If there is an error, just return the original response
+                        rl.onResponse(response)
+                    },
+                    interceptResponse = true,
+                    requireStation = null
+                )
+            } else {
+                return rl.onResponse(response)
+            }
+
+
+            response.locations?.forEach{
+                if (it.associations?.isNotEmpty() == true){
+
+                }
+            }
 
         }
 
@@ -178,9 +221,11 @@ object RTTAPI{
                     rl.onResponse(response)
                 },
                 errorListener = Response.ErrorListener {
+                    //If there is an error, just return the original response
                     rl.onResponse(response)
                 },
-                interceptResponse = false
+                interceptResponse = false,
+                requireStation = null
 
             )
         }
@@ -205,7 +250,8 @@ object RTTAPI{
                 errorListener = Response.ErrorListener {
                     rl.onResponse(response)
                 },
-                interceptResponse = false
+                interceptResponse = false,
+                requireStation = null
             )
         }
     }
@@ -214,6 +260,7 @@ object RTTAPI{
         val serviceStubs: List<ServiceStub>,
         val listener: (List<ServiceResponse>) -> (Unit),
         val errorListener: Response.ErrorListener?,
+        val requireStation: StationStub?,
         val timeOut : Long = 4000
     ) : Response.Listener<ServiceResponse>, Response.ErrorListener {
 
@@ -224,7 +271,7 @@ object RTTAPI{
 
         fun perform() {
             serviceStubs.forEach {
-                requestService(it,this,this)
+                requestService(it,this,this,true,requireStation)
             }
             Handler().postDelayed({
                 if (responseCount != serviceStubs.size && !errorOccured){

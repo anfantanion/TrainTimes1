@@ -77,6 +77,9 @@ class ActiveJourneyFragment : Fragment(),
                 Toast.makeText(context,R.string.activeJourneyLoadedPreviousFalse,Toast.LENGTH_SHORT).show()
         })
 
+        activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+        })
 
         activeJourneySelectOrCreate.setOnClickListener(this)
 

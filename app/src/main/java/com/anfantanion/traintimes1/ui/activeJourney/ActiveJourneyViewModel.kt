@@ -9,6 +9,7 @@ import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
+import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.stationResponse.Service
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
@@ -27,6 +28,7 @@ class ActiveJourneyViewModel : ViewModel() {
     var isLoading = MutableLiveData<Boolean>(false)
     var isError = MutableLiveData<Boolean>(false)
     var lastError = VolleyError()
+    var errorText = MutableLiveData<String>()
 
     fun getServices(){
         val journey = activeJourney.value
@@ -35,7 +37,7 @@ class ActiveJourneyViewModel : ViewModel() {
             return
         }
         isLoading.value = true
-        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices {onPlanned(it)}
+        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)})
     }
 
     fun getWaypointStations(): List<Station>?{
@@ -72,7 +74,21 @@ class ActiveJourneyViewModel : ViewModel() {
                 lastError = error
                 isError.value = true
                 isLoading.value = false
-            })
+            }
+
+        )
+
+    }
+
+    private fun onError(journeyPlannerError: JourneyPlannerError){
+        isError.value = true
+        isLoading.value = false
+        errorText.value = when (journeyPlannerError.type){
+            JourneyPlannerError.ErrorType.VOLLEYERROR -> {journeyPlannerError.volleyError?.localizedMessage}
+            JourneyPlannerError.ErrorType.NOSERVICEFOUND -> {journeyPlannerError.reason+journeyPlannerError.errors?.toString()}
+            JourneyPlannerError.ErrorType.OTHER -> "Unknown"
+        }
+        errorText.value = journeyPlannerError.reason
 
     }
 

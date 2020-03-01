@@ -11,6 +11,7 @@ import com.anfantanion.traintimes1.repositories.RTTAPI
 
 class JourneyPlanner(
     var journeyListener: (List<ServiceStub>?) -> (Unit),
+    var errorListener: (JourneyPlannerError) -> Unit,
     var allowChangeTimeOf: Int,
     var startTime: String?
 ) : Response.ErrorListener {
@@ -46,7 +47,10 @@ class JourneyPlanner(
     }
 
     fun stationResponse(response: StationResponse?){
-        if (response?.services == null) return errorOut()
+        if (response?.services == null) return errorListener(JourneyPlannerError(
+            type = JourneyPlannerError.ErrorType.NOSERVICEFOUND,
+            reason = "Could not find any services between",
+            errors = listOf(waypoints[index-1],waypoints[index])))
 
         index++
 
@@ -55,7 +59,8 @@ class JourneyPlanner(
             listener = {
                 serviceResponseList(it)
             },
-            errorListener = this
+            errorListener = this,
+            requireStation = waypoints[index]
         )
 //        RTTAPI.requestService(
 //            interestedService.toServiceStub(),
@@ -70,7 +75,10 @@ class JourneyPlanner(
             .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future
             .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by time
 
-        if (times.isEmpty()) errorOut()
+        if (times.isEmpty()) errorListener(JourneyPlannerError(
+            type = JourneyPlannerError.ErrorType.NOSERVICEFOUND,
+            reason = "Could not find any services between",
+            errors = listOf(waypoints[index-1],waypoints[index])))
         val fastestService = times.first()
 
         val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()
@@ -81,23 +89,24 @@ class JourneyPlanner(
         nextStation()
     }
 
-    fun serviceResponse(response: ServiceResponse?) {
-        if (response?.locations == null) return errorOut()
-        val arrivalTime = response.getStationArrival(waypoints[index])
-        if (arrivalTime == null){
-            //TODO Splitting trains need more work
-            return errorOut()
-        }
-        lastTimeDate.setTime(arrivalTime)
-        nextStation()
-    }
+//    fun serviceResponse(response: ServiceResponse?) {
+//        if (response?.locations == null) return errorOut()
+//        val arrivalTime = response.getStationArrival(waypoints[index])
+//        if (arrivalTime == null){
+//            //TODO Splitting trains need more work
+//            return errorOut()
+//        }
+//        lastTimeDate.setTime(arrivalTime)
+//        nextStation()
+//    }
 
     private fun errorOut(){
         journeyListener(null)
+        errorListener(JourneyPlannerError(JourneyPlannerError.ErrorType.OTHER,"Unknown"))
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        var x = 0
+        errorListener(JourneyPlannerError(JourneyPlannerError.ErrorType.VOLLEYERROR,"Connection",null,error))
     }
 
     inner class StationResponseListener :
@@ -106,12 +115,12 @@ class JourneyPlanner(
             stationResponse((response))
         }
     }
-    inner class ServiceResponseListener :
-        Response.Listener<ServiceResponse> {
-        override fun onResponse(response: ServiceResponse?) {
-            serviceResponse(response)
-        }
-    }
+//    inner class ServiceResponseListener :
+//        Response.Listener<ServiceResponse> {
+//        override fun onResponse(response: ServiceResponse?) {
+//            serviceResponse(response)
+//        }
+//    }
 }
 
 //    class PlannerDynamic() : JourneyPlanner() {
