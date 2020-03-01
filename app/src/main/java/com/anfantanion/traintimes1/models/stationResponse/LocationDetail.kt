@@ -1,10 +1,7 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
-import com.anfantanion.traintimes1.models.TimeDate
-import com.anfantanion.traintimes1.models.differenceOfTimes
+import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import java.lang.StringBuilder
-import java.util.concurrent.TimeUnit
 
 data class LocationDetail(
     val realtimeActivated: Boolean,
@@ -65,7 +62,7 @@ data class LocationDetail(
     fun delay() : Int? {
 
         return if (realtimeDeparture != null && gbttBookedDeparture != null){
-            differenceOfTimes(realtimeDeparture,gbttBookedDeparture)
+            differenceOfTimesMinutes(realtimeDeparture,gbttBookedDeparture)
         }else null
     }
 

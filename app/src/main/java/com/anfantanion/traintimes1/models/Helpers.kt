@@ -18,9 +18,15 @@ fun destinationName(destination: List<Destination>):String{
     return stringBuilder.toString()
 }
 
-fun differenceOfTimes(start: String, end: String): Int{
+fun differenceOfTimesMinutes(start: String, end: String): Int{
     val actual = TimeDate(startTime = start)
     val booked = TimeDate(startTime = end)
     return TimeUnit.MILLISECONDS.toMinutes(
         actual.calendar.timeInMillis - booked.calendar.timeInMillis).toInt()
+}
+
+fun differenceOfTimesMinutes(start:Long, end: Long): Int{
+    return TimeUnit.MILLISECONDS.toMinutes(
+        start-end
+    ).toInt()
 }

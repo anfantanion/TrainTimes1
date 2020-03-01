@@ -1,10 +1,9 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
 import com.anfantanion.traintimes1.models.destinationName
-import com.anfantanion.traintimes1.models.differenceOfTimes
+import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
-import java.lang.StringBuilder
 
 data class ServiceResponse(
     val atocCode: String,
@@ -24,6 +23,10 @@ data class ServiceResponse(
     val trainIdentity: String
 ){
     val timestamp = System.currentTimeMillis()
+
+    fun age(): Int{
+        return differenceOfTimesMinutes(timestamp,System.currentTimeMillis())
+    }
 
     fun getName(): String{
         return origin[0].publicTime +" to " + destinationName(destination)
@@ -57,7 +60,7 @@ data class ServiceResponse(
     }
 
     fun getTimeOnTrain(start: StationStub, end: StationStub): Int{
-        return differenceOfTimes(getStationDeparture(start)!!,getStationArrival(end)!!)
+        return differenceOfTimesMinutes(getStationDeparture(start)!!,getStationArrival(end)!!)
     }
 
     fun filterLocations(stationStub: StationStub): List<LocationDetail>?{
