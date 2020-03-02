@@ -33,7 +33,7 @@ data class ServiceResponse(
     }
 
     fun getName(stationStub : StationStub): String{
-        val locationDetail = filterLocations(stationStub)?.first() ?: return getName()
+        val locationDetail = filterLocations(stationStub)?.firstOrNull() ?: return getName()
         return locationDetail.getDepartureTime() +" to " + destinationName(destination)
     }
 

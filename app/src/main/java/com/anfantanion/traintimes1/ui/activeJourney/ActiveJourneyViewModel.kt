@@ -68,7 +68,12 @@ class ActiveJourneyViewModel : ViewModel() {
         RTTAPI.requestServices(
             serviceStubs,
             listener = {
-                serviceResponses.value = it
+                val x = Array<ServiceResponse?>(serviceStubs.size){null}
+                if (it.isEmpty()) return@requestServices
+                it.forEach {sr ->
+                    x[serviceStubs.indexOf(sr.toServiceStub())] = sr
+                }
+                serviceResponses.value = x.toList().filterNotNull()
             },
             errorListener = Response.ErrorListener { error ->
                 lastError = error

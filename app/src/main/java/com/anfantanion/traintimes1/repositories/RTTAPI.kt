@@ -2,6 +2,7 @@ package com.anfantanion.traintimes1.repositories
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
@@ -169,19 +170,26 @@ object RTTAPI{
 
             //Check each location for an association
             var association : Association? = null
-            response.locations?.forEach {
+
+            for (it in response.locations!!){
                 if (it.crs == requireStation!!.crs) {
                     association = null // Set to null, as it is the correct service.
-                    return@forEach
-                }else
+                    break
+                }else {
                     association = it.associations?.get(0)
+                    if (association!=null) break
+                }
             }
+
 
             if (association != null) {
                 val x = association!!.toServiceStub()
                 requestService(
                     x,
-                    rl,
+                    listener = Response.Listener {
+                        Log.d("RTTAPI",it.toString())
+                        rl.onResponse(it)
+                    },
                     errorListener = Response.ErrorListener {
                         //If there is an error, just return the original response
                         rl.onResponse(response)
@@ -261,11 +269,12 @@ object RTTAPI{
         val listener: (List<ServiceResponse>) -> (Unit),
         val errorListener: Response.ErrorListener?,
         val requireStation: StationStub?,
-        val timeOut : Long = 4000
+        val timeOut : Long = 1000000
     ) : Response.Listener<ServiceResponse>, Response.ErrorListener {
 
         val serviceResponses: MutableList<ServiceResponse?> =
             MutableList(serviceStubs.size) { null }
+        val serviceResponses2 = ArrayList<ServiceResponse>()
         var responseCount = 0
         var errorOccured = false
 
@@ -282,15 +291,11 @@ object RTTAPI{
         }
 
         override fun onResponse(response: ServiceResponse?) {
-            val pos = serviceStubs.indexOf(response?.toServiceStub())
-            if (response == null || pos < 0) return onErrorResponse(VolleyError("Response was null!"))
-            //Maintain order
-
-            serviceResponses[pos] = response
+            response?.let{serviceResponses2.add(it)}
             responseCount++
             //When all responses arrived
             if (responseCount == serviceStubs.size){
-                listener(serviceResponses.filterNotNull().toList())
+                listener(serviceResponses2)
             }
         }
 

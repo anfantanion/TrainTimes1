@@ -101,7 +101,6 @@ class JourneyPlanner(
 //    }
 
     private fun errorOut(){
-        journeyListener(null)
         errorListener(JourneyPlannerError(JourneyPlannerError.ErrorType.OTHER,"Unknown"))
     }
 
