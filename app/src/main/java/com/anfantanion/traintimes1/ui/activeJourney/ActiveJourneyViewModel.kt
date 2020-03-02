@@ -74,6 +74,7 @@ class ActiveJourneyViewModel : ViewModel() {
                     x[serviceStubs.indexOf(sr.toServiceStub())] = sr
                 }
                 serviceResponses.value = x.toList().filterNotNull()
+                isLoading.value = false
             },
             errorListener = Response.ErrorListener { error ->
                 lastError = error

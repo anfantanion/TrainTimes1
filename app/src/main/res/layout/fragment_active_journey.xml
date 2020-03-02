@@ -5,171 +5,203 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:animateLayoutChanges="true"
     >
 
-    <LinearLayout
-        android:id="@+id/activeJourneyNoActiveJourney"
+
+    <FrameLayout
+        android:id="@+id/activeJourneyProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:alpha="0.2"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/black"
+        android:focusable="true"
+        android:visibility="gone"
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/activeJourneyNoActiveJourney"
-            android:textColor="@color/colorSubtitleText"
-            android:gravity="center"
-            />
 
-        <Button
-            android:id="@+id/activeJourneySelectOrCreate"
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/activeJourneySelectOrCreateJourney"
-            />
+            android:indeterminate="true"/>
+
+    </FrameLayout>
 
 
-    </LinearLayout>
+    <LinearLayout
 
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/activeJourneyConnectionCardView"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            >
-
-            <TextView
-                android:id="@+id/activeJourneyConnectionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/activeJourneyConnectionTitle"
-                android:textColor="@color/colorSubtitleText"
-                />
-
-            <TextView
-                android:id="@+id/activeJourneyConnectionTitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Changing at Clapham Junction"
-                android:textColor="@color/colorTitleText"
-                android:layout_below="@id/activeJourneyConnectionTitle"
-                />
-
-            <LinearLayout
-                android:id="@+id/activeJourneyConnectionArrving"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@id/activeJourneyConnectionTitle2"
-                >
-
-                <TextView
-                    android:id="@+id/activeJourneyArrivingTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:text="Train 1"
-                    android:textSize="20sp"
-                    android:paddingEnd="5sp"
-                    />
-
-                <TextView
-                    android:id="@+id/activeJourneyArrivingTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:text="Arrives: 1904"
-                    android:textSize="20sp"
-                    android:paddingEnd="5sp"
-                    />
-
-                <TextView
-                    android:id="@+id/activeJourneyArrivingPlatform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:textSize="20sp"
-                    android:text="Platform 2"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activeJourneyConnectionDeparting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@id/activeJourneyConnectionArrving"
-                >
-
-                <TextView
-                    android:id="@+id/activeJourneyDepartingTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:text="Train 2"
-                    android:textSize="20sp"
-                    android:paddingEnd="5sp"
-                    />
-
-                <TextView
-                    android:id="@+id/activeJourneyDepartingTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:text="Departs: 1908"
-                    android:textSize="20sp"
-                    android:paddingEnd="5sp"
-                    />
-
-                <TextView
-                    android:id="@+id/activeJourneyDepartingPlatform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:textSize="20sp"
-                    android:text="Platform 3"
-                    />
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activeJourneyServiceRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:fastScrollEnabled="true"
-        android:fastScrollAlwaysVisible="true"
-        />
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        >
 
+
+
+        <LinearLayout
+            android:id="@+id/activeJourneyNoActiveJourney"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/activeJourneyNoActiveJourney"
+                android:textColor="@color/colorSubtitleText"
+                android:gravity="center"
+                />
+
+            <Button
+                android:id="@+id/activeJourneySelectOrCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/activeJourneySelectOrCreateJourney"
+                />
+
+
+        </LinearLayout>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/activeJourneyConnectionCardView"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/activeJourneyConnectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/activeJourneyConnectionTitle"
+                    android:textColor="@color/colorSubtitleText"
+                    />
+
+                <TextView
+                    android:id="@+id/activeJourneyConnectionTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Changing at Clapham Junction"
+                    android:textColor="@color/colorTitleText"
+                    android:layout_below="@id/activeJourneyConnectionTitle"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/activeJourneyConnectionArrving"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/activeJourneyConnectionTitle2"
+                    >
+
+                    <TextView
+                        android:id="@+id/activeJourneyArrivingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:text="Train 1"
+                        android:textSize="20sp"
+                        android:paddingEnd="5sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/activeJourneyArrivingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:text="Arrives: 1904"
+                        android:textSize="20sp"
+                        android:paddingEnd="5sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/activeJourneyArrivingPlatform"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:textSize="20sp"
+                        android:text="Platform 2"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activeJourneyConnectionDeparting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/activeJourneyConnectionArrving"
+                    >
+
+                    <TextView
+                        android:id="@+id/activeJourneyDepartingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:text="Train 2"
+                        android:textSize="20sp"
+                        android:paddingEnd="5sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/activeJourneyDepartingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:text="Departs: 1908"
+                        android:textSize="20sp"
+                        android:paddingEnd="5sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/activeJourneyDepartingPlatform"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTitleText"
+                        android:textSize="20sp"
+                        android:text="Platform 3"
+                        />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activeJourneyServiceRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:fastScrollEnabled="true"
+            android:fastScrollAlwaysVisible="true"
+            />
+
+    </LinearLayout>
 </LinearLayout>
