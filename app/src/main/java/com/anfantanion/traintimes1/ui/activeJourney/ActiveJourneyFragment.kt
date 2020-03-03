@@ -3,25 +3,18 @@ package com.anfantanion.traintimes1.ui.activeJourney
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
-import com.anfantanion.traintimes1.models.TimeDate
-import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
-import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragmentDirections
 import kotlinx.android.synthetic.main.fragment_active_journey.*
-import kotlinx.android.synthetic.main.fragment_active_journey_listitem.*
 
 class ActiveJourneyFragment : Fragment(),
     View.OnClickListener,
@@ -145,7 +138,7 @@ class ActiveJourneyFragment : Fragment(),
                     .setTitle(R.string.activeJourneyReplanTitle)
                     .setMessage(R.string.activeJourneyReplanhMessage)
                     .setPositiveButton(R.string.activeJourneyReplanPositive) { dialog, id ->
-                        activeJourneyViewModel.getServices(forceReplan = true)
+                        activeJourneyViewModel.getServices(_forceReplan = true)
                     }
                     .setNegativeButton(R.string.activeJourneyReplanNegative,null)
                     .show()

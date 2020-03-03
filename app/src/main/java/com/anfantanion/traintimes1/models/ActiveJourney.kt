@@ -22,7 +22,7 @@ class ActiveJourney(
         private const val serialVersionUID: Long = 1
     }
 
-    public var date: TimeDate? = null
+    public var dateOfPlan: TimeDate? = null
 
     private var journeyPlan = emptyList<ServiceStub>()
 
@@ -57,7 +57,7 @@ class ActiveJourney(
             plan(
                 {
                     journeyPlan = it ?: journeyPlan
-                    date = TimeDate()
+                    dateOfPlan = TimeDate()
                     journeyListener(it)
                 },
                 {
