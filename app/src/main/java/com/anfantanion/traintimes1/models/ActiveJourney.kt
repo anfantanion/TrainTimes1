@@ -45,10 +45,11 @@ class ActiveJourney(
      */
     fun getPlannedServices(
         journeyListener: (List<ServiceStub>?) -> (Unit),
-        errorListener: (JourneyPlannerError) -> Unit
+        errorListener: (JourneyPlannerError) -> Unit,
+        forceReplan: Boolean = false
 
     ): Boolean {
-        if (journeyPlan.isEmpty()) {
+        if (journeyPlan.isEmpty() || forceReplan) {
             plan(
                 {
                     journeyPlan = it ?: journeyPlan

@@ -1,9 +1,8 @@
 package com.anfantanion.traintimes1.ui.activeJourney
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragmentDirections
 import kotlinx.android.synthetic.main.fragment_active_journey.*
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.*
 
@@ -117,11 +118,42 @@ class ActiveJourneyFragment : Fragment(),
         activeJourneySelectOrCreate.setOnClickListener(this)
 
 
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_activejourney, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.action_activeJourneyEnd -> {
+                AlertDialog.Builder(context)
+                    .setTitle(R.string.activeJourneyEndTitle)
+                    .setMessage(R.string.activeJourneyEndMessage)
+                    .setPositiveButton(R.string.activeJourneyEndPositive) { dialog, id ->
+                        JourneyRepo.activeJourney = null
+                        activeJourneyViewModel.activeJourney.value = null
+                    }
+                    .setNegativeButton(R.string.activeJourneyEndNegative,null)
+                    .show()
+            }
+            R.id.action_activeJourneyReplan -> {
+                AlertDialog.Builder(context)
+                    .setTitle(R.string.activeJourneyReplanTitle)
+                    .setMessage(R.string.activeJourneyReplanhMessage)
+                    .setPositiveButton(R.string.activeJourneyReplanPositive) { dialog, id ->
+                        activeJourneyViewModel.getServices(forceReplan = true)
+                    }
+                    .setNegativeButton(R.string.activeJourneyReplanNegative,null)
+                    .show()
+            }
+            R.id.action_activeJourneyRefresh -> {
+                activeJourneyViewModel.getServices()
+            }
+        }
 
-
-
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View?) {

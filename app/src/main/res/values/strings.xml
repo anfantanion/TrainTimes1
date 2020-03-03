@@ -89,6 +89,16 @@
     <string name="activeJourneyService2">Service 2</string>
     <string name="activeJourneyService2Departs">Departs: %1$s</string>
     <string name="activeJourneyService2Platform">Platform %1$s</string>
+    <string name="activeJourneyReplan">Re-Plan Journey</string>
+    <string name="activeJourneyEnd">End Journey</string>
+    <string name="activeJourneyEndTitle">End this Journey?</string>
+    <string name="activeJourneyEndMessage">This will remove all services related to this journey.</string>
+    <string name="activeJourneyEndPositive">Remove</string>
+    <string name="activeJourneyEndNegative">Cancel</string>
+    <string name="activeJourneyReplanTitle">Re-plan journey?</string>
+    <string name="activeJourneyReplanhMessage">This will re-calculated required services to complete the journey. \\nYou may want to recalculate a single service instead.</string>
+    <string name="activeJourneyReplanPositive">Continue</string>
+    <string name="activeJourneyReplanNegative">Cancel</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

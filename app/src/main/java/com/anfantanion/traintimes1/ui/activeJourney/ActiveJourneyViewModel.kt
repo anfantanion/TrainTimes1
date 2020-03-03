@@ -45,14 +45,17 @@ class ActiveJourneyViewModel : ViewModel() {
         }
     }
 
-    fun getServices(){
+
+    fun getServices(
+        forceReplan: Boolean = false
+    ){
         val journey = activeJourney.value
         if (journey == null) {
             isError.value = true
             return
         }
         isLoading.value = true
-        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)})
+        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)},forceReplan)
     }
 
     fun getWaypointStations(): List<Station>?{

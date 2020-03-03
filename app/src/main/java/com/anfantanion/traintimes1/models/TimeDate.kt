@@ -1,8 +1,9 @@
 package com.anfantanion.traintimes1.models
 
+import java.io.Serializable
 import java.util.*
 
-class TimeDate(startDate: String? = null, startTime: String? = null){
+class TimeDate(startDate: String? = null, startTime: String? = null) : Serializable{
     var calendar = Calendar.getInstance()
 
     init{
