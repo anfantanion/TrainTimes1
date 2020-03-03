@@ -20,7 +20,7 @@ import com.anfantanion.traintimes1.repositories.StationRepo
 
 class ActiveJourneyViewModel : ViewModel() {
 
-    var activeJourney = MutableLiveData<ActiveJourney>(JourneyRepo.activeJourney)
+    var activeJourney = MutableLiveData<ActiveJourney?>(null)
 
     var serviceResponses = MutableLiveData<List<ServiceResponse>>()
 
@@ -30,6 +30,20 @@ class ActiveJourneyViewModel : ViewModel() {
     var isError = MutableLiveData<Boolean>(false)
     var lastError = VolleyError()
     var errorText = MutableLiveData<String>()
+
+    var refreshAge = MutableLiveData<Int?>(null)
+
+    init {
+        val temp = JourneyRepo.activeJourney
+        if (temp!=null){
+            if (temp.date?.getDate() != null && temp.date?.getDate() != TimeDate().getDate()){
+                JourneyRepo.activeJourney = null
+                errorText.value = "Active Journey has Expired"
+            }else {
+                activeJourney.value = temp
+            }
+        }
+    }
 
     fun getServices(){
         val journey = activeJourney.value

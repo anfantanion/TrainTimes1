@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.models.TimeDate
+import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.repositories.StationRepo
 import kotlinx.android.synthetic.main.fragment_active_journey.*
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.*
@@ -60,6 +62,16 @@ class ActiveJourneyFragment : Fragment(),
             }
             activeJourneyViewModel.getServices()
             activeJourneyRecyclerAdapter.waypoints = activeJourneyViewModel.getWaypointStations() ?: emptyList()
+        })
+
+        activeJourneyViewModel.refreshAge.observe(viewLifecycleOwner, Observer {
+            if (it!= null){
+                activeJourneyInfo.visibility = View.VISIBLE
+                activeJourneyInfo.text = context!!.resources.getQuantityString(R.plurals.minutesTime,it,it)
+            }
+            else {
+                activeJourneyInfo.visibility = View.GONE
+            }
         })
 
         activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
