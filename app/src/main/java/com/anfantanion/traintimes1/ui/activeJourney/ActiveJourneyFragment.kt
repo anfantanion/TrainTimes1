@@ -162,7 +162,7 @@ class ActiveJourneyFragment : Fragment(),
         }
     }
 
-    override fun onItemJourneyClick(position: Int) {
+    override fun onItemClick(position: Int) {
 
     }
 
@@ -172,6 +172,22 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onMapButtonClick(position: Int) {
+
+    }
+
+    override fun onExpandClick(position: Int) {
+
+    }
+
+    override fun onRefreshClick(position: Int) {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.activeJourneyPartialRefreshTitle)
+            .setMessage(R.string.activeJourneyPartialRefreshMessage)
+            .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { dialog, id ->
+
+            }
+            .setNegativeButton(R.string.activeJourneyPartialRefreshNegative,null)
+            .show()
 
     }
 

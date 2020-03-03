@@ -96,9 +96,13 @@
     <string name="activeJourneyEndPositive">Remove</string>
     <string name="activeJourneyEndNegative">Cancel</string>
     <string name="activeJourneyReplanTitle">Re-plan journey?</string>
-    <string name="activeJourneyReplanhMessage">This will re-calculated required services to complete the journey. \\nYou may want to recalculate a single service instead.</string>
+    <string name="activeJourneyReplanhMessage">This will re-calculated required services to complete the journey. \nYou may want to recalculate a single service instead.</string>
     <string name="activeJourneyReplanPositive">Continue</string>
     <string name="activeJourneyReplanNegative">Cancel</string>
+    <string name="activeJourneyPartialRefreshTitle">Re-Plan Journey from this point on?</string>
+    <string name="activeJourneyPartialRefreshMessage">This will re calulate this and future services in the journey. This is useful if there is a delay.</string>
+    <string name="activeJourneyPartialRefreshPositive">Continue</string>
+    <string name="activeJourneyPartialRefreshNegative">Cancel</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

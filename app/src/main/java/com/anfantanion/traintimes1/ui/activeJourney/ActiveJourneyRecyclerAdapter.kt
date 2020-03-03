@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
-import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.view.*
 
@@ -31,6 +29,8 @@ class ActiveJourneyRecyclerAdapter(
 
         val serviceDetailsButton = itemView.activeJourneyListItemButtonServiceDetails !!
         val mapButton = itemView.activeJourneyListItemButtonMap!!
+        val refreshButton = itemView.activeJourneyListItemRefresh!!
+        val expandButton = itemView.activeJourneyListItemExpand!!
 
 
         init {
@@ -38,6 +38,8 @@ class ActiveJourneyRecyclerAdapter(
             itemView.setOnTouchListener(this)
             serviceDetailsButton.setOnClickListener(this)
             mapButton.setOnClickListener(this)
+            expandButton.setOnClickListener(this)
+            refreshButton.setOnClickListener(this)
         }
 
 
@@ -45,7 +47,9 @@ class ActiveJourneyRecyclerAdapter(
             when (v){
                 serviceDetailsButton -> viewHolderListener.onDetailsButtonClick(adapterPosition)
                 mapButton -> viewHolderListener.onMapButtonClick(adapterPosition)
-                else -> viewHolderListener.onItemJourneyClick(adapterPosition)
+                expandButton -> viewHolderListener.onExpandClick(adapterPosition)
+                refreshButton -> viewHolderListener.onRefreshClick(adapterPosition)
+                else -> viewHolderListener.onItemClick(adapterPosition)
             }
 
         }
@@ -58,9 +62,11 @@ class ActiveJourneyRecyclerAdapter(
         }
 
         interface ViewHolderListener{
-            fun onItemJourneyClick(position: Int)
+            fun onItemClick(position: Int)
             fun onDetailsButtonClick(position: Int)
             fun onMapButtonClick(position: Int)
+            fun onExpandClick(position: Int)
+            fun onRefreshClick(position: Int)
             fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int)
         }
 

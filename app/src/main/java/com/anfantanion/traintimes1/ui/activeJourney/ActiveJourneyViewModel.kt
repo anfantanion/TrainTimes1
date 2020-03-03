@@ -55,7 +55,7 @@ class ActiveJourneyViewModel : ViewModel() {
             return
         }
         isLoading.value = true
-        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)},forceReplan)
+        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)},forceTotalReplan = forceReplan)
     }
 
     fun getWaypointStations(): List<Station>?{

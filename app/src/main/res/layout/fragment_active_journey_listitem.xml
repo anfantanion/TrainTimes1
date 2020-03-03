@@ -30,9 +30,11 @@
 
             <LinearLayout
                 android:id="@+id/activeJourneyListItemTitleLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_toLeftOf="@id/activeJourneyListItemRefresh"
+                >
 
                 <TextView
                     android:id="@+id/activeJourneyListItemTitle"
@@ -51,6 +53,15 @@
                     />
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/activeJourneyListItemRefresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_refresh_black_24dp"
+
+                />
 
 
 
@@ -84,6 +95,17 @@
                 android:layout_below="@id/activeJourneyListItemRecycler"
                 android:layout_toRightOf="@id/activeJourneyListItemButtonServiceDetails"
                 />
+
+            <ImageView
+                android:id="@+id/activeJourneyListItemExpand"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_expand_more_black_24dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/activeJourneyListItemRecycler"
+                />
+
+
 
 
         </RelativeLayout>

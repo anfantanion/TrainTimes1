@@ -3,7 +3,6 @@ package com.anfantanion.traintimes1.models
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlanner
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import java.io.Serializable
 
 
@@ -46,10 +45,11 @@ class ActiveJourney(
     fun getPlannedServices(
         journeyListener: (List<ServiceStub>?) -> (Unit),
         errorListener: (JourneyPlannerError) -> Unit,
-        forceReplan: Boolean = false
+        replanFromService : Int = 0,
+        forceTotalReplan: Boolean = false
 
     ): Boolean {
-        if (journeyPlan.isEmpty() || forceReplan) {
+        if (journeyPlan.isEmpty() || forceTotalReplan) {
             plan(
                 {
                     journeyPlan = it ?: journeyPlan
