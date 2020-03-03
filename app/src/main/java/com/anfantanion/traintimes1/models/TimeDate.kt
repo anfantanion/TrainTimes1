@@ -3,8 +3,12 @@ package com.anfantanion.traintimes1.models
 import java.io.Serializable
 import java.util.*
 
-class TimeDate(startDate: String? = null, startTime: String? = null) : Serializable{
+class TimeDate(startDate: String? = null, startTime: String? = null) : Serializable, Comparable<TimeDate>{
     var calendar = Calendar.getInstance()
+
+    companion object {
+        private const val serialVersionUID: Long = 1
+    }
 
     init{
         startTime?.let{setTime(it)}
@@ -56,7 +60,19 @@ class TimeDate(startDate: String? = null, startTime: String? = null) : Serializa
         return int.toString().padStart(2,'0')
     }
 
+    override fun compareTo(other: TimeDate): Int {
+        return this.calendar.timeInMillis.compareTo(other.calendar.timeInMillis)
+    }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as TimeDate
+
+        if (calendar.timeInMillis != other.calendar.timeInMillis) return false
+
+        return true
+    }
 
 
 }

@@ -88,6 +88,8 @@ class ActiveJourneyFragment : Fragment(),
                     activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint))
                     activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTStationDeparture(change.waypoint))
                     activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint))
+                }else{
+                    activeJourneyConnectionCardView.visibility = View.GONE
                 }
 
 
@@ -184,7 +186,7 @@ class ActiveJourneyFragment : Fragment(),
             .setTitle(R.string.activeJourneyPartialRefreshTitle)
             .setMessage(R.string.activeJourneyPartialRefreshMessage)
             .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { dialog, id ->
-
+                activeJourneyViewModel.getServices(replanFrom = position)
             }
             .setNegativeButton(R.string.activeJourneyPartialRefreshNegative,null)
             .show()

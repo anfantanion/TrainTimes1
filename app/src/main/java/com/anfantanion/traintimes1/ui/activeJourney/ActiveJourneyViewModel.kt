@@ -47,6 +47,7 @@ class ActiveJourneyViewModel : ViewModel() {
 
 
     fun getServices(
+        replanFrom: Int = 0,
         forceReplan: Boolean = false
     ){
         val journey = activeJourney.value
@@ -55,7 +56,18 @@ class ActiveJourneyViewModel : ViewModel() {
             return
         }
         isLoading.value = true
-        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)},forceTotalReplan = forceReplan)
+
+        //If only part replanning, supply static services.
+        var initialServices: ArrayList<ServiceResponse>? = null
+        val serviceResponses2 = serviceResponses.value
+        if( replanFrom != 0 && serviceResponses2 != null){
+            initialServices = ArrayList()
+            for (i in 0 until replanFrom){
+                initialServices.add(serviceResponses2[i])
+            }
+        }
+
+        loadedPreviouslyPlannedRoute.value = journey.getPlannedServices({onPlanned(it)},{onError(it)},initialServices,forceReplan)
     }
 
     fun getWaypointStations(): List<Station>?{
@@ -122,7 +134,7 @@ class ActiveJourneyViewModel : ViewModel() {
 
     fun getNextChange() : Change? {
         val x = getCurrentServiceNo() ?: return null
-        return getChanges()?.get(x)
+        return getChanges()?.getOrNull(x)
     }
 
     fun getChanges(): List<Change>?{

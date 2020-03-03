@@ -5,6 +5,7 @@ import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
+import com.anfantanion.traintimes1.models.stationResponse.Service
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
 import com.anfantanion.traintimes1.repositories.RTTAPI
@@ -16,16 +17,27 @@ class JourneyPlanner(
     var startTime: String?
 ) : Response.ErrorListener {
 
-    var serviceStubs = ArrayList<ServiceStub>()
-    var services = ArrayList<ServiceResponse>()
+    var serviceStubs : MutableList<ServiceStub> = ArrayList()
+    var services : MutableList<ServiceResponse> = ArrayList()
     var waypoints = emptyList<StationStub>()
     var index = 0
     var lastTimeDate = TimeDate(startTime=startTime)
     val maxTrainsChecked = 10
 
-    fun plan(waypoints: List<StationStub>) {
+    fun plan(waypoints: List<StationStub>,initialServices : List<ServiceResponse>? = null) {
         this.waypoints = waypoints
-        nextStation()
+        if (initialServices!=null && initialServices.isNotEmpty()){
+            services = initialServices.toMutableList()
+            serviceStubs = services.map { it.toServiceStub() }.toMutableList()
+            index = services.size
+
+            val serviceTime = TimeDate(startTime = services.last().getStationArrival(waypoints[index]) ?: return errorOut())
+            lastTimeDate = maxOf(serviceTime,TimeDate())
+            lastTimeDate.addMinutes(allowChangeTimeOf)
+            nextStation()
+        }else {
+            nextStation()
+        }
     }
 
     fun nextStation(){

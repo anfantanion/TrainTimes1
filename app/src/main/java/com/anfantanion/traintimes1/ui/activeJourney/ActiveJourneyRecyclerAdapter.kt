@@ -92,15 +92,17 @@ class ActiveJourneyRecyclerAdapter(
             var oldSArrival =  services[position].getRTStationArrival(waypoints[position+1].toStationStub())
             var time = differenceOfTimesMinutes(TimeDate(startTime = oldSArrival),TimeDate())
 
-            holder.change.text = context.resources.getQuantityString(
-                R.plurals.activeJourneyChangeAt2,
-                time,
-                waypoints[position+1].name,
-                time
+            if (time < 0){
+                holder.change.visibility = View.GONE
+            }else {
+                holder.change.text = context.resources.getQuantityString(
+                    R.plurals.activeJourneyChangeAt2,
+                    time,
+                    waypoints[position + 1].name,
+                    time
                 )
-
-
-            holder.change.visibility = View.VISIBLE
+                holder.change.visibility = View.VISIBLE
+            }
         }
         else
             holder.change.visibility = View.GONE
