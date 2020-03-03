@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.models.Station
+import com.anfantanion.traintimes1.models.TimeDate
+import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.view.*
@@ -81,7 +83,17 @@ class ActiveJourneyRecyclerAdapter(
 
         holder.title.text = service.getName(waypoints[position].toStationStub())
         if (position+1 < waypoints.size-1){
-            holder.change.text = context.getString(R.string.activeJourneyChangeAt,waypoints[position+1].name,"0")
+            var oldSArrival =  services[position].getRTStationArrival(waypoints[position+1].toStationStub())
+            var time = differenceOfTimesMinutes(TimeDate(startTime = oldSArrival),TimeDate())
+
+            holder.change.text = context.resources.getQuantityString(
+                R.plurals.activeJourneyChangeAt2,
+                time,
+                waypoints[position+1].name,
+                time
+                )
+
+
             holder.change.visibility = View.VISIBLE
         }
         else

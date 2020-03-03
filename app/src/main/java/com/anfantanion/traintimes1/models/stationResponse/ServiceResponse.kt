@@ -43,16 +43,20 @@ data class ServiceResponse(
         return x?.get(0)?.gbttBookedArrival
     }
 
+    fun getPlatform(stationStub: StationStub) : String? {
+        return filterLocations(stationStub)?.getOrNull(0)?.platform
+    }
+
     fun getRTStationArrival(stationStub: StationStub) : String? {
-        return filterLocations(stationStub)?.get(0)?.realtimeArrival
+        return filterLocations(stationStub)?.getOrNull(0)?.realtimeArrival
     }
 
     fun getStationDeparture(stationStub: StationStub) : String? {
-        return filterLocations(stationStub)?.get(0)?.gbttBookedDeparture
+        return filterLocations(stationStub)?.getOrNull(0)?.gbttBookedDeparture
     }
 
     fun getRTStationDeparture(stationStub: StationStub) : String? {
-        return filterLocations(stationStub)?.get(0)?.realtimeDeparture
+        return filterLocations(stationStub)?.getOrNull(0)?.realtimeDeparture
     }
 
     fun toServiceStub() : ServiceStub{

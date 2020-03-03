@@ -25,6 +25,11 @@ fun differenceOfTimesMinutes(start: String, end: String): Int{
         actual.calendar.timeInMillis - booked.calendar.timeInMillis).toInt()
 }
 
+fun differenceOfTimesMinutes(start: TimeDate, end: TimeDate): Int{
+    return TimeUnit.MILLISECONDS.toMinutes(
+        start.calendar.timeInMillis - end.calendar.timeInMillis).toInt()
+}
+
 fun differenceOfTimesMinutes(start:Long, end: Long): Int{
     return TimeUnit.MILLISECONDS.toMinutes(
         start-end

@@ -11,6 +11,7 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.Service
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.repositories.JourneyRepo
@@ -46,6 +47,11 @@ class ActiveJourneyViewModel : ViewModel() {
     }
 
 
+    fun getCurrentServiceNo() : Int?{
+        val serviceResponses = serviceResponses.value ?: return null
+        return serviceResponses.indexOf(getCurrentService())
+    }
+
     fun getCurrentService() : ServiceResponse {
         val aj = activeJourney.value!!
 
@@ -57,7 +63,6 @@ class ActiveJourneyViewModel : ViewModel() {
             if (x.isNotEmpty()) return x.first()
         }
         return serviceResponses.value!![0]
-
     }
 
     private fun onPlanned(serviceStubs : List<ServiceStub>?){
@@ -95,6 +100,48 @@ class ActiveJourneyViewModel : ViewModel() {
             JourneyPlannerError.ErrorType.OTHER -> "Unknown"
         }
         errorText.value = journeyPlannerError.reason
+
+    }
+
+    fun getNextChange() : Change? {
+        val x = getCurrentServiceNo() ?: return null
+        return getChanges()?.get(x)
+    }
+
+    fun getChanges(): List<Change>?{
+
+        val journeyPlan = serviceResponses.value ?: return null
+        val activeJourney = activeJourney.value ?: return null
+        if (journeyPlan.size <= 1) return null
+        if (journeyPlan.size == 1) return null
+
+        val changes = ArrayList<Change>()
+        for (i in 0..journeyPlan.size-2){
+            val c = Change(
+                journeyPlan[i],
+                journeyPlan[i+1],
+                activeJourney.waypoints[i+1]
+                )
+            changes.add(c)
+        }
+        return changes
+    }
+
+
+
+    class Change(
+        val service1 : ServiceResponse,
+        val service2 : ServiceResponse,
+        val waypoint : StationStub
+    ){
+        fun arrivalTime() : String?{
+            return service1.getRTStationArrival(waypoint)
+        }
+
+        fun departureTime() : String?{
+            return service2.getRTStationDeparture(waypoint)
+        }
+
 
     }
 

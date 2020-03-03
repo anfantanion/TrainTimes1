@@ -72,8 +72,8 @@
     <string name="serviceDetailsTrainServiceJoinsAnother">Joins Another Service Here</string>
     <string name="serviceDetailsTrainServiceFrom">Joins service from %1$s</string>
     <string name="serviceDetailsTrainServiceDivided">Service divided here (%1$s)</string>
-    <string name="activeJourneyConnectionPlace">Changing at (%1$s)</string>
-    <string name="activeJourneyChangeAt">Change at %1$s in (%2$s) minutes</string>
+    <string name="activeJourneyConnectionPlace">Changing at %1$s</string>
+    <string name="activeJourneyChangeAt">Change at %1$s in %2$s</string>
     <string name="savedJourneys_Dialog_OverwriteTitle">Existing Journey</string>
     <string name="savedJourneys_Dialog_OverwriteMessage">A journey is already being monitored. Would you like to replace it?</string>
     <string name="savedJourneys_Dialog_OverwritePositive">Yes</string>
@@ -82,4 +82,21 @@
     <string name="newJourney_TimeForChangesSuffix">Minutes</string>
     <string name="activeJourneyLoadedPreviousTrue">Loaded a Previous Journey</string>
     <string name="activeJourneyLoadedPreviousFalse">Planning Journey</string>
+    <string name="updatedXMins">Updated %1$s ago.</string>
+    <string name="activeJourneyService1">Service 1</string>
+    <string name="activeJourneyService1Arrives">Arrives: %1$s</string>
+    <string name="activeJourneyService1Platform">Platform %1$s</string>
+    <string name="activeJourneyService2">Service 2</string>
+    <string name="activeJourneyService2Departs">Departs: %1$s</string>
+    <string name="activeJourneyService2Platform">Platform %1$s</string>
+    <plurals name="minutesTime">
+        <item quantity="zero">just now</item>
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="activeJourneyChangeAt2">
+        <item quantity="zero">Change at %1$s now.</item>
+        <item quantity="one">Change at %1$s in %2$d minute.</item>
+        <item quantity="other">Change at %1$s in %2$d minutes.</item>
+    </plurals>
 </resources>

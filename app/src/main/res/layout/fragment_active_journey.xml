@@ -37,6 +37,25 @@
         android:animateLayoutChanges="true"
         >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/additionalInfoBackground"
+            >
+            <TextView
+                android:id="@+id/activeJourneyInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/updatedXMins"
+                android:visibility="visible"
+
+                >
+            </TextView>
+
+
+        </LinearLayout>
+
 
 
         <LinearLayout
@@ -48,6 +67,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:visibility="gone"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -113,7 +133,7 @@
                     />
 
                 <LinearLayout
-                    android:id="@+id/activeJourneyConnectionArrving"
+                    android:id="@+id/activeJourneyConnectionService1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -121,32 +141,32 @@
                     >
 
                     <TextView
-                        android:id="@+id/activeJourneyArrivingTitle"
+                        android:id="@+id/activeJourneyService1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
-                        android:text="Train 1"
+                        android:text="@string/activeJourneyService1"
                         android:textSize="20sp"
                         android:paddingEnd="5sp"
                         />
 
                     <TextView
-                        android:id="@+id/activeJourneyArrivingTime"
+                        android:id="@+id/activeJourneyService1Arrives"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
-                        android:text="Arrives: 1904"
+                        android:text="@string/activeJourneyService1Arrives"
                         android:textSize="20sp"
                         android:paddingEnd="5sp"
                         />
 
                     <TextView
-                        android:id="@+id/activeJourneyArrivingPlatform"
+                        android:id="@+id/activeJourneyService1Platform"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
                         android:textSize="20sp"
-                        android:text="Platform 2"
+                        android:text="@string/activeJourneyService1Platform"
                         />
                 </LinearLayout>
 
@@ -155,36 +175,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_below="@id/activeJourneyConnectionArrving"
+                    android:layout_below="@id/activeJourneyConnectionService1"
                     >
 
                     <TextView
-                        android:id="@+id/activeJourneyDepartingTitle"
+                        android:id="@+id/activeJourneyService2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
-                        android:text="Train 2"
+                        android:text="@string/activeJourneyService2"
                         android:textSize="20sp"
                         android:paddingEnd="5sp"
                         />
 
                     <TextView
-                        android:id="@+id/activeJourneyDepartingTime"
+                        android:id="@+id/activeJourneyService2Departs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
-                        android:text="Departs: 1908"
+                        android:text="@string/activeJourneyService2Departs"
                         android:textSize="20sp"
                         android:paddingEnd="5sp"
                         />
 
                     <TextView
-                        android:id="@+id/activeJourneyDepartingPlatform"
+                        android:id="@+id/activeJourneyService2Platform"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTitleText"
                         android:textSize="20sp"
-                        android:text="Platform 3"
+                        android:text="@string/activeJourneyService2Platform"
                         />
                 </LinearLayout>
 

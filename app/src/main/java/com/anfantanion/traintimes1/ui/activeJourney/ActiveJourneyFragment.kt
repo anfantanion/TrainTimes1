@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.repositories.StationRepo
 import kotlinx.android.synthetic.main.fragment_active_journey.*
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.*
 
@@ -63,8 +64,20 @@ class ActiveJourneyFragment : Fragment(),
 
         activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
             if (it.size>1){// If number of services is greater than 1, show connection Info
-                activeJourneyConnectionCardView.visibility = View.VISIBLE
-                activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,"")
+
+                var change = activeJourneyViewModel.getNextChange()
+                if (change!=null){
+                    activeJourneyConnectionCardView.visibility = View.VISIBLE
+                    activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,
+                        StationRepo.getStation(change.waypoint)!!.name)
+                    //activeJourneyService1.text = getString(R.string.activeJourneyService1)
+                    activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTStationArrival(change.waypoint))
+                    activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint))
+                    activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTStationDeparture(change.waypoint))
+                    activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint))
+                }
+
+
             }else activeJourneyConnectionCardView.visibility = View.VISIBLE
             activeJourneyRecyclerAdapter.services = it
             activeJourneyRecyclerAdapter.notifyDataSetChanged()
