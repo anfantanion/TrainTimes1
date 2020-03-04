@@ -11,4 +11,5 @@
     <color name="white">#FFFFFF</color>
     <color name="stationPassed">#00AA00</color>
     <color name="stationNormal">#AA0000</color>
+    <color name="homeCardColor">#BBFFFFFF</color>
 </resources>

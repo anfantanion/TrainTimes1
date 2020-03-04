@@ -122,6 +122,10 @@ class HomeFragment : Fragment(),
             findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSavedJourneys())
         }
 
+        homeSavedJourneyCard.setOnClickListener{
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSavedJourneys())
+        }
+
         savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
 
 
@@ -226,7 +230,7 @@ class HomeFragment : Fragment(),
                 .show()
         }else{
             JourneyRepo.activeJourney = clicked.getActiveJourneyCopy()
-            findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavActiveJourney())
         }
 
     }
