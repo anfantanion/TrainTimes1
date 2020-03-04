@@ -26,6 +26,7 @@ import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysRecyclerAdapter
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.FloatingSearchView.OnSearchListener
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import kotlinx.android.synthetic.main.connection_card.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
@@ -97,12 +98,21 @@ class HomeFragment : Fragment(),
         })
 
         homeViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
-            if (it!=null){
-                homeSavedJourney.visibility = View.GONE
+            val change = it?.getNextChange()
+            if (change!=null){
+                homeConnectionDetails.visibility = View.VISIBLE
+                activeJourneyConnectionTitle.text = getString(R.string.activeJourneyConnectionTitle2,it.getOriginName(),it.getDestName())
+                activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,
+                    StationRepo.getStation(change.waypoint)!!.name)
+                //activeJourneyService1.text = getString(R.string.activeJourneyService1)
+                activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint))
+                activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
+                activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTorTTDeparture(change.waypoint))
+                activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
+                //homeSavedJourney.visibility = View.GONE
             }
-            else{
-                homeSavedJourney.visibility = View.VISIBLE
-
+            else {
+                homeConnectionDetails.visibility=View.GONE
             }
         })
 
