@@ -129,7 +129,7 @@ class ActiveJourneyFragment : Fragment(),
                     .setTitle(R.string.activeJourneyEndTitle)
                     .setMessage(R.string.activeJourneyEndMessage)
                     .setPositiveButton(R.string.activeJourneyEndPositive) { dialog, id ->
-                        JourneyRepo.activeJourney = null
+                        JourneyRepo.setActiveJourney(null)
                         activeJourneyViewModel.activeJourney.value = null
                     }
                     .setNegativeButton(R.string.activeJourneyEndNegative,null)

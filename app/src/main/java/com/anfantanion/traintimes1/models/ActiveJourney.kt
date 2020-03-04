@@ -7,9 +7,11 @@ import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
-import com.anfantanion.traintimes1.repositories.JourneyRepo.activeJourney
 import com.anfantanion.traintimes1.repositories.RTTAPI
 import java.io.Serializable
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 
 class ActiveJourney(
@@ -27,10 +29,14 @@ class ActiveJourney(
         private const val serialVersionUID: Long = 1
     }
 
-    public var dateOfPlan: TimeDate? = null
+    var dateOfPlan: TimeDate? = null
 
-    private var journeyPlan = emptyList<ServiceStub>()
-    @Transient private var journeyPlanResponse : List<ServiceResponse>? = null
+    @Transient var lastRefresh = System.currentTimeMillis()
+    @Transient var changing = false
+    @Transient var changingLock = ReentrantLock()
+
+    var journeyPlan = emptyList<ServiceStub>()
+    @Transient var journeyPlanResponse : List<ServiceResponse>? = null
 
     private fun plan(
         journeyListener: (List<ServiceStub>?) -> (Unit),
@@ -38,10 +44,19 @@ class ActiveJourney(
         initialServices : List<ServiceResponse>? = null
 
     ) {
+        changing = true
+        val listener = {it: List<ServiceStub>? ->
+            changing = false
+            journeyListener(it)
+        }
+        val error = { it: JourneyPlannerError ->
+            changing = false
+            errorListener(it)
+        }
         val x = when (type) {
-            Type.DYNAMIC -> JourneyPlanner(journeyListener, errorListener, allowChangeTime, null)
-            Type.ARRIVEBY -> JourneyPlanner(journeyListener, errorListener, allowChangeTime, null)
-            Type.DEPARTAT -> JourneyPlanner(journeyListener, errorListener, allowChangeTime, time)
+            Type.DYNAMIC -> JourneyPlanner(listener, error, allowChangeTime, null)
+            Type.ARRIVEBY -> JourneyPlanner(listener, error, allowChangeTime, null)
+            Type.DEPARTAT -> JourneyPlanner(listener, error, allowChangeTime, time)
         }
         x.plan(waypoints.toList(),initialServices)
     }
@@ -80,6 +95,7 @@ class ActiveJourney(
         listener: (List<ServiceResponse>) -> (Unit),
         errorListener: Response.ErrorListener?
     ){
+        changing = true
         RTTAPI.requestServices(
             journeyPlan,
             listener = {
@@ -90,6 +106,7 @@ class ActiveJourney(
                     x[journeyPlan.indexOf(sr.toServiceStub())] = sr
                 }
                 val y = x.toList().filterNotNull()
+                lastRefresh = System.currentTimeMillis()
                 journeyPlanResponse = y
                 listener(y)
             },
@@ -117,7 +134,7 @@ class ActiveJourney(
         return serviceResponses.getOrNull(0)
     }
 
-    fun getNextChange() : ActiveJourney.Change? {
+    fun getNextChange() : Change? {
         val x = getCurrentServiceNo() ?: return null
         return getChanges()?.getOrNull(x)
     }

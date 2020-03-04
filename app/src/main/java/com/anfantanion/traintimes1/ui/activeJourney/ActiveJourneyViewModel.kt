@@ -31,10 +31,10 @@ class ActiveJourneyViewModel : ViewModel() {
     var refreshAge = MutableLiveData<Int?>(null)
 
     init {
-        val temp = JourneyRepo.activeJourney
+        val temp = JourneyRepo.activeJourney.value
         if (temp!=null){
             if (temp.dateOfPlan?.getDate() != null && temp.dateOfPlan?.getDate() != TimeDate().getDate()){
-                JourneyRepo.activeJourney = null
+                JourneyRepo.activeJourney.value = null
                 errorText.value = "Active Journey has Expired"
             }else {
                 activeJourney.value = temp
