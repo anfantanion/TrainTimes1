@@ -171,6 +171,13 @@
                         />
 
                     <ImageView
+                        android:id="@+id/savedJourneysListEditFavourite"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_favorite_border_black_24dp"
+                        />
+
+                    <ImageView
                         android:id="@+id/savedJourneysListEditEdit"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"

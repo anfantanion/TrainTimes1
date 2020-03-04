@@ -106,6 +106,7 @@
     <string name="UnknownPlat">\?</string>
     <string name="bus">Bus</string>
     <string name="ok">OK</string>
+    <string name="homeFavouriteJourneys">Favourite Journeys</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

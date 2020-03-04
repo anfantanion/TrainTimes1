@@ -28,6 +28,7 @@ class SavedJourneysRecyclerAdapter(
 
         val editLayout = itemView.savedJourneysListEditLayout!!
         val editButton = itemView.savedJourneysListEditEdit!!
+        val favButton = itemView.savedJourneysListEditFavourite!!
         val copyButton = itemView.savedJourneysListEditCopy!!
         val deleteButton = itemView.savedJourneysListEditDelete!!
 
@@ -38,6 +39,7 @@ class SavedJourneysRecyclerAdapter(
             editButton.setOnClickListener(this)
             copyButton.setOnClickListener(this)
             deleteButton.setOnClickListener(this)
+            favButton.setOnClickListener(this)
         }
 
 
@@ -46,6 +48,7 @@ class SavedJourneysRecyclerAdapter(
                 editButton -> viewHolderListener.onEditButtonClick(adapterPosition)
                 copyButton -> viewHolderListener.onCopyButtonClick(adapterPosition)
                 deleteButton -> viewHolderListener.onDeleteButtonClick(adapterPosition)
+                favButton -> viewHolderListener.onFavButtonClick(adapterPosition)
                 else -> viewHolderListener.onSavedJourneyClick(adapterPosition)
             }
 
@@ -61,6 +64,7 @@ class SavedJourneysRecyclerAdapter(
         interface ViewHolderListener{
             fun onSavedJourneyClick(position: Int)
             fun onEditButtonClick(position: Int)
+            fun onFavButtonClick(position: Int)
             fun onCopyButtonClick(position: Int)
             fun onDeleteButtonClick(position: Int)
             fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int)
@@ -101,6 +105,11 @@ class SavedJourneysRecyclerAdapter(
         if (editMode){
             holder.timeInfo.visibility = View.GONE
             holder.editLayout.visibility = View.VISIBLE
+            if (journey.favourite){
+                holder.favButton.setImageResource(R.drawable.ic_favorite_black_24dp)
+            }else{
+                holder.favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
         }else{
             holder.timeInfo.visibility = View.VISIBLE
             holder.editLayout.visibility = View.GONE

@@ -24,6 +24,8 @@ open class Journey (
 
     var uuid = UUID.randomUUID()
 
+    var favourite = false
+
     enum class Type{
         DYNAMIC, DEPARTAT, ARRIVEBY
     }

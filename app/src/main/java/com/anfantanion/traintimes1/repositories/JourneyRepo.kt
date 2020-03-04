@@ -31,6 +31,10 @@ object JourneyRepo {
         }
     }
 
+    fun getFavourites(): List<Journey>{
+        return orderedJourneys.filter{it.favourite}
+    }
+
     fun swapOrder(i : Int, j: Int){
         orderedJourneys[j] = orderedJourneys[i].also {orderedJourneys[i] = orderedJourneys[j]}
     }

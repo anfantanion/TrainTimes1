@@ -130,6 +130,12 @@ class SavedJourneysFragment :
         findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNewJourneyFragment(clicked.toJourneyStub()))
     }
 
+    override fun onFavButtonClick(position: Int) {
+        val clicked = savedJourneysViewModel.journeys.value!!.get(position)
+        clicked.favourite = !clicked.favourite
+        savedJourneysRecyclerAdapter.notifyItemChanged(position)
+    }
+
     override fun onCopyButtonClick(position: Int) {
         val clicked = savedJourneysViewModel.journeys.value!!.get(position)
         val newJourney = savedJourneysViewModel.copyJourney(clicked)

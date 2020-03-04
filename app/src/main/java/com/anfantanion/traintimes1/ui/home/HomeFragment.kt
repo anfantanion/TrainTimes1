@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.ui.home
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -13,16 +14,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragmentDirections
+import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysRecyclerAdapter
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.FloatingSearchView.OnSearchListener
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),
+    SavedJourneysRecyclerAdapter.SavedJourneyViewHolder.ViewHolderListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var mSearchView : FloatingSearchView
@@ -30,6 +39,7 @@ class HomeFragment : Fragment() {
     private val TAG = "HomeFragment"
 
     private var callbacks : HomeFragmentCallbacks? = null
+    private lateinit var savedJourneysRecyclerAdapter : SavedJourneysRecyclerAdapter
 
     interface HomeFragmentCallbacks {
         fun onAttachSearchViewToDrawer(searchView: FloatingSearchView)
@@ -65,9 +75,6 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
 
 
 
@@ -84,6 +91,18 @@ class HomeFragment : Fragment() {
 
 
         setupFloatingSearch()
+
+        homeViewModel.favouriteJourneys.observe(viewLifecycleOwner, Observer {
+            savedJourneysRecyclerAdapter.journeys = it
+        })
+
+        savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
+
+
+        homeFavouriteJourney.layoutManager = LinearLayoutManager(context)
+        homeFavouriteJourney.adapter = savedJourneysRecyclerAdapter
+
+        homeViewModel.getFavourites()
     }
 
     private fun setupFloatingSearch(){
@@ -164,5 +183,43 @@ class HomeFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).supportActionBar?.show()
+    }
+
+    override fun onSavedJourneyClick(position: Int) {
+        val clicked = homeViewModel.favouriteJourneys.value!!.get(position)
+        if (JourneyRepo.activeJourney != null){
+
+            AlertDialog.Builder(context)
+                .setTitle(R.string.savedJourneys_Dialog_OverwriteTitle)
+                .setMessage(R.string.savedJourneys_Dialog_OverwriteMessage)
+                .setPositiveButton(R.string.savedJourneys_Dialog_OverwritePositive) { dialog, id ->
+                    JourneyRepo.activeJourney = clicked.getActiveJourneyCopy()
+                    findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavActiveJourney())
+                }
+                .setNegativeButton(R.string.savedJourneys_Dialog_OverwriteNegative,null)
+                .show()
+        }else{
+            JourneyRepo.activeJourney = clicked.getActiveJourneyCopy()
+            findNavController().navigate(SavedJourneysFragmentDirections.actionNavSavedJourneysToNavActiveJourney())
+        }
+
+    }
+
+    override fun onEditButtonClick(position: Int) {
+    }
+
+    override fun onFavButtonClick(position: Int) {
+    }
+
+    override fun onCopyButtonClick(position: Int) {
+    }
+
+    override fun onDeleteButtonClick(position: Int) {
+    }
+
+    override fun dragImageTouchDown(viewHolder: RecyclerView.ViewHolder, position: Int) {
+    }
+
+    override fun editImageClicked(position: Int) {
     }
 }
