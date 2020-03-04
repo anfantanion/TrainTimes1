@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
+import com.anfantanion.traintimes1.ui.serviceDetails.ServiceDetailsRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_active_journey_listitem.view.*
 
 class ActiveJourneyRecyclerAdapter(
@@ -18,6 +20,7 @@ class ActiveJourneyRecyclerAdapter(
 
     var services = emptyList<ServiceResponse>()
     var waypoints = emptyList<Station>()
+
 
     class ActiveJourneyViewHolder(itemView: View, private var viewHolderListener: ViewHolderListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnTouchListener{
         val titleLayout = itemView.activeJourneyListItemTitleLayout!!
@@ -32,8 +35,20 @@ class ActiveJourneyRecyclerAdapter(
         val refreshButton = itemView.activeJourneyListItemRefresh!!
         val expandButton = itemView.activeJourneyListItemExpand!!
 
+        var serviceDetailsRecyclerAdapter = ServiceDetailsRecyclerAdapter(
+            NullListener(),
+            ServiceDetailsRecyclerAdapter.TimeView(ServiceDetailsRecyclerAdapter.TimeView.Types.REALTIME))
+
+        var expanded = false
+        val initialHeight = activeJourneyListItemRecycler.layoutParams.height
+
+
+
+
 
         init {
+            activeJourneyListItemRecycler.layoutManager = LinearLayoutManager(activeJourneyListItemRecycler.context)
+            activeJourneyListItemRecycler.adapter = serviceDetailsRecyclerAdapter
             itemView.setOnClickListener(this)
             itemView.setOnTouchListener(this)
             serviceDetailsButton.setOnClickListener(this)
@@ -46,6 +61,7 @@ class ActiveJourneyRecyclerAdapter(
         override fun onClick(v: View?) {
             when (v){
                 serviceDetailsButton -> viewHolderListener.onDetailsButtonClick(adapterPosition)
+                activeJourneyListItemRecycler -> viewHolderListener.onDetailsButtonClick(adapterPosition)
                 mapButton -> viewHolderListener.onMapButtonClick(adapterPosition)
                 expandButton -> viewHolderListener.onExpandClick(adapterPosition)
                 refreshButton -> viewHolderListener.onRefreshClick(adapterPosition)
@@ -107,7 +123,37 @@ class ActiveJourneyRecyclerAdapter(
         else
             holder.change.visibility = View.GONE
 
-        holder.activeJourneyListItemRecycler.visibility = View.GONE
+
+
+
+
+        holder.serviceDetailsRecyclerAdapter.locations = service.locations?: emptyList()
+        holder.activeJourneyListItemRecycler.visibility = View.VISIBLE
+        holder.serviceDetailsRecyclerAdapter.notifyDataSetChanged()
+
+        holder.expandButton.setOnClickListener{
+            holder.expanded = !holder.expanded
+            if (!holder.expanded){
+                holder.activeJourneyListItemRecycler.layoutParams.height = holder.initialHeight
+                holder.activeJourneyListItemRecycler.requestLayout()
+                holder.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp)
+            }else {
+                holder.activeJourneyListItemRecycler.layoutParams.height = holder.initialHeight*6
+                holder.activeJourneyListItemRecycler.requestLayout()
+                holder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp)
+            }
+        }
+
+    }
+
+}
+
+class NullListener() : ServiceDetailsRecyclerAdapter.ViewHolder.ViewHolderListener {
+    override fun onMainClick(position: Int) {
+
+    }
+
+    override fun onAdditionalInfoButtonClick(position: Int) {
 
     }
 
