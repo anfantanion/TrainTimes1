@@ -108,6 +108,8 @@
     <string name="bus">Bus</string>
     <string name="ok">OK</string>
     <string name="homeFavouriteJourneys">Favourite Journeys</string>
+    <string name="homeSavedJourneys">Saved Journeys</string>
+    <string name="homeMapTitle">Map</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

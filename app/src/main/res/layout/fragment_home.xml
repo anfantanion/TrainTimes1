@@ -12,73 +12,153 @@
         >
     </ImageView>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="65dp"
+        android:paddingTop="65dp">
 
-        >
-
-
-
-        <include
-            android:id="@+id/homeConnectionDetails"
-            layout="@layout/connection_card"
-            />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/homeSavedJourney"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:id="@+id/homeTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="4dp"
+            android:orientation="vertical"
+            android:layout_above="@id/homeBottomLayout"
+            android:layout_alignParentTop="true"
             >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/homeConnectionDetails"
+                layout="@layout/connection_card"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/homeFavouriteJourneyCard"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/homeFavouriteJourneys"
+                        android:textColor="@color/colorTitleText"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="10dp"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/homeFavouriteJourney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/homeBottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/homeSavedJourneyCard"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                android:layout_toLeftOf="@id/splitter"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homeSavedJourneys"
+                    android:textColor="@color/colorTitleText"
+                    android:textSize="20sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/splitter"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/homeMapCard"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/splitter"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+
 
                 >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/homeFavouriteJourneys"
+                    android:text="@string/homeMapTitle"
                     android:textColor="@color/colorTitleText"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     />
+            </androidx.cardview.widget.CardView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/homeFavouriteJourney"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
 
-            </LinearLayout>
+        </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/home_floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:floatingSearch_dimBackground="true"
-        app:floatingSearch_searchBarMarginLeft="8dp"
-        app:floatingSearch_searchBarMarginTop="8dp"
-        app:floatingSearch_searchBarMarginRight="8dp"
+        app:floatingSearch_searchBarMarginLeft="5dp"
+        app:floatingSearch_searchBarMarginTop="5dp"
+        app:floatingSearch_searchBarMarginRight="5dp"
         app:floatingSearch_searchHint="Search..."
         app:floatingSearch_suggestionsListAnimDuration="250"
         app:floatingSearch_showSearchKey="true"
@@ -91,20 +171,6 @@
 
 
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="28dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,6 @@ import com.arlib.floatingsearchview.FloatingSearchView.OnSearchListener
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import kotlinx.android.synthetic.main.connection_card.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
 
 class HomeFragment : Fragment(),
@@ -75,7 +74,6 @@ class HomeFragment : Fragment(),
     ): View? {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
 
 
 
@@ -115,6 +113,14 @@ class HomeFragment : Fragment(),
                 homeConnectionDetails.visibility=View.GONE
             }
         })
+
+        homeConnectionDetails.setOnClickListener{
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavActiveJourney())
+        }
+
+        homeFavouriteJourneyCard.setOnClickListener{
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSavedJourneys())
+        }
 
         savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
 

@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
         activeJourney.value = JourneyRepo.activeJourney
         favouriteJourneys.value = JourneyRepo.getFavourites()
 
-        activeJourney.value!!.getServiceResponses(
+        activeJourney.value?.getServiceResponses(
             listener = {
                 activeJourney.value = activeJourney.value
             },
