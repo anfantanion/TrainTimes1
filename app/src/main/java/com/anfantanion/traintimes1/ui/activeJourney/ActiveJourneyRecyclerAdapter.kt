@@ -57,17 +57,33 @@ class ActiveJourneyRecyclerAdapter(
             refreshButton.setOnClickListener(this)
         }
 
+        //On Expand Button Pressed
+
+
 
         override fun onClick(v: View?) {
             when (v){
                 serviceDetailsButton -> viewHolderListener.onDetailsButtonClick(adapterPosition)
                 activeJourneyListItemRecycler -> viewHolderListener.onDetailsButtonClick(adapterPosition)
                 mapButton -> viewHolderListener.onMapButtonClick(adapterPosition)
-                expandButton -> viewHolderListener.onExpandClick(adapterPosition)
+                expandButton -> {onExpandClick() ; viewHolderListener.onExpandClick(adapterPosition) }
                 refreshButton -> viewHolderListener.onRefreshClick(adapterPosition)
                 else -> viewHolderListener.onItemClick(adapterPosition)
             }
 
+        }
+
+        fun onExpandClick(){
+            expanded = !expanded
+            if (!expanded){
+                activeJourneyListItemRecycler.layoutParams.height = initialHeight
+                activeJourneyListItemRecycler.requestLayout()
+                expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp)
+            }else {
+                activeJourneyListItemRecycler.layoutParams.height = initialHeight*6
+                activeJourneyListItemRecycler.requestLayout()
+                expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp)
+            }
         }
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -89,17 +105,17 @@ class ActiveJourneyRecyclerAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveJourneyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_active_journey_listitem,parent,false)
-        return ActiveJourneyViewHolder(view,viewHolderListener)
+        return ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder(view, viewHolderListener)
     }
 
     override fun getItemCount(): Int {
         return services.size
     }
 
-    override fun onBindViewHolder(holder: ActiveJourneyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder, position: Int) {
         val context = holder.itemView.context
         val service = services[position]
 
@@ -128,21 +144,15 @@ class ActiveJourneyRecyclerAdapter(
 
 
         holder.serviceDetailsRecyclerAdapter.locations = service.locations?: emptyList()
+        val last = service.getMostRecentLocation()?.toStationStub()
+        holder.serviceDetailsRecyclerAdapter.focused = listOfNotNull(last,waypoints[position + 1].toStationStub())
+        if (last!=null) {
+            val x = service.getPositionOfStation(last)
+            x?.let { holder.activeJourneyListItemRecycler.layoutManager!!.scrollToPosition(it) }
+        }
         holder.activeJourneyListItemRecycler.visibility = View.VISIBLE
         holder.serviceDetailsRecyclerAdapter.notifyDataSetChanged()
 
-        holder.expandButton.setOnClickListener{
-            holder.expanded = !holder.expanded
-            if (!holder.expanded){
-                holder.activeJourneyListItemRecycler.layoutParams.height = holder.initialHeight
-                holder.activeJourneyListItemRecycler.requestLayout()
-                holder.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp)
-            }else {
-                holder.activeJourneyListItemRecycler.layoutParams.height = holder.initialHeight*6
-                holder.activeJourneyListItemRecycler.requestLayout()
-                holder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp)
-            }
-        }
 
     }
 

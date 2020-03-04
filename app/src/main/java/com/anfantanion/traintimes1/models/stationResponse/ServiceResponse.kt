@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.models.stationResponse
 
+import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.destinationName
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
@@ -45,6 +46,17 @@ data class ServiceResponse(
 
     fun getPlatform(stationStub: StationStub) : String? {
         return filterLocations(stationStub)?.getOrNull(0)?.platform
+    }
+
+    fun getMostRecentLocation() : LocationDetail?{
+        val x = locations?.filter {
+            TimeDate(startTime = it.getDepartureTime() ?: it.getArrivalTime()).calendar.timeInMillis < TimeDate().calendar.timeInMillis
+        }
+        return x?.lastOrNull()
+    }
+
+    fun getPositionOfStation(stationStub: StationStub) : Int? {
+        return locations?.indexOfFirst{ ld -> ld.crs == stationStub.crs }
     }
 
     fun getRTStationArrival(stationStub: StationStub) : String? {
