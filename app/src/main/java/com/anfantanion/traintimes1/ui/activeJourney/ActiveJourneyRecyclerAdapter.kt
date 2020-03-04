@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.ui.activeJourney
 
+import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -52,10 +53,13 @@ class ActiveJourneyRecyclerAdapter(
             activeJourneyListItemRecycler.adapter = serviceDetailsRecyclerAdapter
             itemView.setOnClickListener(this)
             itemView.setOnTouchListener(this)
+            //itemView.activeJourneyListItemRoot.layoutTransition.enableTransitionType(LayoutTransition.CHANGING) CAUSES BUG
             serviceDetailsButton.setOnClickListener(this)
             mapButton.setOnClickListener(this)
             expandButton.setOnClickListener(this)
             refreshButton.setOnClickListener(this)
+
+
         }
 
         //On Expand Button Pressed
