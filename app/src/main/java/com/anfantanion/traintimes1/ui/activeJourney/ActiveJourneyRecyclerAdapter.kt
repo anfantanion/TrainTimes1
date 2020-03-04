@@ -41,6 +41,7 @@ class ActiveJourneyRecyclerAdapter(
 
         var expanded = false
         val initialHeight = activeJourneyListItemRecycler.layoutParams.height
+        var lastKnownPosition : Int? = null
 
 
 
@@ -76,14 +77,17 @@ class ActiveJourneyRecyclerAdapter(
         fun onExpandClick(){
             expanded = !expanded
             if (!expanded){
-                activeJourneyListItemRecycler.layoutParams.height = initialHeight
+                activeJourneyListItemRecycler.layoutParams.height = initialHeight*1
                 activeJourneyListItemRecycler.requestLayout()
                 expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp)
             }else {
-                activeJourneyListItemRecycler.layoutParams.height = initialHeight*6
+                activeJourneyListItemRecycler.layoutParams.height = initialHeight*3
                 activeJourneyListItemRecycler.requestLayout()
                 expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp)
             }
+            lastKnownPosition?.let{
+                val scrollTo = if (it + 1 < serviceDetailsRecyclerAdapter.itemCount) it + 1 else it
+                activeJourneyListItemRecycler.layoutManager!!.scrollToPosition(scrollTo)}
         }
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -140,16 +144,17 @@ class ActiveJourneyRecyclerAdapter(
             holder.change.visibility = View.GONE
 
 
-
-
-
-        holder.serviceDetailsRecyclerAdapter.locations = service.locations?: emptyList()
+        //Service Details
+        holder.serviceDetailsRecyclerAdapter.serviceResponse = service
         val last = service.getMostRecentLocation()?.toStationStub()
+        //Focus last and change position.
         holder.serviceDetailsRecyclerAdapter.focused = listOfNotNull(last,waypoints[position + 1].toStationStub())
+        //Scroll to last known location
         if (last!=null) {
-            val x = service.getPositionOfStation(last)
-            x?.let { holder.activeJourneyListItemRecycler.layoutManager!!.scrollToPosition(it) }
+            holder.lastKnownPosition = service.getPositionOfStation(last)
+            holder.lastKnownPosition?.let {holder.activeJourneyListItemRecycler.layoutManager!!.scrollToPosition(it) }
         }
+
         holder.activeJourneyListItemRecycler.visibility = View.VISIBLE
         holder.serviceDetailsRecyclerAdapter.notifyDataSetChanged()
 

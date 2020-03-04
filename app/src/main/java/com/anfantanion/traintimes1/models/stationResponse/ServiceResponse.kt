@@ -49,10 +49,10 @@ data class ServiceResponse(
     }
 
     fun getMostRecentLocation() : LocationDetail?{
-        val x = locations?.filter {
+        return locations?.lastOrNull {
             TimeDate(startTime = it.getDepartureTime() ?: it.getArrivalTime()).calendar.timeInMillis < TimeDate().calendar.timeInMillis
         }
-        return x?.lastOrNull()
+
     }
 
     fun getPositionOfStation(stationStub: StationStub) : Int? {

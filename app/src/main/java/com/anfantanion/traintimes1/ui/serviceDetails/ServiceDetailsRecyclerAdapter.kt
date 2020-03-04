@@ -11,8 +11,9 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.LocationDetail
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
-import kotlinx.android.synthetic.main.fragment_new_journey_listitem.view.*
 import kotlinx.android.synthetic.main.fragment_service_details_listitem.view.*
+import kotlin.math.max
+import kotlin.math.min
 
 class ServiceDetailsRecyclerAdapter (
     val viewHolderListener: ViewHolder.ViewHolderListener,
@@ -20,6 +21,13 @@ class ServiceDetailsRecyclerAdapter (
 ) : RecyclerView.Adapter<ServiceDetailsRecyclerAdapter.ViewHolder>(){
 
     var serviceResponse : ServiceResponse? = null
+    set(value) {
+        locations =  value?.locations ?: emptyList()
+        lastKnown = value?.getMostRecentLocation()?.let{value.getPositionOfStation(it.toStationStub())}
+        field = value
+    }
+
+    var lastKnown : Int? = null
     var locations = emptyList<LocationDetail>()
     var focused = emptyList<StationStub>()
 
@@ -210,6 +218,14 @@ class ServiceDetailsRecyclerAdapter (
 
         }else{
             holder.serviceDetailsExtension.visibility = View.GONE
+        }
+
+        //
+
+        if (position <= lastKnown ?: 0 ){
+            holder.image.setColorFilter(ContextCompat.getColor(context, R.color.stationPassed))
+        }else{
+            holder.image.setColorFilter(ContextCompat.getColor(context, R.color.stationNormal))
         }
     }
 
