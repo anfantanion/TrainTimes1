@@ -77,10 +77,10 @@ class ActiveJourneyFragment : Fragment(),
                     activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,
                         StationRepo.getStation(change.waypoint)!!.name)
                     //activeJourneyService1.text = getString(R.string.activeJourneyService1)
-                    activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTStationArrival(change.waypoint))
-                    activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint))
-                    activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTStationDeparture(change.waypoint))
-                    activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint))
+                    activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint))
+                    activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
+                    activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTorTTDeparture(change.waypoint))
+                    activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
                 }else{
                     activeJourneyConnectionCardView.visibility = View.GONE
                 }

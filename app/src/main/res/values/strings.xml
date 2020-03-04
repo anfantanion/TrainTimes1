@@ -103,6 +103,7 @@
     <string name="activeJourneyPartialRefreshMessage">This will re calulate this and future services in the journey. This is useful if there is a delay.</string>
     <string name="activeJourneyPartialRefreshPositive">Continue</string>
     <string name="activeJourneyPartialRefreshNegative">Cancel</string>
+    <string name="UnknownPlat">\?</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

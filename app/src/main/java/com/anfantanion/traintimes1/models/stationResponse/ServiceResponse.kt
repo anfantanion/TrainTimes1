@@ -59,6 +59,15 @@ data class ServiceResponse(
         return locations?.indexOfFirst{ ld -> ld.crs == stationStub.crs }
     }
 
+
+    fun getRTorTTArrival(stationStub: StationStub) : String? {
+        return filterLocations(stationStub)?.getOrNull(0)?.getArrivalTime()
+    }
+
+    fun getRTorTTDeparture(stationStub: StationStub) : String? {
+        return filterLocations(stationStub)?.getOrNull(0)?.getDepartureTime()
+    }
+
     fun getRTStationArrival(stationStub: StationStub) : String? {
         return filterLocations(stationStub)?.getOrNull(0)?.realtimeArrival
     }
