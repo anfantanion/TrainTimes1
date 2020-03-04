@@ -81,21 +81,7 @@ class ActiveJourneyViewModel : ViewModel() {
 
 
     fun getCurrentServiceNo() : Int?{
-        val serviceResponses = serviceResponses.value ?: return null
-        return serviceResponses.indexOf(getCurrentService())
-    }
-
-    fun getCurrentService() : ServiceResponse {
-        val aj = activeJourney.value!!
-
-        for (i in serviceResponses.value!!.indices){
-            val x = serviceResponses.value!!.filter{ sr ->
-                TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis < TimeDate().calendar.timeInMillis &&
-                        TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i+1])).calendar.timeInMillis > TimeDate().calendar.timeInMillis
-            }
-            if (x.isNotEmpty()) return x.first()
-        }
-        return serviceResponses.value!![0]
+        return activeJourney.value?.getCurrentServiceNo()
     }
 
     private fun onPlanned(serviceStubs : List<ServiceStub>?){
@@ -103,15 +89,9 @@ class ActiveJourneyViewModel : ViewModel() {
             isError.value = true
             return
         }
-        RTTAPI.requestServices(
-            serviceStubs,
+        activeJourney.value!!.getServiceResponses(
             listener = {
-                val x = Array<ServiceResponse?>(serviceStubs.size){null}
-                if (it.isEmpty()) return@requestServices
-                it.forEach {sr ->
-                    x[serviceStubs.indexOf(sr.toServiceStub())] = sr
-                }
-                serviceResponses.value = x.toList().filterNotNull()
+                serviceResponses.value = it
                 isLoading.value = false
             },
             errorListener = Response.ErrorListener { error ->
@@ -119,7 +99,6 @@ class ActiveJourneyViewModel : ViewModel() {
                 isError.value = true
                 isLoading.value = false
             }
-
         )
 
     }
@@ -137,46 +116,10 @@ class ActiveJourneyViewModel : ViewModel() {
 
     }
 
-    fun getNextChange() : Change? {
-        val x = getCurrentServiceNo() ?: return null
-        return getChanges()?.getOrNull(x)
-    }
-
-    fun getChanges(): List<Change>?{
-
-        val journeyPlan = serviceResponses.value ?: return null
-        val activeJourney = activeJourney.value ?: return null
-        if (journeyPlan.size <= 1) return null
-        if (journeyPlan.size == 1) return null
-
-        val changes = ArrayList<Change>()
-        for (i in 0..journeyPlan.size-2){
-            val c = Change(
-                journeyPlan[i],
-                journeyPlan[i+1],
-                activeJourney.waypoints[i+1]
-                )
-            changes.add(c)
-        }
-        return changes
+    fun getNextChange() : ActiveJourney.Change? {
+        return activeJourney.value?.getNextChange()
     }
 
 
-
-    class Change(
-        val service1 : ServiceResponse,
-        val service2 : ServiceResponse,
-        val waypoint : StationStub
-    ){
-        fun arrivalTime() : String?{
-            return service1.getRTStationArrival(waypoint)
-        }
-
-        fun departureTime() : String?{
-            return service2.getRTStationDeparture(waypoint)
-        }
-
-
-    }
 
 }

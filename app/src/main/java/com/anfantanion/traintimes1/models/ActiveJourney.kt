@@ -1,9 +1,14 @@
 package com.anfantanion.traintimes1.models
 
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlanner
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
+import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
+import com.anfantanion.traintimes1.repositories.JourneyRepo.activeJourney
+import com.anfantanion.traintimes1.repositories.RTTAPI
 import java.io.Serializable
 
 
@@ -25,6 +30,7 @@ class ActiveJourney(
     public var dateOfPlan: TimeDate? = null
 
     private var journeyPlan = emptyList<ServiceStub>()
+    @Transient private var journeyPlanResponse : List<ServiceResponse>? = null
 
     private fun plan(
         journeyListener: (List<ServiceStub>?) -> (Unit),
@@ -69,5 +75,88 @@ class ActiveJourney(
         } else journeyListener(journeyPlan)
         return true
     }
+
+    fun getServiceResponses(
+        listener: (List<ServiceResponse>) -> (Unit),
+        errorListener: Response.ErrorListener?
+    ){
+        RTTAPI.requestServices(
+            journeyPlan,
+            listener = {
+                //Sort the result
+                val x = Array<ServiceResponse?>(journeyPlan.size){null}
+                if (it.isEmpty()) return@requestServices
+                it.forEach {sr ->
+                    x[journeyPlan.indexOf(sr.toServiceStub())] = sr
+                }
+                val y = x.toList().filterNotNull()
+                journeyPlanResponse = y
+                listener(y)
+            },
+            errorListener = errorListener
+
+        )
+
+    }
+
+    fun getCurrentServiceNo() : Int?{
+        return journeyPlanResponse?.indexOf(getCurrentService())
+    }
+
+    fun getCurrentService() : ServiceResponse? {
+        val aj = this
+        val serviceResponses = journeyPlanResponse ?: return null
+
+        for (i in serviceResponses.indices){
+            val x = serviceResponses.filter{ sr ->
+                TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis < TimeDate().calendar.timeInMillis &&
+                        TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i+1])).calendar.timeInMillis > TimeDate().calendar.timeInMillis
+            }
+            if (x.isNotEmpty()) return x.first()
+        }
+        return serviceResponses.getOrNull(0)
+    }
+
+    fun getNextChange() : ActiveJourney.Change? {
+        val x = getCurrentServiceNo() ?: return null
+        return getChanges()?.getOrNull(x)
+    }
+
+    fun getChanges(): List<Change>?{
+
+        val journeyPlanLocal = journeyPlanResponse ?: return null
+
+        if (journeyPlanLocal.size <= 1) return null
+        if (journeyPlanLocal.size == 1) return null
+
+        val changes = ArrayList<Change>()
+        for (i in 0..journeyPlan.size-2){
+            val c = Change(
+                journeyPlanLocal[i],
+                journeyPlanLocal[i+1],
+                this.waypoints[i+1]
+            )
+            changes.add(c)
+        }
+        return changes
+    }
+
+    class Change(
+        val service1 : ServiceResponse,
+        val service2 : ServiceResponse,
+        val waypoint : StationStub
+    ){
+        fun arrivalTime() : String?{
+            return service1.getRTStationArrival(waypoint)
+        }
+
+        fun departureTime() : String?{
+            return service2.getRTStationDeparture(waypoint)
+        }
+
+
+    }
+
+
 
 }

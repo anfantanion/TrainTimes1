@@ -96,6 +96,16 @@ class HomeFragment : Fragment(),
             savedJourneysRecyclerAdapter.journeys = it
         })
 
+        homeViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
+            if (it!=null){
+                homeSavedJourney.visibility = View.GONE
+            }
+            else{
+                homeSavedJourney.visibility = View.VISIBLE
+
+            }
+        })
+
         savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
 
 
