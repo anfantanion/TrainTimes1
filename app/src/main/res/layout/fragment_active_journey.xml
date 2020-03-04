@@ -89,130 +89,9 @@
 
         </LinearLayout>
 
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/activeJourneyConnectionCardView"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="4dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                >
-
-                <TextView
-                    android:id="@+id/activeJourneyConnectionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="@string/activeJourneyConnectionTitle"
-                    android:textColor="@color/colorSubtitleText"
-                    />
-
-                <TextView
-                    android:id="@+id/activeJourneyConnectionTitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Changing at Clapham Junction"
-                    android:textColor="@color/colorTitleText"
-                    android:layout_below="@id/activeJourneyConnectionTitle"
-                    />
-
-                <LinearLayout
-                    android:id="@+id/activeJourneyConnectionService1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@id/activeJourneyConnectionTitle2"
-                    >
-
-                    <TextView
-                        android:id="@+id/activeJourneyService1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:text="@string/activeJourneyService1"
-                        android:textSize="20sp"
-                        android:paddingEnd="5sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/activeJourneyService1Arrives"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:text="@string/activeJourneyService1Arrives"
-                        android:textSize="20sp"
-                        android:paddingEnd="5sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/activeJourneyService1Platform"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:textSize="20sp"
-                        android:text="@string/activeJourneyService1Platform"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/activeJourneyConnectionDeparting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@id/activeJourneyConnectionService1"
-                    >
-
-                    <TextView
-                        android:id="@+id/activeJourneyService2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:text="@string/activeJourneyService2"
-                        android:textSize="20sp"
-                        android:paddingEnd="5sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/activeJourneyService2Departs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:text="@string/activeJourneyService2Departs"
-                        android:textSize="20sp"
-                        android:paddingEnd="5sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/activeJourneyService2Platform"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitleText"
-                        android:textSize="20sp"
-                        android:text="@string/activeJourneyService2Platform"
-                        />
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-
-        </androidx.cardview.widget.CardView>
+        <include
+            layout="@layout/connection_card"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activeJourneyServiceRecycler"
@@ -222,6 +101,8 @@
             android:fastScrollEnabled="true"
             android:fastScrollAlwaysVisible="true"
             />
+
+
 
     </LinearLayout>
 </LinearLayout>

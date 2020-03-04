@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
+import kotlinx.android.synthetic.main.connection_card.*
 import kotlinx.android.synthetic.main.fragment_active_journey.*
 
 class ActiveJourneyFragment : Fragment(),
