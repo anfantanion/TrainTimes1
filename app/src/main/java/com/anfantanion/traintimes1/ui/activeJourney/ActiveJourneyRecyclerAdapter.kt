@@ -1,6 +1,7 @@
 package com.anfantanion.traintimes1.ui.activeJourney
 
 import android.animation.LayoutTransition
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -123,11 +124,16 @@ class ActiveJourneyRecyclerAdapter(
         return services.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ActiveJourneyRecyclerAdapter.ActiveJourneyViewHolder, position: Int) {
         val context = holder.itemView.context
         val service = services[position]
 
-        holder.title.text = service.getName(waypoints[position].toStationStub())
+        if (service.serviceType == "bus"){
+            holder.title.text = "${service.getName(waypoints[position].toStationStub())} (${context.getString(R.string.bus)})"
+        }else {
+            holder.title.text = service.getName(waypoints[position].toStationStub())
+        }
         if (position+1 < waypoints.size-1){
             var oldSArrival =  services[position].getRTStationArrival(waypoints[position+1].toStationStub())
             var time = differenceOfTimesMinutes(TimeDate(startTime = oldSArrival),TimeDate())

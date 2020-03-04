@@ -104,6 +104,8 @@
     <string name="activeJourneyPartialRefreshPositive">Continue</string>
     <string name="activeJourneyPartialRefreshNegative">Cancel</string>
     <string name="UnknownPlat">\?</string>
+    <string name="bus">Bus</string>
+    <string name="ok">OK</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

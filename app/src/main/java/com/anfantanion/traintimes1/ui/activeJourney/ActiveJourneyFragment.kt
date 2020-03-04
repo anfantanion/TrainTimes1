@@ -107,7 +107,8 @@ class ActiveJourneyFragment : Fragment(),
         })
 
         activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+            AlertDialog.Builder(context).setMessage(it).setPositiveButton(R.string.ok,null).show()
+           // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
         })
 
         activeJourneySelectOrCreate.setOnClickListener(this)

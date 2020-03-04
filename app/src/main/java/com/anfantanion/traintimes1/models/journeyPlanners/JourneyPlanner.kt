@@ -87,9 +87,9 @@ class JourneyPlanner(
             .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future
             .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by time
 
-        if (times.isEmpty()) errorListener(JourneyPlannerError(
+        if (times.isEmpty()) return errorListener(JourneyPlannerError(
             type = JourneyPlannerError.ErrorType.NOSERVICEFOUND,
-            reason = "Could not find any services between",
+            reason = "Could not find any services between ${waypoints[index-1].crs} and ${waypoints[index].crs}",
             errors = listOf(waypoints[index-1],waypoints[index])))
         val fastestService = times.first()
 
