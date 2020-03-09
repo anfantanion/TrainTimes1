@@ -137,6 +137,9 @@ object RTTAPI{
         }
     }
 
+    /**
+     * Receives response from volley inorder to do further processing.
+     */
     class MiniServiceRepsonse(
         val rl : Response.Listener<ServiceResponse>,
         val serviceUID : String,
@@ -145,7 +148,6 @@ object RTTAPI{
     ) : Response.Listener<ServiceResponse>  {
         override fun onResponse(response: ServiceResponse) {
             //Extra processing if service joins another and does not expose information for later stops
-
             val firstAssociation = response.locations?.first()?.associations
             val lastAssociation = response.locations?.last()?.associations
             when {
@@ -166,8 +168,10 @@ object RTTAPI{
 
         }
 
+        /**
+         * If a certain station is required, check for it and make a second request for a dividing service if necessary.
+         */
         fun findCounterpartService(response: ServiceResponse){
-
             //Check each location for an association
             var association : Association? = null
 
