@@ -1,8 +1,10 @@
 package com.anfantanion.traintimes1
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
     var currentOptionsMenu = R.menu.toolbarmain
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        StationRepo.setActivity(this)
         StationRepo.setContext(applicationContext)
         StationRepo.loadStations()
         JourneyRepo.load(context = applicationContext)
@@ -118,5 +121,18 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         StationRepo.SearchManager.save()
         JourneyRepo.save(applicationContext)
         super.onPause()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            StationRepo.SearchManager.findNearbyLast()
+        }else{
+            Toast.makeText(this,R.string.requiresLocationInfo,Toast.LENGTH_LONG).show()
+        }
     }
 }

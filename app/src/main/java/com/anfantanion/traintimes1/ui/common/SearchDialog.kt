@@ -10,7 +10,6 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
-import com.arlib.floatingsearchview.util.Util
 import kotlinx.android.synthetic.main.dialog_search.view.*
 
 class SearchDialog(
@@ -31,10 +30,14 @@ class SearchDialog(
                 searchView.clearSuggestions()
             }
             else {
-                StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.stationSuggestionListener {
+                StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.StationSuggestionListener {
                     override fun onResults(results: List<Station.StationSuggestion>) {
                         searchView.swapSuggestions(results)
                     }
+                    override fun onError(reason: StationRepo.SearchManager.LocationError) {
+                    }
+
+
                 })
             }
         }

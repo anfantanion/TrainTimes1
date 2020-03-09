@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +21,6 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
-import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragmentDirections
 import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysRecyclerAdapter
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.FloatingSearchView.OnSearchListener
@@ -141,9 +140,11 @@ class HomeFragment : Fragment(),
                 mSearchView.clearSuggestions()
             }
             else {
-                StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.stationSuggestionListener {
+                StationRepo.SearchManager.findSuggestions(newQuery,5, object : StationRepo.SearchManager.StationSuggestionListener {
                     override fun onResults(results: List<Station.StationSuggestion>) {
                         mSearchView.swapSuggestions(results)
+                    }
+                    override fun onError(reason: StationRepo.SearchManager.LocationError) {
                     }
                 })
 
@@ -193,11 +194,16 @@ class HomeFragment : Fragment(),
                 R.id.action_settings -> navController?.navigate(R.id.action_nav_home_to_nav_settings)
                 R.id.action_voice_rec -> null //TODO: Voice
                 R.id.action_location -> {
-                    StationRepo.SearchManager.findNearby(object : StationRepo.SearchManager.stationSuggestionListener {
+                    mSearchView.requestFocus()
+                    mSearchView.setSearchFocused(true)
+                    StationRepo.SearchManager.findNearby(object : StationRepo.SearchManager.StationSuggestionListener {
                         override fun onResults(results: List<Station.StationSuggestion>) {
                             mSearchView.swapSuggestions(results)
                         }
-                    })
+                        override fun onError(reason: StationRepo.SearchManager.LocationError) {
+                            Toast.makeText(context,R.string.noLocation, Toast.LENGTH_SHORT).show()
+                        }
+                    }, 3)
                 }
             }
         }

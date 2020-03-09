@@ -110,6 +110,8 @@
     <string name="homeFavouriteJourneys">Favourite Journeys</string>
     <string name="homeSavedJourneys">Saved Journeys</string>
     <string name="homeMapTitle">Map</string>
+    <string name="noLocation">Could not obtain location</string>
+    <string name="requiresLocationInfo">Finding nearest station requires Location Permission</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>
