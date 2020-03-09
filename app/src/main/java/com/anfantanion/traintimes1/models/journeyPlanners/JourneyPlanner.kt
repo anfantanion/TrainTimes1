@@ -31,7 +31,7 @@ class JourneyPlanner(
             serviceStubs = services.map { it.toServiceStub() }.toMutableList()
             index = services.size
 
-            val serviceTime = TimeDate(startTime = services.last().getStationArrival(waypoints[index]) ?: return errorOut())
+            val serviceTime = TimeDate(startTime = services.last().getStationArrival(waypoints[index]) ?: return errorOut("No Service FOund"))
             lastTimeDate = maxOf(serviceTime,TimeDate())
             lastTimeDate.addMinutes(allowChangeTimeOf)
             nextStation()
@@ -93,7 +93,9 @@ class JourneyPlanner(
             errors = listOf(waypoints[index-1],waypoints[index])))
         val fastestService = times.first()
 
-        val arrivalTime = fastestService.getStationArrival(waypoints[index]) ?: return errorOut()
+        val arrivalTime = fastestService.getStationArrival(waypoints[index])
+        if (arrivalTime==null)
+            return errorOut("Fastest Service Does Not Stop At Required Station?")
         serviceStubs.add(fastestService.toServiceStub())
         services.add(fastestService)
         lastTimeDate.setTime(arrivalTime)
@@ -112,8 +114,8 @@ class JourneyPlanner(
 //        nextStation()
 //    }
 
-    private fun errorOut(){
-        errorListener(JourneyPlannerError(JourneyPlannerError.ErrorType.OTHER,"Unknown"))
+    private fun errorOut(reason: String){
+        errorListener(JourneyPlannerError(JourneyPlannerError.ErrorType.OTHER,reason))
     }
 
     override fun onErrorResponse(error: VolleyError?) {

@@ -177,7 +177,6 @@ object RTTAPI{
                     break
                 }else {
                     association = it.associations?.get(0)
-                    if (association!=null) break
                 }
             }
 

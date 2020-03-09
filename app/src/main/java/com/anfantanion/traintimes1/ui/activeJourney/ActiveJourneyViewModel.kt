@@ -109,7 +109,7 @@ class ActiveJourneyViewModel : ViewModel() {
         errorText.value = when (journeyPlannerError.type){
             JourneyPlannerError.ErrorType.VOLLEYERROR -> {journeyPlannerError.volleyError?.localizedMessage}
             JourneyPlannerError.ErrorType.NOSERVICEFOUND -> {journeyPlannerError.reason}
-            JourneyPlannerError.ErrorType.OTHER -> "Unknown"
+            JourneyPlannerError.ErrorType.OTHER -> journeyPlannerError.reason ?: "Unknown"
         }
         //activeJourney.value = null
         //errorText.value = journeyPlannerError.reason
