@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -214,11 +215,13 @@ class HomeFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.hide()
+        (activity as MainActivity).window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).supportActionBar?.show()
+        (activity as MainActivity).window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     override fun onSavedJourneyClick(position: Int) {

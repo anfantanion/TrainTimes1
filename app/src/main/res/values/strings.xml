@@ -2,8 +2,8 @@
     <string name="app_name">Train Times</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Train Times</string>
+    <string name="nav_header_subtitle">Powered by Real Time Trains</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -101,7 +101,7 @@
     <string name="activeJourneyReplanPositive">Continue</string>
     <string name="activeJourneyReplanNegative">Cancel</string>
     <string name="activeJourneyPartialRefreshTitle">Re-Plan Journey from this point on?</string>
-    <string name="activeJourneyPartialRefreshMessage">This will re calulate this and future services in the journey. This is useful if there is a delay.</string>
+    <string name="activeJourneyPartialRefreshMessage">This will recalculate this and future services in the journey. This is useful if there is a delay.</string>
     <string name="activeJourneyPartialRefreshPositive">Continue</string>
     <string name="activeJourneyPartialRefreshNegative">Cancel</string>
     <string name="UnknownPlat">\?</string>
@@ -112,6 +112,7 @@
     <string name="homeMapTitle">Map</string>
     <string name="noLocation">Could not obtain location</string>
     <string name="requiresLocationInfo">Finding nearest station requires Location Permission</string>
+    <string name="aboutText">Service and Platform information provided by RealTimeTrains.co.uk\n\Icon made by Freepik from www.flaticon.com</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>
