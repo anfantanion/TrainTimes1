@@ -152,6 +152,7 @@ object RTTAPI{
             val lastAssociation = response.locations?.last()?.associations
             when {
                 requireStation != null -> {
+                    //TODO Check if more than one origin or destination before looking deeper
                     findCounterpartService(response)
                 }
                 lastAssociation != null -> {
@@ -174,18 +175,20 @@ object RTTAPI{
         fun findCounterpartService(response: ServiceResponse){
             //Check each location for an association
             var association : Association? = null
+            var visitedRequired = false
 
             for (it in response.locations!!){
                 if (it.crs == requireStation!!.crs) {
-                    association = null // Set to null, as it is the correct service.
+                    visitedRequired = true
                     break
                 }else {
-                    association = it.associations?.get(0)
+                    if (it.associations?.get(0) != null)
+                        association = it.associations[0]
                 }
             }
 
 
-            if (association != null) {
+            if (!visitedRequired && association != null) {
                 val x = association!!.toServiceStub()
                 requestService(
                     x,

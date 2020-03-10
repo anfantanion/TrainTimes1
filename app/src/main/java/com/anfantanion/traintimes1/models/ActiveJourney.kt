@@ -4,6 +4,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlanner
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
+import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerReverse
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
@@ -54,11 +55,11 @@ class ActiveJourney(
             errorListener(it)
         }
         val x = when (type) {
-            Type.DYNAMIC -> JourneyPlanner(listener, error, allowChangeTime, null)
-            Type.ARRIVEBY -> JourneyPlanner(listener, error, allowChangeTime, null)
-            Type.DEPARTAT -> JourneyPlanner(listener, error, allowChangeTime, time)
+            Type.DYNAMIC -> JourneyPlanner(listener, error, allowChangeTime, null).plan(waypoints.toList(),initialServices)
+            Type.ARRIVEBY -> JourneyPlannerReverse(listener, error, allowChangeTime, null).plan(waypoints.toList(),initialServices)
+            Type.DEPARTAT -> JourneyPlanner(listener, error, allowChangeTime, time).plan(waypoints.toList(),initialServices)
         }
-        x.plan(waypoints.toList(),initialServices)
+        x
     }
 
     /**

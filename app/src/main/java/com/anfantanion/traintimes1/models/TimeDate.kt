@@ -14,6 +14,12 @@ class TimeDate(startDate: String? = null, startTime: String? = null) : Serializa
         startTime?.let{setTime(it)}
     }
 
+    fun copy(): TimeDate{
+        var x = TimeDate()
+        x.calendar = this.calendar
+        return x
+    }
+
     fun setTime(string: String){
         calendar.set(Calendar.HOUR_OF_DAY, (string.substring(0,2)).toInt())
         calendar.set(Calendar.MINUTE, (string.substring(2,4)).toInt())
