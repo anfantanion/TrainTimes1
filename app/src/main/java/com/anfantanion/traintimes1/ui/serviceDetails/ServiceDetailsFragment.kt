@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.ui.serviceDetails
 
+import android.app.Service
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -96,6 +97,7 @@ class ServiceDetailsFragment : Fragment(),
 
 
         serviceDetailsViewModel.getServiceDetails()
+        setColumnTitle(serviceDetailsRecyclerAdapter.timeDisplayType.current)
 
     }
 
@@ -118,11 +120,29 @@ class ServiceDetailsFragment : Fragment(),
                     ServiceDetailsRecyclerAdapter.TimeView.Types.NONE ->
                         Toast.makeText(context,R.string.action_serviceDetails_timeToggle_None,Toast.LENGTH_SHORT).show()
                 }
+                setColumnTitle(x)
 
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setColumnTitle(type : ServiceDetailsRecyclerAdapter.TimeView.Types){
+        when (type){
+            ServiceDetailsRecyclerAdapter.TimeView.Types.REALTIME -> {
+                serviceDetailsTimingInfoPlanned.visibility = View.GONE
+                serviceDetailsTimingInfoRealTime.visibility = View.VISIBLE
+            }
+            ServiceDetailsRecyclerAdapter.TimeView.Types.BOOKEDTIME -> {
+                serviceDetailsTimingInfoPlanned.visibility = View.VISIBLE
+                serviceDetailsTimingInfoRealTime.visibility = View.GONE
+            }
+            ServiceDetailsRecyclerAdapter.TimeView.Types.NONE -> {
+                serviceDetailsTimingInfoPlanned.visibility = View.GONE
+                serviceDetailsTimingInfoRealTime.visibility = View.GONE
+            }
+        }
     }
 
     private fun setTitle() {

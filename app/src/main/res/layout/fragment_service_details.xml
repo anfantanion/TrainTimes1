@@ -26,16 +26,132 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/stationDetailsFilterInfo"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Platform | Arrival | Depart | Delay"
-        android:visibility="visible"
         android:background="@color/additionalInfoBackground"
-        android:gravity="right"
         >
-    </TextView>
+
+
+        <LinearLayout
+            android:id="@+id/serviceDetailsTimingInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+
+            >
+
+            <TextView
+                android:id="@+id/serviceDetailsTimingInfoPlatform"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Plat."
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorTitleText"
+                android:gravity="center_vertical"
+                />
+
+
+
+            <LinearLayout
+                android:id="@+id/serviceDetailsTimingInfoPlanned"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                >
+
+
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="60dp"
+                    android:background="@color/colorSubtitleText"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+
+                    />
+
+                <TextView
+                    android:id="@+id/serviceDetailsTimingInfoPlannedArrival"
+                    android:layout_width="45sp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="@string/serviceDetailsLegendTTArrival"
+                    android:gravity="center"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/serviceDetailsTimingInfoPlannedDepart"
+                    android:layout_width="45sp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/serviceDetailsLegendTTDepart"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/serviceDetailsTimingInfoRealTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible"
+
+                >
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="60dp"
+                    android:background="@color/colorSubtitleText"
+
+                    />
+
+                <TextView
+                    android:id="@+id/serviceDetailsTimingInfoRealTimeArrival"
+                    android:layout_width="45sp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/serviceDetailsLegendTArrival"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    />
+                <TextView
+                    android:id="@+id/serviceDetailsTimingInfoRealTimeDepart"
+                    android:layout_width="45sp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/serviceDetailsLegendRTDepart"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:id="@+id/serviceDetailsTimingInfoRealTimeDelay"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/serviceDetailsLegendDelay"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="0dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/serviceDetailsRecylcerView"
@@ -44,7 +160,10 @@
         android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
+        android:layout_below="@+id/serviceDetailsTimingInfo"
         />
+
+
 
 
 </LinearLayout>
