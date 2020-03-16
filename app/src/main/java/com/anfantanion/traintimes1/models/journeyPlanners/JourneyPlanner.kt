@@ -59,10 +59,11 @@ class JourneyPlanner(
     }
 
     fun stationResponse(response: StationResponse?){
-        if (response?.services == null) return errorListener(JourneyPlannerError(
+        if (response?.services == null)
+            return errorListener(JourneyPlannerError(
             type = JourneyPlannerError.ErrorType.NOSERVICEFOUND,
             reason = "Could not find any services between",
-            errors = listOf(waypoints[index-1],waypoints[index])))
+            errors = listOf(waypoints[index],waypoints[index+1])))
 
         index++
 
