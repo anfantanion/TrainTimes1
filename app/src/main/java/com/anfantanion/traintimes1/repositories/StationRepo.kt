@@ -61,6 +61,7 @@ object StationRepo {
     fun loadStations(){
         context.resources.openRawResource(R.raw.station_codes_geo_final_rad_android).bufferedReader().useLines {lines ->
             for (line in lines) {
+                if (line.startsWith("//")) continue
                 val linesplit = line.split(":")
                 val station = Station(linesplit[0],linesplit[1],linesplit[2].toDouble(),linesplit[3].toDouble())
                 stations.add(station)
