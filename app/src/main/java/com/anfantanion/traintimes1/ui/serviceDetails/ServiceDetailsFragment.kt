@@ -136,6 +136,9 @@ class ServiceDetailsFragment : Fragment(),
                 setColumnTitle(x)
 
             }
+            R.id.action_serviceDetails_onMap ->  findNavController().navigate(
+                ServiceDetailsFragmentDirections.actionServiceDetailsToMapsFragment(arrayOf(serviceDetailsViewModel.service))
+            )
         }
 
         return super.onOptionsItemSelected(item)
