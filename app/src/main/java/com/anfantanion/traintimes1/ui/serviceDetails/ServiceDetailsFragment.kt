@@ -16,6 +16,9 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import kotlinx.android.synthetic.main.fragment_service_details.*
+import kotlinx.android.synthetic.main.fragment_service_details.serviceDetailsTimingInfoPlanned
+import kotlinx.android.synthetic.main.fragment_service_details.serviceDetailsTimingInfoRealTime
+import kotlinx.android.synthetic.main.fragment_service_details_listitem.*
 
 /**
  * 
@@ -93,6 +96,16 @@ class ServiceDetailsFragment : Fragment(),
             true -> Toast.makeText(context,"Error "+serviceDetailsViewModel.lastError.toString(), Toast.LENGTH_LONG).show()
         }
         })
+
+        serviceDetailsTimingInfoPlanned.setOnLongClickListener {
+            Toast.makeText(context,R.string.serviceDetailsLegendRTHint,Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener false
+        }
+
+        serviceDetailsTimingInfoRealTime.setOnLongClickListener {
+            Toast.makeText(context,R.string.serviceDetailsLegendRTHint,Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener false
+        }
 
 
 

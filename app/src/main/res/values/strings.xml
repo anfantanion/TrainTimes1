@@ -121,6 +121,8 @@
     <string name="serviceDetailsLegendTArrival">RT Arr</string>
     <string name="serviceDetailsLegendTTDepart">TT Dep</string>
     <string name="serviceDetailsLegendTTArrival">TT Arr</string>
+    <string name="serviceDetailsLegendRTHint">Real Time (Estimated) Arrival/Departure</string>
+    <string name="serviceDetailsLegendTTHint">Time Tabled Arrival/Departure</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>
