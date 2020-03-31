@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -46,6 +47,10 @@ class Station(
 
     fun toStationStub(): StationStub {
         return StationStub(code)
+    }
+
+    fun latLng() : LatLng{
+        return LatLng(Math.toDegrees(latitudeRAD),Math.toDegrees(longitudeRAD))
     }
 
 

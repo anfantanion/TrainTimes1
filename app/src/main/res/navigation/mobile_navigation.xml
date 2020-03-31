@@ -158,6 +158,10 @@
         <argument
             android:name="displayedServices"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.ServiceStub[]" />
+        <argument
+            android:name="focusedService"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
 
