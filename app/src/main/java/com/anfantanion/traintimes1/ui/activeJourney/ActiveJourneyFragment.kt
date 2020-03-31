@@ -148,6 +148,12 @@ class ActiveJourneyFragment : Fragment(),
             R.id.action_activeJourneyRefresh -> {
                 activeJourneyViewModel.getServices()
             }
+            R.id.action_activeJourney_onMap -> {
+                findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToMapsFragment(
+                    activeJourneyViewModel.serviceResponses.value!!.map { x -> x.toServiceStub() }.toTypedArray(),
+                    activeJourneyViewModel.getCurrentServiceNo()?:0
+                ))
+            }
         }
 
         return super.onOptionsItemSelected(item)

@@ -124,6 +124,7 @@
     <string name="serviceDetailsLegendRTHint">Real Time (Estimated) Arrival/Departure</string>
     <string name="serviceDetailsLegendTTHint">Time Tabled Arrival/Departure</string>
     <string name="action_serviceDetails_onMap">Show on Map</string>
+    <string name="action_activeJourney_onMap">Map</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>
