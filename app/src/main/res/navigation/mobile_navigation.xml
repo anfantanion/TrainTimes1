@@ -153,15 +153,15 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.anfantanion.traintimes1.ui.mapScreen.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" >
+        android:label="Map"
+        tools:layout="@layout/fragment_maps">
         <argument
             android:name="displayedServices"
             app:argType="com.anfantanion.traintimes1.models.parcelizable.ServiceStub[]" />
         <argument
             android:name="focusedService"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 
 
