@@ -53,10 +53,17 @@ class MapsFragment : Fragment(),
     fun drawServices(serviceResponses: Array<ServiceResponse?>) : Boolean{
         val googleMap1 = this.googleMap ?: return false
 
-        for (serviceResponse in serviceResponses) {
-            if (serviceResponse == null) continue
+        for (serviceResponsePos in serviceResponses.indices) {
+            val serviceResponse = serviceResponses[serviceResponsePos] ?: continue
             val locations = serviceResponse.locations ?: continue
             var lastPos : LatLng? = null
+
+            var lowestLat = Double.MAX_VALUE
+            var lowestLon = Double.MAX_VALUE
+            var highestLat = -Double.MAX_VALUE
+            var highestLon = -Double.MAX_VALUE
+
+
             for (locPos in locations.indices) {
                 val location = locations[locPos]
 
@@ -69,6 +76,11 @@ class MapsFragment : Fragment(),
                     ContextCompat.getColor(this.context!!, R.color.stationNormal)
 
                 val currentPos = StationRepo.getStation(location.toStationStub())!!.latLng()
+
+                if (currentPos.latitude < lowestLat) lowestLat = currentPos.latitude
+                if (currentPos.latitude > highestLat) highestLat = currentPos.latitude
+                if (currentPos.longitude < lowestLon) lowestLon = currentPos.longitude
+                if (currentPos.longitude > highestLon) highestLon = currentPos.longitude
 
                 if (lastPos != null) {
                     googleMap1.addPolyline(
@@ -88,10 +100,20 @@ class MapsFragment : Fragment(),
                 lastPos = currentPos
             }
 
+            if (serviceResponsePos == args.focusedService){
+                if (lowestLat < highestLat && lowestLon < highestLon) {
+                    val latLngBounds = LatLngBounds(
+                        LatLng(lowestLat, lowestLon),
+                        LatLng(highestLat, highestLon)
+                    )
+                    googleMap1.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 120))
+                }
+            }
+
         }
 
-        val focused = serviceResponses[args.focusedService]
-        val latlng = StationRepo.getStation(focused?.getMostRecentLocation()?.toStationStub())?.latLng()
+        //val focused = serviceResponses[args.focusedService]
+        //val latlng = StationRepo.getStation(focused?.getMostRecentLocation()?.toStationStub())?.latLng()
         //googleMap1.moveCamera(CameraUpdateFactory.newLatLng(latlng))
 
         return true
