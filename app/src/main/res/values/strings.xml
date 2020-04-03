@@ -113,9 +113,14 @@
     <string name="noLocation">Could not obtain location</string>
     <string name="requiresLocationInfo">Finding nearest station requires Location Permission</string>
     <string name="aboutText">Service and Platform information provided by RealTimeTrains.co.uk\n\Icon made by Freepik from www.flaticon.com</string>
+
     <string name="shortcutActiveJourneyShort">Active Journey</string>
     <string name="shortcutActiveJourneyLong">Active Journey</string>
     <string name="shortcutActiveJourneyDisabled">Nope</string>
+    <string name="shortcutSavedJourneysShort">Saved Journeys</string>
+    <string name="shortcutSavedJourneysLong">Saved Journeys</string>
+    <string name="shortcutSavedJourneyDsisabled">Nope</string>
+
     <string name="serviceDetailsLegendDelay">Delay</string>
     <string name="serviceDetailsLegendRTDepart">RT Dep</string>
     <string name="serviceDetailsLegendTArrival">RT Arr</string>

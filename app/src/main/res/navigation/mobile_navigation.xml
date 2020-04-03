@@ -59,13 +59,16 @@
         android:id="@+id/nav_saved_journeys"
         android:name="com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysFragment"
         android:label="@string/fragment_saved_journey_title"
-        tools:layout="@layout/fragment_saved_journeys" >
+        tools:layout="@layout/fragment_saved_journeys">
         <action
             android:id="@+id/action_nav_saved_journeys_to_nav_active_journey"
             app:destination="@id/nav_active_journey" />
         <action
             android:id="@+id/action_nav_saved_journeys_to_newJourneyFragment"
             app:destination="@id/new_Journey" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="traintimes://savedJourneys" />
     </fragment>
 
     <fragment

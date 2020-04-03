@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="Active Journey"
         android:enabled="true"
-
+        android:icon="@mipmap/ic_launcher_activejourney"
         android:shortcutShortLabel="@string/shortcutActiveJourneyShort"
         android:shortcutLongLabel="@string/shortcutActiveJourneyLong"
         android:shortcutDisabledMessage="@string/shortcutActiveJourneyDisabled"
@@ -23,14 +23,14 @@
     <shortcut
         android:shortcutId="Saved Journeys"
         android:enabled="true"
-
-        android:shortcutShortLabel="@string/shortcutSavedJourneyShort"
-        android:shortcutLongLabel="@string/shortcutSavedJourneyLong"
+        android:icon="@mipmap/ic_launcher_savedjourneys"
+        android:shortcutShortLabel="@string/shortcutSavedJourneysShort"
+        android:shortcutLongLabel="@string/shortcutSavedJourneysLong"
         android:shortcutDisabledMessage="@string/shortcutActiveJourneyDisabled"
         tools:targetApi="n_mr1">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="traintimes://activeJourney"
+            android:data="traintimes://savedJourneys"
             android:targetPackage="com.anfantanion.traintimes1"
             android:targetClass="com.anfantanion.traintimes1.MainActivity"
             />
