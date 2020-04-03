@@ -10,6 +10,7 @@
         android:layout_marginStart="5dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_drag_handle_black_24dp"
+        android:tint="@color/iconTintReverse"
         />
 
     <com.google.android.material.card.MaterialCardView
@@ -40,6 +41,7 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_add_black_24dp"
                 android:visibility="visible"
+                android:tint="@color/iconTintReverse"
                 />
 
             <TextView
@@ -62,6 +64,7 @@
                 android:text="Southampton Central (SOU)"
                 android:textColor="@color/colorTitleText"
                 android:textSize="20sp"
+                android:tint="@color/iconTintReverse"
                 />
 
             <ImageView
@@ -70,6 +73,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_remove_black_24dp"
+                android:tint="@color/iconTintReverse"
                 />
 
 
