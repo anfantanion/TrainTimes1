@@ -10,6 +10,7 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.dialog_search.view.*
 
 class SearchDialog(
@@ -19,7 +20,7 @@ class SearchDialog(
     lateinit var searchView : FloatingSearchView
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val builder = MaterialAlertDialogBuilder(activity)
         val view = requireActivity().layoutInflater.inflate(R.layout.dialog_search, null)
         builder.setView(view)
 

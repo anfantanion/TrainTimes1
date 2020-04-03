@@ -13,6 +13,7 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.common.SearchDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.dialog_filter.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +33,7 @@ class SelectFilterDialog() : DialogFragment() {
 
         if (activity == null) throw IllegalStateException("Activity cannot be null")
 
-        val builder = AlertDialog.Builder(activity)
+        val builder = MaterialAlertDialogBuilder(activity)
         val view = requireActivity().layoutInflater.inflate(R.layout.dialog_filter, null)
         actualView = view
 

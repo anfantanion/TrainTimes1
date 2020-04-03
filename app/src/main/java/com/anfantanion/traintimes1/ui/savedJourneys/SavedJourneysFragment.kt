@@ -16,6 +16,7 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Journey
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.ui.common.ItemTouchHelperCallbacks
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_saved_journeys.*
 
 class SavedJourneysFragment :
@@ -109,7 +110,7 @@ class SavedJourneysFragment :
         val clicked = savedJourneysViewModel.journeys.value!!.get(position)
         if (JourneyRepo.activeJourney.value != null){
 
-            AlertDialog.Builder(context)
+            MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.savedJourneys_Dialog_OverwriteTitle)
                 .setMessage(R.string.savedJourneys_Dialog_OverwriteMessage)
                 .setPositiveButton(R.string.savedJourneys_Dialog_OverwritePositive) { dialog, id ->

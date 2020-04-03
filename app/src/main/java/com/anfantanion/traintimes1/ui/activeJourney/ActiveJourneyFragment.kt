@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.connection_card.*
 import kotlinx.android.synthetic.main.fragment_active_journey.*
 
@@ -108,7 +109,7 @@ class ActiveJourneyFragment : Fragment(),
         })
 
         activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
-            AlertDialog.Builder(context).setMessage(it).setPositiveButton(R.string.ok,null).show()
+            MaterialAlertDialogBuilder(context).setMessage(it).setPositiveButton(R.string.ok,null).show()
            // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
         })
 
@@ -125,7 +126,7 @@ class ActiveJourneyFragment : Fragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.action_activeJourneyEnd -> {
-                AlertDialog.Builder(context)
+                MaterialAlertDialogBuilder(context)
                     .setTitle(R.string.activeJourneyEndTitle)
                     .setMessage(R.string.activeJourneyEndMessage)
                     .setPositiveButton(R.string.activeJourneyEndPositive) { dialog, id ->
@@ -136,7 +137,7 @@ class ActiveJourneyFragment : Fragment(),
                     .show()
             }
             R.id.action_activeJourneyReplan -> {
-                AlertDialog.Builder(context)
+                MaterialAlertDialogBuilder(context)
                     .setTitle(R.string.activeJourneyReplanTitle)
                     .setMessage(R.string.activeJourneyReplanhMessage)
                     .setPositiveButton(R.string.activeJourneyReplanPositive) { dialog, id ->
@@ -183,7 +184,7 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onRefreshClick(position: Int) {
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(context)
             .setTitle(R.string.activeJourneyPartialRefreshTitle)
             .setMessage(R.string.activeJourneyPartialRefreshMessage)
             .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { dialog, id ->
