@@ -1,9 +1,12 @@
 package com.anfantanion.traintimes1
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -42,34 +45,6 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-//        var x = Journey.JourneyPlanner()
-//        x.plan(listOf(StationStub("AXM"),StationStub("CLJ"),StationStub("RDH")))
-//        RTTAPI.requestStation(
-//            "AXM",
-//            listener = Response.Listener { response ->
-//                val x = response },
-//            errorListener = Response.ErrorListener { error ->
-//                val x = error; },
-//            maxAge = 60000
-//
-//        );
-//
-//        RTTAPI.requestStation(
-//            "AXM",
-//            listener = Response.Listener { response ->
-//                val x = response },
-//            errorListener = Response.ErrorListener { error ->
-//                val x = error; },
-//            maxAge = 60000
-//
-//        );
-
-
-//        val fab: FloatingActionButton = findViewById(R.id.fab)
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
         drawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -83,6 +58,12 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        )
+
 
     }
 
