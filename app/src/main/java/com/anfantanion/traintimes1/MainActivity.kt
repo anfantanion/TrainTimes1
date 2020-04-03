@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
     var currentOptionsMenu = R.menu.toolbarmain
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        NotifyManager.setup(applicationContext)
         StationRepo.setActivity(this)
         StationRepo.setContext(applicationContext)
         StationRepo.loadStations()

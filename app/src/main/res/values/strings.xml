@@ -125,6 +125,8 @@
     <string name="serviceDetailsLegendTTHint">Time Tabled Arrival/Departure</string>
     <string name="action_serviceDetails_onMap">Show on Map</string>
     <string name="action_activeJourney_onMap">Map</string>
+    <string name="JOURNEYNOTIFYCHANNEL">Journey Updates</string>
+    <string name="JOURNEYNOTIFYCHANNEL_Desc">Notification when an Active Journey requires attention.</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

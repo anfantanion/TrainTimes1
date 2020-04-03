@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.Station
+import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.savedJourneys.SavedJourneysRecyclerAdapter
@@ -124,6 +125,11 @@ class HomeFragment : Fragment(),
 
         homeSavedJourneyCard.setOnClickListener{
             findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSavedJourneys())
+        }
+
+        homeMapCard.setOnClickListener{
+            Toast.makeText(context,"SEnding in 10 sec",Toast.LENGTH_SHORT).show()
+            NotifyManager.sendNotificationIn(10)
         }
 
         savedJourneysRecyclerAdapter = SavedJourneysRecyclerAdapter(this)
