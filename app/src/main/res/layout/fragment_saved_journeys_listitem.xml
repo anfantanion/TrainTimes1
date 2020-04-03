@@ -8,7 +8,7 @@
     tools:ignore="HardcodedText"
     >
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/savedJourneysListCardView"
         android:layout_gravity="center"
         android:layout_width="match_parent"
@@ -211,5 +211,5 @@
 
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

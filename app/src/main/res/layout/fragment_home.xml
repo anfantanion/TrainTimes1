@@ -30,7 +30,7 @@
             android:layout_alignParentTop="true"
             >
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/activeJourneyConnectionCardView"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -49,9 +49,9 @@
                     layout="@layout/connection_card"
                     />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/homeFavouriteJourneyCard"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -93,7 +93,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:layout_alignParentBottom="true"
             >
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/homeSavedJourneyCard"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -131,7 +131,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <View
                 android:id="@+id/splitter"
@@ -139,7 +139,7 @@
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/homeMapCard"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
         </RelativeLayout>

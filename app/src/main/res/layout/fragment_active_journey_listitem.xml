@@ -9,7 +9,7 @@
     android:animateLayoutChanges="true"
     >
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/activeJourneyListItemCard"
         android:layout_gravity="center"
         android:layout_width="match_parent"
@@ -115,6 +115,6 @@
 
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
