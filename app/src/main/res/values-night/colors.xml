@@ -3,16 +3,16 @@
     <color name="colorPrimary">#39809B</color>
     <color name="colorPrimaryDark">#00657D</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorTitleText">#000</color>
-    <color name="colorSubtitleText">#808080</color>
-    <color name="additionalInfoBackground">#D6D6D6</color>
+    <color name="colorTitleText">#FFF</color>
+    <color name="colorSubtitleText">#909090</color>
+    <color name="additionalInfoBackground">#292929</color>
 
-    <color name="iconTint">#FFFFFF</color>
-    <color name="iconTintReverse">#000000</color>
+    <color name="iconTint">#000000</color>
+    <color name="iconTintReverse">#FFFFFF</color>
 
     <color name="late">#AA0000</color>
     <color name="white">#FFFFFF</color>
     <color name="stationPassed">#41CC80</color>
     <color name="stationNormal">#D03A4E</color>
-    <color name="homeCardColor">#BBFFFFFF</color>
+    <color name="homeCardColor">#DD424242</color>
 </resources>

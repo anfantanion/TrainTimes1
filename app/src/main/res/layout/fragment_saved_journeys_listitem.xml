@@ -160,7 +160,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignBottom="@+id/savedJourneysListViaLayout"
                     android:layout_alignTop="@+id/savedJourneysListTitle"
-                    android:background="@color/white"
                     >
 
                     <ImageView
@@ -168,6 +167,7 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_content_copy_black_24dp"
+                        android:tint="@color/iconTintReverse"
                         />
 
                     <ImageView
@@ -175,6 +175,7 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_favorite_border_black_24dp"
+                        android:tint="@color/iconTintReverse"
                         />
 
                     <ImageView
@@ -182,6 +183,7 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_edit_black_24dp"
+                        android:tint="@color/iconTintReverse"
                         />
 
                     <ImageView
@@ -189,6 +191,7 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_remove_black_24dp"
+                        android:tint="@color/iconTintReverse"
                         />
 
                 </LinearLayout>

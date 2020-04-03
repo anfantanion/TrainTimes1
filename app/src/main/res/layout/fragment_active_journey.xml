@@ -41,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/additionalInfoBackground"
             >
             <TextView
                 android:id="@+id/activeJourneyInfo"
@@ -72,9 +71,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:text="@string/activeJourneyNoActiveJourney"
-                android:textColor="@color/colorSubtitleText"
                 android:gravity="center"
                 />
 
@@ -83,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAppearance="?attr/textAppearanceButton"
                 android:text="@string/activeJourneySelectOrCreateJourney"
                 />
 

@@ -18,18 +18,17 @@
                 android:id="@+id/activeJourneyConnectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:text="@string/activeJourneyConnectionTitle"
-                android:textColor="@color/colorSubtitleText"
+                android:visibility="gone"
                 />
 
             <TextView
                 android:id="@+id/activeJourneyConnectionTitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:text="Changing at Clapham Junction"
-                android:textColor="@color/colorTitleText"
                 android:layout_below="@id/activeJourneyConnectionTitle"
                 />
 
@@ -45,9 +44,8 @@
                     android:id="@+id/activeJourneyService1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
                     android:text="@string/activeJourneyService1"
-                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
                     android:paddingEnd="5sp"
                     />
 
@@ -55,9 +53,8 @@
                     android:id="@+id/activeJourneyService1Arrives"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
                     android:text="@string/activeJourneyService1Arrives"
-                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
                     android:paddingEnd="5sp"
                     />
 
@@ -65,8 +62,6 @@
                     android:id="@+id/activeJourneyService1Platform"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:textSize="20sp"
                     android:text="@string/activeJourneyService1Platform"
                     />
             </LinearLayout>
@@ -83,9 +78,8 @@
                     android:id="@+id/activeJourneyService2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
                     android:text="@string/activeJourneyService2"
-                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
                     android:paddingEnd="5sp"
                     />
 
@@ -93,9 +87,8 @@
                     android:id="@+id/activeJourneyService2Departs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
                     android:text="@string/activeJourneyService2Departs"
-                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
                     android:paddingEnd="5sp"
                     />
 
@@ -103,8 +96,7 @@
                     android:id="@+id/activeJourneyService2Platform"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitleText"
-                    android:textSize="20sp"
+
                     android:text="@string/activeJourneyService2Platform"
                     />
             </LinearLayout>
