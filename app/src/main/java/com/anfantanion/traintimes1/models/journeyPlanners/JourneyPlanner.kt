@@ -85,8 +85,8 @@ class JourneyPlanner(
     fun serviceResponseList(response: List<ServiceResponse>) {
 
         val times = response
-            .filter { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future
-            .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by time
+            .filter { sr -> TimeDate(startTime = sr.getStationDeparture(waypoints[index-1])).calendar.timeInMillis > lastTimeDate.calendar.timeInMillis }//Only future departures
+            .sortedBy { sr -> TimeDate(startTime = sr.getStationArrival(waypoints[index])).calendar.timeInMillis } //Sort by arrival time (earliest first)
 
         if (times.isEmpty()) return errorListener(JourneyPlannerError(
             type = JourneyPlannerError.ErrorType.NOSERVICEFOUND,
