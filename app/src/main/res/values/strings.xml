@@ -132,6 +132,12 @@
     <string name="action_activeJourney_onMap">Map</string>
     <string name="JOURNEYNOTIFYCHANNEL">Journey Updates</string>
     <string name="JOURNEYNOTIFYCHANNEL_Desc">Notification when an Active Journey requires attention.</string>
+    <string name="preference_jp_default_changetime_title">Minimum Change Time in Minutes</string>
+    <string name="preference_jp_default_changetime_summary">Default value. Can be overidden on a per Journey Basis</string>
+    <string name="preference_JourneyPlanningCategory">Journey Planning</string>
+    <string name="preference_OtherCategory">Other</string>
+    <string name="preference_theme_title">Override Theme</string>
+    <string name="preference_theme_dialog_title">Select Theme</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

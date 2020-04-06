@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:initialExpandedChildrenCount="1"
+        app:key="journey_planning"
+        app:title="@string/preference_JourneyPlanningCategory">
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="5"
+            app:title="@string/preference_jp_default_changetime_title"
+            app:dialogTitle="@string/preference_jp_default_changetime_summary"
+            app:key="default_changetime"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:initialExpandedChildrenCount="1"
+        app:key="other"
+        app:title="@string/preference_OtherCategory">
+
+        <ListPreference
+            app:key="multi_select_list"
+            app:title="@string/preference_theme_title"
+            app:entries="@array/preference_theme_entries"
+            app:entryValues="@array/preference_theme_values"
+            app:dialogTitle="@string/preference_theme_dialog_title"
+            android:defaultValue="System"
+            />
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

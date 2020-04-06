@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1
 
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -16,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
@@ -24,7 +27,7 @@ import com.arlib.floatingsearchview.FloatingSearchView
 import com.google.android.material.navigation.NavigationView
 
 
-class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
+class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks, SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -38,7 +41,9 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
         StationRepo.loadStations()
         JourneyRepo.load(context = applicationContext)
 
-
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(this)
+        onThemeUpdate()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -116,6 +121,26 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks {
             StationRepo.SearchManager.findNearbyLast()
         }else{
             Toast.makeText(this,R.string.requiresLocationInfo,Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when(key){
+            "multi_select_list" -> onThemeUpdate()
+        }
+    }
+
+    fun onThemeUpdate(){
+        val x = PreferenceManager.getDefaultSharedPreferences(this).all
+        when(x["multi_select_list"]){
+            "Light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "Dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "System" -> {
+                if (Build.VERSION.SDK_INT >= 29)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                else
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+            }
         }
     }
 }
