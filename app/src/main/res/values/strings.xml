@@ -145,6 +145,15 @@
     <string name="preference_refresh_every_dialog">Journey Refresh Interval (in Minutes)</string>
     <string name="preference_jp_automatic_refresh_title">Automatically Refresh Active Journey</string>
     <string name="preference_jp_automatic_refresh_summary">Automatically refresh journey timing information in background.</string>
+
+    <string name="notification_change_title">Upcoming Connection</string>
+    <string name="notification_change_short">Changing at %1$s in %2$s minutes. (%3$s)</string>
+    <string name="preference_jp_notify_title">Notify Before Change</string>
+    <string name="preference_jp_notify_summary">Send a notification before a scheculed change.</string>
+    <string name="preference_jp_notify_time_title">Time Before Change</string>
+    <string name="preference_jp_notify_time_summary">Warning time in minutes before a change is scheduled.</string>
+    <string name="preference_notify_time_dialog">Warning Time (in Minutes)</string>
+
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>

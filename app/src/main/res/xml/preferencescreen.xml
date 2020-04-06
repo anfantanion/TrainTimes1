@@ -21,7 +21,7 @@
             android:defaultValue="false"
             app:title="@string/preference_jp_automatic_refresh_title"
             app:summary="@string/preference_jp_automatic_refresh_summary"
-            app:key="automatic_refresh"
+            app:key="automatic_refresh_enable"
             />
 
         <EditTextPreference
@@ -29,11 +29,31 @@
             android:inputType="numberDecimal"
             app:defaultValue="5"
             android:enabled="false"
+            app:isPreferenceVisible="false"
             app:title="@string/preference_jp_refresh_every_title"
             app:summary="@string/preference_jp_refresh_every_summary"
             app:dialogTitle="@string/preference_refresh_every_dialog"
             app:key="refresh_every"
             app:useSimpleSummaryProvider="false" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            app:title="@string/preference_jp_notify_title"
+            app:summary="@string/preference_jp_notify_summary"
+            app:key="notify_change_enable"
+            />
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="5"
+            app:isPreferenceVisible="false"
+            app:title="@string/preference_jp_notify_time_title"
+            app:summary="@string/preference_jp_notify_time_summary"
+            app:dialogTitle="@string/preference_notify_time_dialog"
+            app:key="notify_change_time"
+            app:useSimpleSummaryProvider="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

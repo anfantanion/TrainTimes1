@@ -21,7 +21,8 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        setRefreshIntervalEnabled(preferenceManager.sharedPreferences.getBoolean("automatic_refresh",false))
+        setRefreshIntervalEnabled(preferenceManager.sharedPreferences.getBoolean("automatic_refresh_enable",false))
+        setNotifyEnabled(preferenceManager.sharedPreferences.getBoolean("notify_change_enable",false))
 
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
@@ -29,6 +30,12 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
 
     fun setRefreshIntervalEnabled(boolean: Boolean){
         preferenceManager.findPreference<EditTextPreference>("refresh_every")!!.isEnabled = boolean
+        preferenceManager.findPreference<EditTextPreference>("refresh_every")!!.isVisible = boolean
+    }
+
+    fun setNotifyEnabled(boolean: Boolean){
+        preferenceManager.findPreference<EditTextPreference>("notify_change_time")!!.isEnabled = boolean
+        preferenceManager.findPreference<EditTextPreference>("notify_change_time")!!.isVisible = boolean
     }
 
     override fun onPreferenceStartFragment(
@@ -40,9 +47,13 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when(key){
-            "automatic_refresh" -> {
+            "automatic_refresh_enable" -> {
                 val value = PreferenceManager.getDefaultSharedPreferences(this.context).getBoolean(key,false)
                 setRefreshIntervalEnabled(value)
+            }
+            "notify_change_enable" -> {
+                val value = PreferenceManager.getDefaultSharedPreferences(this.context).getBoolean(key,false)
+                setNotifyEnabled(value)
             }
         }
     }
