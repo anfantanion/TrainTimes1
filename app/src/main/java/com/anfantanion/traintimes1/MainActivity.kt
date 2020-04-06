@@ -13,21 +13,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.anfantanion.traintimes1.ui.home.HomeFragment
+import com.anfantanion.traintimes1.ui.settings.SettingsFragment
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.google.android.material.navigation.NavigationView
 
 
-class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks, SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -124,6 +129,9 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentCallbacks, Sh
         }
     }
 
+    /**
+     * Also Handled in Settings fragment.
+     */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when(key){
             "multi_select_list" -> onThemeUpdate()

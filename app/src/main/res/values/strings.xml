@@ -132,12 +132,19 @@
     <string name="action_activeJourney_onMap">Map</string>
     <string name="JOURNEYNOTIFYCHANNEL">Journey Updates</string>
     <string name="JOURNEYNOTIFYCHANNEL_Desc">Notification when an Active Journey requires attention.</string>
-    <string name="preference_jp_default_changetime_title">Minimum Change Time in Minutes</string>
-    <string name="preference_jp_default_changetime_summary">Default value. Can be overidden on a per Journey Basis</string>
-    <string name="preference_JourneyPlanningCategory">Journey Planning</string>
+    <string name="preference_JourneyPlanningCategory">Journeys</string>
     <string name="preference_OtherCategory">Other</string>
     <string name="preference_theme_title">Override Theme</string>
     <string name="preference_theme_dialog_title">Select Theme</string>
+    <string name="preference_jp_default_changetime_title">Minimum Change Time in Minutes</string>
+    <string name="preference_jp_default_changetime_summary">Default value. Can be overidden on a per Journey Basis</string>
+    <string name="preference_jp_default_changetime_dialog">Minimum Change Time in Minutes</string>
+
+    <string name="preference_jp_refresh_every_title">Journey Refresh Interval</string>
+    <string name="preference_jp_refresh_every_summary">Interval in minutes to refresh timing information on an active journey.</string>
+    <string name="preference_refresh_every_dialog">Journey Refresh Interval (in Minutes)</string>
+    <string name="preference_jp_automatic_refresh_title">Automatically Refresh Active Journey</string>
+    <string name="preference_jp_automatic_refresh_summary">Automatically refresh journey timing information in background.</string>
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>
         <item quantity="one">%d minute</item>
