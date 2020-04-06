@@ -1,6 +1,5 @@
 package com.anfantanion.traintimes1.ui.home
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.JourneyRepo
@@ -98,21 +98,41 @@ class HomeFragment : Fragment(),
         })
 
         homeViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
-            val change = it?.getNextChange()
+            val change = it?.getCurrentKeyPoint()
             if (change!=null){
-                homeConnectionDetails.visibility = View.VISIBLE
-                activeJourneyConnectionTitle.text = getString(R.string.activeJourneyConnectionTitle2,it.getOriginName(),it.getDestName())
-                activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlace,
-                    StationRepo.getStation(change.waypoint)!!.name)
-                //activeJourneyService1.text = getString(R.string.activeJourneyService1)
-                activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint))
-                activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
-                activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2.getRTorTTDeparture(change.waypoint))
-                activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
-                //homeSavedJourney.visibility = View.GONE
-            }
-            else {
-                homeConnectionDetails.visibility=View.GONE
+                activeJourneyConnectionCardView.visibility = View.VISIBLE
+                when(change.changeType){
+                    ActiveJourney.KeyPoint.ChangeType.START -> {
+                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceDepart, StationRepo.getStation(change.waypoint)!!.name)
+                        activeJourneyConnectionService1.visibility=View.GONE
+                        activeJourneyConnectionDeparting.visibility=View.VISIBLE
+                        activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service1.getRTorTTDeparture(change.waypoint!!))
+                        activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                    }
+
+                    ActiveJourney.KeyPoint.ChangeType.CHANGE ->{
+                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceChange, StationRepo.getStation(change.waypoint)!!.name)
+                        activeJourneyConnectionService1.visibility=View.VISIBLE
+                        activeJourneyConnectionDeparting.visibility=View.VISIBLE
+                        activeJourneyService1.text = getString(R.string.activeJourneyService,"1")
+                        activeJourneyService2.text = getString(R.string.activeJourneyService,"2")
+                        activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
+                        activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2!!.getRTorTTDeparture(change.waypoint!!))
+                        activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2!!.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                    }
+
+                    ActiveJourney.KeyPoint.ChangeType.END -> {
+                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceArrive, StationRepo.getStation(change.waypoint)!!.name)
+                        activeJourneyConnectionService1.visibility=View.VISIBLE
+                        activeJourneyConnectionDeparting.visibility=View.GONE
+                        activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
+                        activeJourneyService1Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                    }
+
+                }
+            }else{
+                activeJourneyConnectionCardView.visibility = View.GONE
             }
         })
 

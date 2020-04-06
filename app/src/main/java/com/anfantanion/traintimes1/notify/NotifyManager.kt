@@ -15,7 +15,6 @@ import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
 import com.anfantanion.traintimes1.repositories.JourneyRepo
-import com.anfantanion.traintimes1.repositories.JourneyRepo.activeJourney
 import com.anfantanion.traintimes1.repositories.StationRepo
 
 
@@ -29,7 +28,7 @@ object NotifyManager {
     lateinit var alarmManager : AlarmManager
     var lastNotificationIntent : PendingIntent? = null
     var lastRefreshIntent : PendingIntent? = null
-    var currentChange : ActiveJourney.Change? = null
+    var currentKeyPoint : ActiveJourney.KeyPoint? = null
     var activeJourney : ActiveJourney? = null
 
 
@@ -54,7 +53,7 @@ object NotifyManager {
     fun setNextNotification(activeJourney: ActiveJourney, overrideTime : Long? = null){
         if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notify_change_enable",false)) return
         val change = activeJourney.getNextChange() ?: return
-        currentChange = change
+        currentKeyPoint = change
         if (lastNotificationIntent!=null) alarmManager.cancel(lastNotificationIntent)
 
         val notifyIntent = Intent(context, NotifyReceiver::class.java)
@@ -70,11 +69,15 @@ object NotifyManager {
 
         var timedate = TimeDate(startTime=change.arrivalTime())
         timedate.addMinutes(-PreferenceManager.getDefaultSharedPreferences(context).getString("notify_change_time","0")!!.toInt())
+
+        if (timedate.calendar.timeInMillis < System.currentTimeMillis()) return
         if (BuildConfig.DEBUG){
             Toast.makeText(context,"Sending notification at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
         }
         if (overrideTime!=null)
             timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
+
+
 
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
@@ -95,7 +98,7 @@ object NotifyManager {
             PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)
         builder.setContentTitle(context.getString(R.string.notification_change_title))
-        val change = currentChange
+        val change = currentKeyPoint
         if (change != null)
             builder.setContentText(
                 context.getString(

@@ -10,6 +10,7 @@ import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.RTTAPI
 import java.io.Serializable
+import java.security.Key
 import java.util.concurrent.locks.ReentrantLock
 
 
@@ -120,77 +121,112 @@ class ActiveJourney(
     }
 
     fun isExpired(): Boolean {
-        val timeToArriveAtLastStation = getCurrentService()?.getRTorTTDeparture(waypoints.last()) ?: return false
-        return TimeDate(startTime = timeToArriveAtLastStation  ).calendar.timeInMillis < TimeDate().calendar.timeInMillis
+//        val timeToArriveAtLastStation = getCurrentService()?.getRTorTTDeparture(waypoints.last()) ?: return false
+//        return TimeDate(startTime = timeToArriveAtLastStation  ).calendar.timeInMillis < TimeDate().calendar.timeInMillis
+        return false
     }
 
     fun getCurrentServiceNo() : Int?{
-        return journeyPlanResponse?.indexOf(getCurrentService())
-    }
-
-    fun getCurrentService() : ServiceResponse? {
-        val aj = this
-        val serviceResponses = journeyPlanResponse ?: return null
-
-        for (i in serviceResponses.indices){ // For each waypoint
-            val x = serviceResponses.filter{ sr ->
-                val currentTime = TimeDate().calendar.timeInMillis
-                val service1Dep = TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis
-                val service2Dep = TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i+1])).calendar.timeInMillis
-
-
-                return@filter service1Dep < currentTime && // If departure in the past
-                        service2Dep > currentTime // If service2 departure is in the future
-            }
-            if (x.isNotEmpty()) return x.first()
-        }
         return null
     }
 
-    fun getNextChange() : Change? {
-        val x = getCurrentServiceNo()
-            ?: return null
-        return getChanges()?.getOrNull(x)
-    }
-
-    fun getChanges(): List<Change>?{
-
-        val journeyPlanLocal = journeyPlanResponse ?: return null
-
-        if (journeyPlanLocal.size <= 1) return null
-        if (journeyPlanLocal.size == 1) return null
-
-        val changes = ArrayList<Change>()
-        for (i in 0..journeyPlan.size-2){
-            val c = Change(
-                journeyPlanLocal[i],
-                journeyPlanLocal[i+1],
-                this.waypoints[i+1],
-                Change.ChangeType.CHANGE
+    fun getKeypoints2() : List<KeyPoint>? {
+        val aj = this
+        val serviceResponses = journeyPlanResponse ?: return null
+        val currentTime = TimeDate().calendar.timeInMillis
+        var x = ArrayList<KeyPoint>()
+        var sr = serviceResponses[0] //Before Journey
+        x.add(
+            KeyPoint(
+                sr,
+                null,
+                0,
+                stringTimeToMilis(sr.getRTStationDeparture(aj.waypoints[0])!!),
+                waypoints[0],
+                KeyPoint.ChangeType.START
             )
-            changes.add(c)
+        )
+
+        if (serviceResponses.size == 1) { //Single leg journey
+
+            return x
         }
-        return changes
+
+        for (i in 0..serviceResponses.size-2) { // For each service
+            sr = serviceResponses[i]
+            val station1Dep =
+                TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis
+            val station2Dep =
+                TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i + 1])).calendar.timeInMillis
+
+            if (i < serviceResponses.size - 1) { // If not Last Service
+                val service2Dep =
+                    TimeDate(startTime = serviceResponses[i + 1].getRTStationDeparture(aj.waypoints[i + 1])).calendar.timeInMillis
+                x.add(
+                    KeyPoint(
+                        sr,
+                        serviceResponses[i + 1],
+                        station1Dep,
+                        service2Dep,
+                        waypoints[i + 1],
+                        KeyPoint.ChangeType.CHANGE
+                    )
+                )
+            }
+        }
+
+        sr = serviceResponses.last()
+        x.add(
+            KeyPoint(
+                sr,
+                null,
+                stringTimeToMilis(sr.getRTStationArrival(aj.waypoints[serviceResponses.size])!!),
+                Long.MAX_VALUE,
+                waypoints.last(),
+                KeyPoint.ChangeType.END
+            )
+        )
+
+        return x
     }
 
-    class Change(
+    fun getCurrentKeyPoint() : KeyPoint? {
+        var x = getKeypoints2()
+        x = x?.filter { kp ->
+            kp.validFrom < System.currentTimeMillis() && kp.validTo > System.currentTimeMillis()
+        }
+        return x?.firstOrNull()
+    }
+
+    fun getNextChange() : KeyPoint? {
+        var x = getKeypoints2()?.filter {kp ->
+            kp.changeType==KeyPoint.ChangeType.CHANGE && kp.validTo > System.currentTimeMillis()
+        }
+        return x?.firstOrNull()
+    }
+
+    class KeyPoint(
         val service1: ServiceResponse,
-        val service2: ServiceResponse,
-        val waypoint: StationStub,
-        val changeType: ChangeType
+        val service2: ServiceResponse?,
+        val validFrom: Long,
+        val validTo:Long,
+        val waypoint: StationStub?,
+        val changeType : ChangeType
 
     ) {
         fun arrivalTime(): String? {
-            return service1.getRTStationArrival(waypoint)
+            return service1.getRTStationArrival(waypoint!!)
         }
 
         fun departureTime(): String? {
-            return service2.getRTStationDeparture(waypoint)
+            return service2?.getRTStationDeparture(waypoint!!)
         }
 
         enum class ChangeType {
+            START,
             CHANGE,
-            END
+            END,
+            SINGLE
         }
     }
 

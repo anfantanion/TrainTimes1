@@ -35,3 +35,7 @@ fun differenceOfTimesMinutes(start:Long, end: Long): Int{
         start-end
     ).toInt()
 }
+
+fun stringTimeToMilis(stringTime: String) : Long{
+    return TimeDate(startTime = stringTime).calendar.timeInMillis
+}

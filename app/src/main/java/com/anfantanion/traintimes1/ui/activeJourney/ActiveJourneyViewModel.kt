@@ -9,10 +9,8 @@ import com.anfantanion.traintimes1.models.Station
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
-import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.repositories.JourneyRepo
-import com.anfantanion.traintimes1.repositories.RTTAPI
 import com.anfantanion.traintimes1.repositories.StationRepo
 
 class ActiveJourneyViewModel : ViewModel() {
@@ -116,8 +114,8 @@ class ActiveJourneyViewModel : ViewModel() {
 
     }
 
-    fun getNextChange() : ActiveJourney.Change? {
-        return activeJourney.value?.getNextChange()
+    fun getNextChange() : ActiveJourney.KeyPoint? {
+        return activeJourney.value?.getCurrentKeyPoint()
     }
 
 
