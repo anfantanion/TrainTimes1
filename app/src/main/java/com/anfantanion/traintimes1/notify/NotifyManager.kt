@@ -4,8 +4,11 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
+import com.anfantanion.traintimes1.BuildConfig
 import com.anfantanion.traintimes1.MainActivity
 import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.ActiveJourney
@@ -20,10 +23,15 @@ object NotifyManager {
     lateinit var context : Context
     const val JOURNEYNOTIFYCHANNEL = "JOURNEYNOTIFYCHANNEL"
     const val changeReminder = 100;
+    const val refreshID = 101;
+
 
     lateinit var alarmManager : AlarmManager
     var lastNotificationIntent : PendingIntent? = null
+    var lastRefreshIntent : PendingIntent? = null
     var currentChange : ActiveJourney.Change? = null
+    var activeJourney : ActiveJourney? = null
+
 
     fun setup(context: Context){
         this.context = context
@@ -44,6 +52,7 @@ object NotifyManager {
     }
 
     fun setNextNotification(activeJourney: ActiveJourney, overrideTime : Long? = null){
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notify_change_enable",false)) return
         val change = activeJourney.getNextChange() ?: return
         currentChange = change
         if (lastNotificationIntent!=null) alarmManager.cancel(lastNotificationIntent)
@@ -60,6 +69,10 @@ object NotifyManager {
 
 
         var timedate = TimeDate(startTime=change.arrivalTime())
+        timedate.addMinutes(-PreferenceManager.getDefaultSharedPreferences(context).getString("notify_change_time","0")!!.toInt())
+        if (BuildConfig.DEBUG){
+            Toast.makeText(context,"Sending notification at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
+        }
         if (overrideTime!=null)
             timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
 
@@ -100,6 +113,42 @@ object NotifyManager {
 
     fun sendNotificationIn(seconds: Int){
         setNextNotification(JourneyRepo.activeJourney.value!!,seconds.toLong()*1000)
+    }
+
+    fun queueNextRefresh(activeJourney: ActiveJourney, overrideTime : Long? = null){
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("automatic_refresh_enable",false)) return
+        if (lastRefreshIntent!=null) alarmManager.cancel(lastRefreshIntent)
+
+        this.activeJourney = activeJourney
+
+        val intent = Intent(context, RefreshReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            changeReminder,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        lastNotificationIntent = pendingIntent
+
+
+        var timedate = TimeDate()
+        timedate.addMinutes(PreferenceManager.getDefaultSharedPreferences(context).getString("refresh_every","0")!!.toInt())
+        if (BuildConfig.DEBUG){
+            Toast.makeText(context,"Refreshing in "+timedate.getTime(),Toast.LENGTH_SHORT).show()
+        }
+        if (overrideTime!=null)
+            timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
+
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            timedate.calendar.timeInMillis,
+            pendingIntent
+        )
+    }
+
+    fun refresh(){
+        activeJourney?.getPlannedServices({},{})
     }
 
 

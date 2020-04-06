@@ -1,18 +1,16 @@
 package com.anfantanion.traintimes1.models
 
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlanner
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerError
 import com.anfantanion.traintimes1.models.journeyPlanners.JourneyPlannerReverse
 import com.anfantanion.traintimes1.models.parcelizable.ServiceStub
 import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
+import com.anfantanion.traintimes1.notify.NotifyManager
 import com.anfantanion.traintimes1.repositories.RTTAPI
 import java.io.Serializable
-import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
 
 class ActiveJourney(
@@ -109,12 +107,21 @@ class ActiveJourney(
                 val y = x.toList().filterNotNull()
                 lastRefresh = System.currentTimeMillis()
                 journeyPlanResponse = y
+                NotifyManager.setNextNotification(this)
+                if (!isExpired()){
+                    NotifyManager.queueNextRefresh(this)
+                }
                 listener(y)
             },
             errorListener = errorListener
 
         )
 
+    }
+
+    fun isExpired(): Boolean {
+        val timeToArriveAtLastStation = getCurrentService()?.getRTorTTDeparture(waypoints.last()) ?: return false
+        return TimeDate(startTime = timeToArriveAtLastStation  ).calendar.timeInMillis < TimeDate().calendar.timeInMillis
     }
 
     fun getCurrentServiceNo() : Int?{
@@ -125,18 +132,24 @@ class ActiveJourney(
         val aj = this
         val serviceResponses = journeyPlanResponse ?: return null
 
-        for (i in serviceResponses.indices){
+        for (i in serviceResponses.indices){ // For each waypoint
             val x = serviceResponses.filter{ sr ->
-                TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis < TimeDate().calendar.timeInMillis &&
-                        TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i+1])).calendar.timeInMillis > TimeDate().calendar.timeInMillis
+                val currentTime = TimeDate().calendar.timeInMillis
+                val service1Dep = TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i])).calendar.timeInMillis
+                val service2Dep = TimeDate(startTime = sr.getRTStationDeparture(aj.waypoints[i+1])).calendar.timeInMillis
+
+
+                return@filter service1Dep < currentTime && // If departure in the past
+                        service2Dep > currentTime // If service2 departure is in the future
             }
             if (x.isNotEmpty()) return x.first()
         }
-        return serviceResponses.getOrNull(0)
+        return null
     }
 
     fun getNextChange() : Change? {
-        val x = getCurrentServiceNo() ?: return null
+        val x = getCurrentServiceNo()
+            ?: return null
         return getChanges()?.getOrNull(x)
     }
 
@@ -152,7 +165,8 @@ class ActiveJourney(
             val c = Change(
                 journeyPlanLocal[i],
                 journeyPlanLocal[i+1],
-                this.waypoints[i+1]
+                this.waypoints[i+1],
+                Change.ChangeType.CHANGE
             )
             changes.add(c)
         }
@@ -160,19 +174,24 @@ class ActiveJourney(
     }
 
     class Change(
-        val service1 : ServiceResponse,
-        val service2 : ServiceResponse,
-        val waypoint : StationStub
-    ){
-        fun arrivalTime() : String?{
+        val service1: ServiceResponse,
+        val service2: ServiceResponse,
+        val waypoint: StationStub,
+        val changeType: ChangeType
+
+    ) {
+        fun arrivalTime(): String? {
             return service1.getRTStationArrival(waypoint)
         }
 
-        fun departureTime() : String?{
+        fun departureTime(): String? {
             return service2.getRTStationDeparture(waypoint)
         }
 
-
+        enum class ChangeType {
+            CHANGE,
+            END
+        }
     }
 
 
