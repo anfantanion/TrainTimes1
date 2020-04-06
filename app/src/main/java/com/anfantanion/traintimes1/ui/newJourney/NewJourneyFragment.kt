@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -131,6 +132,8 @@ class NewJourneyFragment : Fragment(),
             newJourneyViewModel.journeyTitle.value = text.toString()
         }
 
+
+
         newJourneyChangeInput.addTextChangedListener { text: Editable? ->
             try {
                 newJourneyViewModel.changeTime.value = text.toString().toInt()
@@ -138,6 +141,8 @@ class NewJourneyFragment : Fragment(),
 
             }
         }
+
+        newJourneyChangeInput.setText(PreferenceManager.getDefaultSharedPreferences(this.context).all["default_changetime"].toString())
 
 
         val callbacks =
