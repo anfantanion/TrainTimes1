@@ -11,6 +11,7 @@ import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.TimeDate
 import com.anfantanion.traintimes1.models.differenceOfTimesMinutes
+import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.JourneyRepo.activeJourney
 import com.anfantanion.traintimes1.repositories.StationRepo
 
@@ -42,7 +43,7 @@ object NotifyManager {
         alarmManager = NotifyManager.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
-    fun setNextNotification(activeJourney: ActiveJourney){
+    fun setNextNotification(activeJourney: ActiveJourney, overrideTime : Long? = null){
         val change = activeJourney.getNextChange() ?: return
         currentChange = change
         if (lastNotificationIntent!=null) alarmManager.cancel(lastNotificationIntent)
@@ -57,7 +58,10 @@ object NotifyManager {
 
         lastNotificationIntent = pendingIntent
 
-        var timedate = TimeDate(change.arrivalTime())
+
+        var timedate = TimeDate(startTime=change.arrivalTime())
+        if (overrideTime!=null)
+            timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
 
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
@@ -84,7 +88,7 @@ object NotifyManager {
                 context.getString(
                     R.string.notification_change_short,
                     StationRepo.getStation(change.waypoint)!!.name,
-                    differenceOfTimesMinutes(TimeDate(),TimeDate(change.arrivalTime())).toString(),
+                    differenceOfTimesMinutes(TimeDate(startTime=change.arrivalTime()), TimeDate()).toString(),
                     change.arrivalTime()
                 )
             )
@@ -95,23 +99,7 @@ object NotifyManager {
     }
 
     fun sendNotificationIn(seconds: Int){
-        val notifyIntent = Intent(context, NotifyReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            changeReminder,
-            notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        var timedate = TimeDate()
-
-        val alarmManager =
-            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            timedate.calendar.timeInMillis+seconds*1000,
-            pendingIntent
-        )
+        setNextNotification(JourneyRepo.activeJourney.value!!,seconds.toLong()*1000)
     }
 
 
