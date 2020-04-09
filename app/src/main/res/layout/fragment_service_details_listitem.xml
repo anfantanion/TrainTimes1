@@ -228,7 +228,7 @@
                 android:gravity="center"
                 android:textSize="15sp"
                 android:textColor="@color/colorTitleText"
-
+                android:visibility="gone"
                 android:text="Splits Here"
                 />
 
@@ -236,10 +236,14 @@
                 android:id="@+id/serviceDetailsTextAdditionalInfoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:gravity="right|center_vertical"
+                android:gravity="center_vertical"
                 android:background="@color/light_gray"
                 android:text="Service to Bognor Regis"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceButton"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeStepGranularity="2sp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 />
         </LinearLayout>
