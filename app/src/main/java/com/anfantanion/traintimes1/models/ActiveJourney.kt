@@ -147,11 +147,6 @@ class ActiveJourney(
             )
         )
 
-        if (serviceResponses.size == 1) { //Single leg journey
-
-            return x
-        }
-
         for (i in 0..serviceResponses.size-2) { // For each service
             sr = serviceResponses[i]
             val station1Dep =
