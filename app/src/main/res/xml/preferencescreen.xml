@@ -17,7 +17,7 @@
             app:key="default_changetime"
             app:useSimpleSummaryProvider="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             app:title="@string/preference_jp_automatic_refresh_title"
             app:summary="@string/preference_jp_automatic_refresh_summary"
@@ -36,7 +36,7 @@
             app:key="refresh_every"
             app:useSimpleSummaryProvider="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             app:title="@string/preference_jp_notify_title"
             app:summary="@string/preference_jp_notify_summary"

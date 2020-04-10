@@ -21,6 +21,14 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
+        preferenceManager.findPreference<EditTextPreference>("refresh_every")!!.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        preferenceManager.findPreference<EditTextPreference>("notify_change_time")!!.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
         setRefreshIntervalEnabled(preferenceManager.sharedPreferences.getBoolean("automatic_refresh_enable",false))
         setNotifyEnabled(preferenceManager.sharedPreferences.getBoolean("notify_change_enable",false))
 
