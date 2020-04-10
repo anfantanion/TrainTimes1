@@ -139,6 +139,9 @@ class ActiveJourneyFragment : Fragment(),
 
         activeJourneySelectOrCreate.setOnClickListener(this)
 
+        JourneyRepo.activeJourney.observe(viewLifecycleOwner, Observer{
+            activeJourneyViewModel.activeJourney.value = it
+        })
 
     }
 

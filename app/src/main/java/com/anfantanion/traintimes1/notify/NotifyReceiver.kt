@@ -8,7 +8,7 @@ import android.content.Intent
 class NotifyReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        NotifyManager.makeChangeNotification(context!!,intent)
+        NotifyManager.refresh()
     }
 
 }

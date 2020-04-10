@@ -138,7 +138,7 @@ object NotifyManager {
         var timedate = TimeDate()
         timedate.addMinutes(PreferenceManager.getDefaultSharedPreferences(context).getString("refresh_every","0")!!.toInt())
         if (BuildConfig.DEBUG){
-            Toast.makeText(context,"Refreshing in "+timedate.getTime(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Refreshing at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
         }
         if (overrideTime!=null)
             timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
@@ -151,7 +151,11 @@ object NotifyManager {
     }
 
     fun refresh(){
-        activeJourney?.getPlannedServices({},{})
+        Toast.makeText(context,"Refreshing",Toast.LENGTH_SHORT).show()
+        activeJourney?.getPlannedServices({
+            val aj = activeJourney !!
+            JourneyRepo.activeJourney.value = aj
+        },{})
     }
 
 

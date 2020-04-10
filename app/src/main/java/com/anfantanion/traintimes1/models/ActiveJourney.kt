@@ -121,9 +121,9 @@ class ActiveJourney(
     }
 
     fun isExpired(): Boolean {
-//        val timeToArriveAtLastStation = getCurrentService()?.getRTorTTDeparture(waypoints.last()) ?: return false
-//        return TimeDate(startTime = timeToArriveAtLastStation  ).calendar.timeInMillis < TimeDate().calendar.timeInMillis
-        return false
+        val last = getKeypoints2()?.last() ?: return true
+        val time = last.service1.getRTorTTArrival(last.waypoint!!) ?: return false
+        return (stringTimeToMilis(time) < System.currentTimeMillis())
     }
 
     fun getCurrentServiceNo() : Int?{
@@ -193,7 +193,7 @@ class ActiveJourney(
     fun getCurrentKeyPoint() : KeyPoint? {
         var x = getKeypoints2()
         x = x?.filter { kp ->
-            kp.validFrom < System.currentTimeMillis() && kp.validTo > System.currentTimeMillis()
+            kp.validFrom < System.currentTimeMillis() && kp.validTo > System.currentTimeMillis() || kp.changeType==KeyPoint.ChangeType.END
         }
         return x?.firstOrNull()
     }
