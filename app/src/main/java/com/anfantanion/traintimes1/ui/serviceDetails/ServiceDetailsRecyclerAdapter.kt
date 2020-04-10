@@ -75,6 +75,7 @@ class ServiceDetailsRecyclerAdapter (
         interface ViewHolderListener{
             fun onMainClick(position: Int)
             fun onAdditionalInfoButtonClick(position: Int)
+            fun showAssociations() : Boolean
         }
     }
 
@@ -182,7 +183,7 @@ class ServiceDetailsRecyclerAdapter (
         }
 
         //Splitting/ Joining Trains
-        if (!location.associations.isNullOrEmpty()){
+        if (!location.associations.isNullOrEmpty() && viewHolderListener.showAssociations()){
             holder.serviceDetailsExtension.visibility = View.VISIBLE
 
             //If Last position hide image
@@ -224,13 +225,11 @@ class ServiceDetailsRecyclerAdapter (
 
         if (position <= lastKnown ?: 0 ){
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.stationPassed))
+            holder.serviceDetailsExtensionImage.setColorFilter(ContextCompat.getColor(context, R.color.stationPassed))
         }else{
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.stationNormal))
+            holder.serviceDetailsExtensionImage.setColorFilter(ContextCompat.getColor(context,  R.color.stationNormal))
         }
-    }
-
-    interface ServiceDetailsRecycClick{
-        fun onStationClick(position: Int)
     }
 
     class TimeView(

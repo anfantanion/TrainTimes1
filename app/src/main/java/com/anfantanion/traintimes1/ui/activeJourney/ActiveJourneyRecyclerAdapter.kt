@@ -182,4 +182,8 @@ class NullListener() : ServiceDetailsRecyclerAdapter.ViewHolder.ViewHolderListen
 
     }
 
+    override fun showAssociations(): Boolean {
+        return false
+    }
+
 }

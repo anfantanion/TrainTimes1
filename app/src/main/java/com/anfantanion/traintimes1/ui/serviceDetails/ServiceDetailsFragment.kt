@@ -189,5 +189,9 @@ class ServiceDetailsFragment : Fragment(),
             Log.d(TAG,"Error finding service")
     }
 
+    override fun showAssociations(): Boolean {
+        return true
+    }
+
 
 }
