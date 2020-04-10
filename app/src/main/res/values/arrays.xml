@@ -12,4 +12,14 @@
         <item>System</item>
     </string-array>
 
+    <string-array name="preference_map_focus_entries">
+        <item>Fit Current Service on Screen</item>
+        <item>Fit All Services on Screen</item>
+    </string-array>
+
+    <string-array name="preference_map_focus_values">
+        <item>fit-current</item>
+        <item>fit-all</item>
+    </string-array>
+
 </resources>

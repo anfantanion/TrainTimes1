@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.repositories.StationRepo
 
@@ -51,17 +53,36 @@ class MapsFragment : Fragment(),
     }
 
     fun drawServices(serviceResponses: Array<ServiceResponse?>) : Boolean{
+        var fitService = false
+        var fitAll = false
+        var currentLocation = false
+
+        when(PreferenceManager.getDefaultSharedPreferences(context).all["map_focus_list"]){
+            "fit-current" -> fitService = true
+            "fit-all" -> fitAll = true
+            "focus" -> currentLocation = true
+        }
+
+
         val googleMap1 = this.googleMap ?: return false
+
+        var lowestLat = Double.MAX_VALUE
+        var lowestLon = Double.MAX_VALUE
+        var highestLat = -Double.MAX_VALUE
+        var highestLon = -Double.MAX_VALUE
 
         for (serviceResponsePos in serviceResponses.indices) {
             val serviceResponse = serviceResponses[serviceResponsePos] ?: continue
             val locations = serviceResponse.locations ?: continue
             var lastPos : LatLng? = null
 
-            var lowestLat = Double.MAX_VALUE
-            var lowestLon = Double.MAX_VALUE
-            var highestLat = -Double.MAX_VALUE
-            var highestLon = -Double.MAX_VALUE
+            if (fitService){
+                lowestLat = Double.MAX_VALUE
+                lowestLon = Double.MAX_VALUE
+                highestLat = -Double.MAX_VALUE
+                highestLon = -Double.MAX_VALUE
+            }
+
 
 
             for (locPos in locations.indices) {
@@ -100,7 +121,8 @@ class MapsFragment : Fragment(),
                 lastPos = currentPos
             }
 
-            if (serviceResponsePos == args.focusedService){
+
+            if ((serviceResponsePos == args.focusedService && fitService ) || (serviceResponsePos == serviceResponses.size-1 && fitAll)){
                 if (lowestLat < highestLat && lowestLon < highestLon) {
                     val latLngBounds = LatLngBounds(
                         LatLng(lowestLat, lowestLon),

@@ -158,6 +158,9 @@
     <string name="preference_jp_notify_time_title">Time Before Change</string>
     <string name="preference_jp_notify_time_summary">Warning time in minutes before a change is scheduled.</string>
     <string name="preference_notify_time_dialog">Warning Time (in Minutes)</string>
+    <string name="preference_map_focus_title">Map Focus</string>
+    <string name="preference_map_focus_dialog_title">Map Focus</string>
+    <string name="preference_map_focus_summary">Choose the default view when opening the map.</string>
 
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>

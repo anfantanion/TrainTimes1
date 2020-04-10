@@ -57,7 +57,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:initialExpandedChildrenCount="1"
+        app:initialExpandedChildrenCount="100"
         app:key="other"
         app:title="@string/preference_OtherCategory">
 
@@ -70,6 +70,15 @@
             android:defaultValue="System"
             />
 
+        <ListPreference
+            app:key="map_focus_list"
+            app:title="@string/preference_map_focus_title"
+            app:summary="@string/preference_map_focus_summary"
+            app:entries="@array/preference_map_focus_entries"
+            app:entryValues="@array/preference_map_focus_values"
+            app:dialogTitle="@string/preference_map_focus_dialog_title"
+            android:defaultValue="fit-current"
+            />
 
     </PreferenceCategory>
 
