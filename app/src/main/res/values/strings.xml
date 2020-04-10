@@ -117,7 +117,7 @@
     <string name="homeMapTitle">Map</string>
     <string name="noLocation">Could not obtain location</string>
     <string name="requiresLocationInfo">Finding nearest station requires Location Permission</string>
-    <string name="aboutText">Service and Platform information provided by RealTimeTrains.co.uk\n\Icon made by Freepik from www.flaticon.com</string>
+    <string name="aboutText">Service and Platform information provided by RealTimeTrains.co.uk\n\nIcon made by Freepik from www.flaticon.com\n\nContains public sector information licensed under the Open Government Licence v3.0.</string>
 
     <string name="shortcutActiveJourneyShort">Active Journey</string>
     <string name="shortcutActiveJourneyLong">Active Journey</string>
