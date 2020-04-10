@@ -203,7 +203,7 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_below="@+id/serviceDetailsImageView"
-        android:background="@color/light_gray"
+        android:background="@color/additionalInfoBackground"
         android:visibility="visible"
         >
 
@@ -234,10 +234,9 @@
 
             <Button
                 android:id="@+id/serviceDetailsTextAdditionalInfoButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:background="@color/light_gray"
                 android:text="Service to Bognor Regis"
                 android:textAppearance="?attr/textAppearanceButton"
                 app:autoSizeTextType="uniform"
