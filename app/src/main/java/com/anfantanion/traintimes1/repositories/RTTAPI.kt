@@ -3,7 +3,6 @@ package com.anfantanion.traintimes1.repositories
 import android.content.Context
 import android.os.Handler
 import android.util.Log
-import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -12,8 +11,6 @@ import com.anfantanion.traintimes1.models.parcelizable.StationStub
 import com.anfantanion.traintimes1.models.stationResponse.Association
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.models.stationResponse.StationResponse
-import com.anfantanion.traintimes1.repositories.cachedb.CStationResponse
-import com.anfantanion.traintimes1.repositories.cachedb.CacheDatabase
 
 object RTTAPI{
     val endpoint = "https://api.rtt.io/api/v1/json"
@@ -21,15 +18,9 @@ object RTTAPI{
     private const val serviceQuery = "/service"
 
     private lateinit var context: Context
-    lateinit var cacheDatabase : CacheDatabase
 
     fun setContext(context: Context){
         this.context=context
-        val temp = Room.databaseBuilder(context,CacheDatabase::class.java, "Station-Response-Cache")
-        temp.enableMultiInstanceInvalidation()
-        temp.allowMainThreadQueries(        ) //TODO: REMOVE!!!
-        temp.fallbackToDestructiveMigration()
-        cacheDatabase = temp.build()
     }
 
     fun requestStation(
@@ -50,12 +41,6 @@ object RTTAPI{
         date: String? = null,
         maxAge: Long = 0
     ) {
-        //Check Cache
-        //val x = cacheDatabase.CStationResponceDao().getMatching(station,to,from,date,maxAge)
-        val x = emptyList<CStationResponse>()
-        if(x.isNotEmpty()){
-            listener.onResponse(x[0].cObject)
-        }
 
         //Request from api
         val request = buildStationRequest(station,to,from,date)

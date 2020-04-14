@@ -72,5 +72,10 @@ class StationDetailsViewModel : ViewModel(){
         return stringBuilder.toString()
     }
 
+    fun getMapURL() : String? {
+        var stationStub = station?.toStationStub() ?: return null
+        return "https://www.nationalrail.co.uk/stations_destinations/sme/${stationStub.crs}_StationPlan.aspx"
+    }
+
 
 }

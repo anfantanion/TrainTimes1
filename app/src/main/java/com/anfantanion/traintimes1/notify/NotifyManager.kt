@@ -109,6 +109,7 @@ object NotifyManager {
                 )
             )
         builder.setSmallIcon(R.drawable.ic_train)
+        builder.setPriority(Notification.PRIORITY_DEFAULT) // Set for older versions of android
         val notificationCompat = builder.build()
         val managerCompat = NotificationManagerCompat.from(context)
         managerCompat.notify(NotifyManager.changeReminder, notificationCompat)

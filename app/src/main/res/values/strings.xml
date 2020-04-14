@@ -161,6 +161,7 @@
     <string name="preference_map_focus_title">Map Focus</string>
     <string name="preference_map_focus_dialog_title">Map Focus</string>
     <string name="preference_map_focus_summary">Choose the default view when opening the map.</string>
+    <string name="action_stationDetails_map">View Station Map</string>
 
     <plurals name="minutesTime">
         <item quantity="zero">just now</item>

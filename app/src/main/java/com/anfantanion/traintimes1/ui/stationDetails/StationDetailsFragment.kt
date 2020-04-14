@@ -1,9 +1,12 @@
 package com.anfantanion.traintimes1.ui.stationDetails
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -107,6 +110,16 @@ class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServic
         when (item.itemId){
             R.id.action_stationDetails_refresh -> viewModel.getServices()
             R.id.action_stationDetails_filter -> findNavController().navigate(R.id.action_stationDetails_to_selectFilterDialog)
+            R.id.action_stationDetails_map -> {
+                val url = viewModel.getMapURL() ?: return false
+                val builder = CustomTabsIntent.Builder()
+                builder.setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+                builder.setShowTitle(false)
+                val customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(context!!, Uri.parse(url))
+
+
+            }
         }
 
         return super.onOptionsItemSelected(item)
