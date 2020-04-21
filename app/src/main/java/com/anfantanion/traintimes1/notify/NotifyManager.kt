@@ -71,7 +71,7 @@ object NotifyManager {
         timedate.addMinutes(-PreferenceManager.getDefaultSharedPreferences(context).getString("notify_change_time","0")!!.toInt())
 
         if (timedate.calendar.timeInMillis < System.currentTimeMillis()) return
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG || true){
             Toast.makeText(context,"Sending notification at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
         }
         if (overrideTime!=null)
@@ -138,7 +138,7 @@ object NotifyManager {
 
         var timedate = TimeDate()
         timedate.addMinutes(PreferenceManager.getDefaultSharedPreferences(context).getString("refresh_every","0")!!.toInt())
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG || true){
             Toast.makeText(context,"Refreshing at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
         }
         if (overrideTime!=null)
