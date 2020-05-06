@@ -17,11 +17,8 @@ object RTTAPI{
     private const val locationQuery = "/search"
     private const val serviceQuery = "/service"
 
-    private lateinit var context: Context
+    lateinit var context: Context
 
-    fun setContext(context: Context){
-        this.context=context
-    }
 
     fun requestStation(
         station: StationStub,

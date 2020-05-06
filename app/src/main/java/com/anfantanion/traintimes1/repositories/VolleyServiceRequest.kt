@@ -1,5 +1,6 @@
 package com.anfantanion.traintimes1.repositories
 
+import android.content.res.Resources
 import android.util.Base64
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
@@ -8,6 +9,7 @@ import com.android.volley.Response.ErrorListener
 import com.android.volley.Response.Listener
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
+import com.anfantanion.traintimes1.R
 import com.anfantanion.traintimes1.keys
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.google.gson.Gson
@@ -39,14 +41,12 @@ class VolleyServiceRequest(method: Int,
     }
 
     override fun getHeaders(): Map<String, String>? {
-        val headers = HashMap<String,String>()
-        val credentials: String = keys.user + ":" + keys.pass
+        val headers = HashMap<String, String>()
         val auth = (
-                "Basic "
-                + Base64.encodeToString(
-                credentials.toByteArray(),
-                Base64.NO_WRAP
-        ))
+                "Basic " + Base64.encodeToString(
+                    RTTAPI.context.getString(R.string.rttapi_cred).toByteArray(),
+                    Base64.NO_WRAP
+                ))
         headers["Authorization"] = auth
         return headers
     }

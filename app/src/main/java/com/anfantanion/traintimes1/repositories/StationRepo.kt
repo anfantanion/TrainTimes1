@@ -40,7 +40,7 @@ object StationRepo {
     fun setContext(context: Context) {
         this.context = context
         volleyRequestQueue = Volley.newRequestQueue(context)
-        rttAPI.setContext(context)
+        rttAPI.context = context
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         SearchManager.load()
     }
