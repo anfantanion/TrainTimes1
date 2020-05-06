@@ -115,7 +115,6 @@
                 android:layout_marginBottom="5dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="0dp"
-                android:layout_toLeftOf="@id/splitter"
                 app:cardBackgroundColor="@color/homeCardColor"
 
                 >
@@ -130,6 +129,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_horizontal"
                     />
             </com.google.android.material.card.MaterialCardView>
 
@@ -152,6 +152,7 @@
                 app:cardCornerRadius="4dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/homeCardColor"
+                android:visibility="gone"
 
 
                 >

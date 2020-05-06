@@ -66,16 +66,18 @@ class ServiceDetailsRecyclerAdapter (
         }
 
         override fun onClick(v: View?) {
-            when (v){
-                serviceDetailsTextAdditionalInfoButton -> viewHolderListener.onAdditionalInfoButtonClick(adapterPosition)
+            when (v) {
+                serviceDetailsTextAdditionalInfoButton -> viewHolderListener.onAdditionalInfoButtonClick(
+                    adapterPosition
+                )
                 itemView -> viewHolderListener.onMainClick(adapterPosition)
             }
         }
 
-        interface ViewHolderListener{
+        interface ViewHolderListener {
             fun onMainClick(position: Int)
             fun onAdditionalInfoButtonClick(position: Int)
-            fun showAssociations() : Boolean
+            fun showAssociations(): Boolean
         }
     }
 

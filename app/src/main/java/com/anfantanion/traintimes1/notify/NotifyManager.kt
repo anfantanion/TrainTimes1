@@ -51,11 +51,11 @@ object NotifyManager {
     }
 
     fun setNextNotification(activeJourney: ActiveJourney, overrideTime : Long? = null){
-        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notify_change_enable",false)) return
+        if (!PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("notify_change_enable",false)) return
         val change = activeJourney.getNextChange() ?: return
         currentKeyPoint = change
         if (lastNotificationIntent!=null) alarmManager.cancel(lastNotificationIntent)
-
         val notifyIntent = Intent(context, NotifyReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
             context,
@@ -63,21 +63,11 @@ object NotifyManager {
             notifyIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         lastNotificationIntent = pendingIntent
 
-
-        var timedate = TimeDate(startTime=change.arrivalTime())
-        timedate.addMinutes(-PreferenceManager.getDefaultSharedPreferences(context).getString("notify_change_time","0")!!.toInt())
-
-        if (timedate.calendar.timeInMillis < System.currentTimeMillis()) return
-        if (BuildConfig.DEBUG || true){
-            Toast.makeText(context,"Sending notification at "+timedate.getTime(),Toast.LENGTH_SHORT).show()
-        }
-        if (overrideTime!=null)
-            timedate.calendar.timeInMillis = System.currentTimeMillis()+overrideTime
-
-
+        val timedate = TimeDate(startTime=change.arrivalTime())
+        timedate.addMinutes(-PreferenceManager.getDefaultSharedPreferences(context)
+            .getString("notify_change_time","0")!!.toInt())
 
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,

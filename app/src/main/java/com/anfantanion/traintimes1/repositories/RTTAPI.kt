@@ -135,14 +135,14 @@ object RTTAPI{
             //Extra processing if service joins another and does not expose information for later stops
             val firstAssociation = response.locations?.first()?.associations
             val lastAssociation = response.locations?.last()?.associations
-            when {
+            when {//If a station is required, ensure the correct splitting journey is returned
                 requireStation != null -> {
-                    //TODO Check if more than one origin or destination before looking deeper
+                    //TODO: CHeck for associations and skip if not present?
                     findCounterpartService(response)
-                }
+                }//If this service is incomplete at the end, find the continuing service (Joining)
                 lastAssociation != null -> {
                     findJoiningService(response,lastAssociation[0])
-                }
+                }//If the start of this service is incomplete, find the starting service (splitting)
                 firstAssociation != null -> {
                     findStartingService(response,firstAssociation[0])
                 }
@@ -150,35 +150,33 @@ object RTTAPI{
                     rl.onResponse(response)
                 }
             }
-            //cacheDatabase.CStationResponceDao().insert(CStationResponse(station,System.currentTimeMillis(),to,from,date,response))
-
         }
 
         /**
-         * If a certain station is required, check for it and make a second request for a dividing service if necessary.
+         * If a certain station is required, check for it and make a second request for a dividing
+         * service if necessary.
          */
-        fun findCounterpartService(response: ServiceResponse){
+        fun findCounterpartService(response: ServiceResponse) {
             //Check each location for an association
-            var association : Association? = null
+            var association: Association? = null
             var visitedRequired = false
 
-            for (it in response.locations!!){
+            for (it in response.locations!!) {
                 if (it.crs == requireStation!!.crs) {
                     visitedRequired = true
                     break
-                }else {
+                } else {
                     if (it.associations?.get(0) != null)
                         association = it.associations[0]
                 }
             }
-
 
             if (!visitedRequired && association != null) {
                 val x = association!!.toServiceStub()
                 requestService(
                     x,
                     listener = Response.Listener {
-                        Log.d("RTTAPI",it.toString())
+                        Log.d("RTTAPI", it.toString())
                         rl.onResponse(it)
                     },
                     errorListener = Response.ErrorListener {
@@ -192,25 +190,26 @@ object RTTAPI{
                 return rl.onResponse(response)
             }
 
-
-            response.locations?.forEach{
-                if (it.associations?.isNotEmpty() == true){
-
-                }
-            }
-
         }
 
-        fun findJoiningService(response: ServiceResponse, association: Association){
+        /**
+         * Find the service that joins this one at a later time
+         */
+        fun findJoiningService(response: ServiceResponse, association: Association) {
             val lastKnown = response.locations?.last() ?: return
             val originalLocations = response.locations ?: return
-            requestService(association.toServiceStub(),
-                listener = Response.Listener{ otherResponse ->
+            requestService(
+                association.toServiceStub(),
+                listener = Response.Listener { otherResponse ->
                     val otherResponseLocations = otherResponse?.locations
-                    if (otherResponseLocations == null) {rl.onResponse(response); return@Listener}
-                    val newStart = otherResponseLocations.indexOfFirst{ ld -> ld.crs == lastKnown.crs }
-                    val newLocations = otherResponseLocations.subList(newStart+1,otherResponseLocations.size)
-                    newLocations.forEach{ld ->
+                    if (otherResponseLocations == null) {
+                        rl.onResponse(response); return@Listener
+                    }
+                    val newStart =
+                        otherResponseLocations.indexOfFirst { ld -> ld.crs == lastKnown.crs }
+                    val newLocations =
+                        otherResponseLocations.subList(newStart + 1, otherResponseLocations.size)
+                    newLocations.forEach { ld ->
                         ld.origin = lastKnown.origin
                     }
                     val original = originalLocations.toMutableList()
@@ -225,10 +224,12 @@ object RTTAPI{
                 },
                 interceptResponse = false,
                 requireStation = null
-
             )
         }
 
+        /**
+         * Find the service that this service joins later, inorder to complete the journey.
+         */
         fun findStartingService(response: ServiceResponse, association: Association){
             val firstKnown = response.locations?.first() ?: return
             val originalLocations = response.locations ?: return
