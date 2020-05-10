@@ -21,3 +21,9 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.woxthebox.draglistview.** { *; }
+-keep class com.arlib.floatingsearchview.** { *; }
+-keep class com.anfantanion.traintimes1.models.parcelizable.** { *; }
+
+-keep class androidx.** { *; }
+-keep class com.google.android.material.** { *; }
+-keep interface androidx.** { *; }

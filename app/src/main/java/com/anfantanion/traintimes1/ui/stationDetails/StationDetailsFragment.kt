@@ -36,6 +36,7 @@ class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServic
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         receivedStation = StationRepo.getStation(arguments!!.getParcelable("ActiveStation"))
+        Log.d("HELP", receivedStation.toString())
         Log.d(TAG,receivedStation!!.name)
     }
 
