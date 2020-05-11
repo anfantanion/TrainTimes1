@@ -205,7 +205,10 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onMapButtonClick(position: Int) {
-
+        val serviceStub = activeJourneyViewModel.serviceResponses.value!!.get(position).toServiceStub()
+        findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToMapsFragment(
+            arrayOf(serviceStub)
+        ))
     }
 
     override fun onExpandClick(position: Int) {
