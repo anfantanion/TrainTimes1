@@ -24,6 +24,10 @@
 -keep class com.arlib.floatingsearchview.** { *; }
 -keep class com.anfantanion.traintimes1.models.parcelizable.** { *; }
 
+-keep class com.anfantanion.** { *; }
+
 -keep class androidx.** { *; }
 -keep class com.google.android.material.** { *; }
+-keep class com.android.volley.** { *; }
+-keep class com.google.code.gson.** { *; }
 -keep interface androidx.** { *; }
