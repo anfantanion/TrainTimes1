@@ -86,7 +86,7 @@ class HomeFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         mSearchView = view.findViewById(R.id.home_floating_search_view)
 
-        callbacks?.onAttachSearchViewToDrawer(mSearchView)
+
 
         val imageView = view.findViewById<ImageView>(R.id.home_background)
 
@@ -164,6 +164,13 @@ class HomeFragment : Fragment(),
         homeFavouriteJourney.adapter = savedJourneysRecyclerAdapter
 
         homeViewModel.getFavourites()
+
+        //callbacks?.onAttachSearchViewToDrawer(mSearchView)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        callbacks?.onAttachSearchViewToDrawer(mSearchView)
     }
 
     private fun setupFloatingSearch(){

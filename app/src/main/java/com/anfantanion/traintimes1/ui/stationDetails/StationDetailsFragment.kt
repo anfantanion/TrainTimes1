@@ -35,7 +35,7 @@ class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        receivedStation = StationRepo.getStation(arguments!!.getParcelable("ActiveStation"))
+        receivedStation = StationRepo.getStation(requireArguments().getParcelable("ActiveStation"))
         Log.d("HELP", receivedStation.toString())
         Log.d(TAG,receivedStation!!.name)
     }
