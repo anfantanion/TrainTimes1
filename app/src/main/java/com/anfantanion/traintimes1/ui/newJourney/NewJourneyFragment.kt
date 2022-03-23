@@ -265,11 +265,11 @@ class NewJourneyFragment : Fragment(),
 
             // Create a new instance of DatePickerDialog and return it
             return TimePickerDialog(
-                context!!,
+                requireContext(),
                 this,
                 calendarToUpdate.value!!.calendar.get(Calendar.HOUR_OF_DAY),
                 calendarToUpdate.value!!.calendar.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(context!!)
+                DateFormat.is24HourFormat(requireContext())
             )
         }
 

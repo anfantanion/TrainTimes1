@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import com.anfantanion.traintimes1.R
-import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.models.stationResponse.ServiceResponse
 import com.anfantanion.traintimes1.repositories.StationRepo
 
@@ -42,7 +40,7 @@ class MapsFragment : Fragment(),
 
         mapsViewModel = MapsViewModel(args.displayedServices)
 
-        mapsViewModel.serviceResponses.observe(this){ serviceResponses ->
+        mapsViewModel.serviceResponses.observe(viewLifecycleOwner){ serviceResponses ->
             drawServices(serviceResponses)
         }
 
@@ -92,9 +90,9 @@ class MapsFragment : Fragment(),
                     ?.let { serviceResponse.getPositionOfStation(it.toStationStub()) }
 
                 val lineColour = if (locPos <= lastKnown ?: 0 )
-                    ContextCompat.getColor(this.context!!, R.color.stationPassed)
+                    ContextCompat.getColor(this.requireContext(), R.color.stationPassed)
                 else
-                    ContextCompat.getColor(this.context!!, R.color.stationNormal)
+                    ContextCompat.getColor(this.requireContext(), R.color.stationNormal)
 
                 val currentPos = StationRepo.getStation(location.toStationStub())!!.latLng()
 

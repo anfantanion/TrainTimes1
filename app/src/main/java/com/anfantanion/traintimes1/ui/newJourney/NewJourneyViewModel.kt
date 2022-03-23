@@ -40,7 +40,7 @@ class NewJourneyViewModel {
             Journey.Type.ARRIVEBY -> arriveTime.value = TimeDate(startTime = journey.time)
         }
 
-        journeyTitle.value = journey.givenName
+        journeyTitle.value = journey.givenName ?: "NOTITLE"
         journeyTitleChanged.value = true
         changeTimeChanged.value = true
         changeTime.value = journey.allowChangeTime

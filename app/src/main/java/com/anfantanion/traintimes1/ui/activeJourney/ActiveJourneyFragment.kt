@@ -64,7 +64,7 @@ class ActiveJourneyFragment : Fragment(),
         activeJourneyViewModel.refreshAge.observe(viewLifecycleOwner, Observer {
             if (it!= null){
                 activeJourneyInfo.visibility = View.VISIBLE
-                activeJourneyInfo.text = context!!.resources.getQuantityString(R.plurals.minutesTime,it,it)
+                activeJourneyInfo.text = requireContext().resources.getQuantityString(R.plurals.minutesTime,it,it)
             }
             else {
                 activeJourneyInfo.visibility = View.GONE
