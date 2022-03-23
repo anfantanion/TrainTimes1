@@ -5,11 +5,10 @@ buildscript {
         ANDROID_STORE_PASSWORD = 'mEbhirgp1ILE1Nak2PUo'
         ANDROID_KEY_PASSWORD = 'mEbhirgp1ILE1Nak2PUo'
     }
-    ext.kotlin_version = '1.5.30'
+    ext.kotlin_version = '1.6.10'
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
@@ -24,7 +23,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
         
     }
 }
