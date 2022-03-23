@@ -221,7 +221,6 @@ class ActiveJourney(
             START,
             CHANGE,
             END,
-            SINGLE
         }
     }
 

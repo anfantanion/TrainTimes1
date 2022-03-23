@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
-import com.anfantanion.traintimes1.databinding.ConnectionCardBinding
 import com.anfantanion.traintimes1.databinding.FragmentActiveJourneyBinding
 import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.repositories.JourneyRepo
@@ -24,7 +21,6 @@ class ActiveJourneyFragment : Fragment(),
 
     private lateinit var activeJourneyViewModel: ActiveJourneyViewModel
     private lateinit var activeJourneyRecyclerAdapter: ActiveJourneyRecyclerAdapter
-    private lateinit var savedJourneyTouchHelper: ItemTouchHelper
 
     private var _binding: FragmentActiveJourneyBinding? = null
     // This property is only valid between onCreateView and
@@ -43,9 +39,7 @@ class ActiveJourneyFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentActiveJourneyBinding.inflate(inflater,container,false)
-        _bindingConnCard = ConnectionCardBinding.inflate(inflater,container,false)
-        activeJourneyViewModel = ViewModelProvider(this).get(ActiveJourneyViewModel::class.java)
-        val view = binding.root
+        activeJourneyViewModel = ViewModelProvider(this)[ActiveJourneyViewModel::class.java]
         return binding.root
     }
 
@@ -55,8 +49,8 @@ class ActiveJourneyFragment : Fragment(),
         binding.activeJourneyServiceRecycler.layoutManager = LinearLayoutManager(context)
         binding.activeJourneyServiceRecycler.adapter = activeJourneyRecyclerAdapter
 
-        activeJourneyViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
-            when(it){
+        activeJourneyViewModel.activeJourney.observe(viewLifecycleOwner) {
+            when (it) {
                 null -> {
                     binding.activeJourneyNoActiveJourney.visibility = View.VISIBLE
                 }
@@ -65,22 +59,23 @@ class ActiveJourneyFragment : Fragment(),
                 }
             }
             activeJourneyViewModel.getServices()
-            activeJourneyRecyclerAdapter.waypoints = activeJourneyViewModel.getWaypointStations() ?: emptyList()
-        })
+            activeJourneyRecyclerAdapter.waypoints =
+                activeJourneyViewModel.getWaypointStations() ?: emptyList()
+        }
 
-        activeJourneyViewModel.refreshAge.observe(viewLifecycleOwner, Observer {
-            if (it!= null){
+        activeJourneyViewModel.refreshAge.observe(viewLifecycleOwner) {
+            if (it != null) {
                 binding.activeJourneyInfo.visibility = View.VISIBLE
-                binding.activeJourneyInfo.text = requireContext().resources.getQuantityString(R.plurals.minutesTime,it,it)
-            }
-            else {
+                binding.activeJourneyInfo.text =
+                    requireContext().resources.getQuantityString(R.plurals.minutesTime, it, it)
+            } else {
                 binding.activeJourneyInfo.visibility = View.GONE
             }
-        })
+        }
 
-        activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner, Observer {
+        activeJourneyViewModel.serviceResponses.observe(viewLifecycleOwner) {
 
-            var change = activeJourneyViewModel.getNextChange()
+            val change = activeJourneyViewModel.getNextChange()
             if (change!=null){
                 binding.activeJourneyConnectionCardView.visibility = View.VISIBLE
                 when(change.changeType){
@@ -91,7 +86,7 @@ class ActiveJourneyFragment : Fragment(),
                         binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"")
                         binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"")
                         binding.connectionCard.activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service1.getRTorTTDeparture(change.waypoint!!))
-                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
                     }
 
                     ActiveJourney.KeyPoint.ChangeType.CHANGE ->{
@@ -101,9 +96,9 @@ class ActiveJourneyFragment : Fragment(),
                         binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"1")
                         binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"2")
                         binding.connectionCard.activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
-                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
-                        binding.connectionCard.activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2!!.getRTorTTDeparture(change.waypoint!!))
-                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2!!.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2!!.getRTorTTDeparture(change.waypoint))
+                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
                     }
 
                     ActiveJourney.KeyPoint.ChangeType.END -> {
@@ -113,9 +108,8 @@ class ActiveJourneyFragment : Fragment(),
                         binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"")
                         binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"")
                         binding.connectionCard.activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
-                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint)?: getString(R.string.UnknownPlat))
                     }
-
                 }
             }else{
                 binding.activeJourneyConnectionCardView.visibility = View.GONE
@@ -124,33 +118,42 @@ class ActiveJourneyFragment : Fragment(),
 
             activeJourneyRecyclerAdapter.services = it
             activeJourneyRecyclerAdapter.notifyDataSetChanged()
-        })
+        }
 
-        activeJourneyViewModel.loadedPreviouslyPlannedRoute.observe(viewLifecycleOwner, Observer {
+        activeJourneyViewModel.loadedPreviouslyPlannedRoute.observe(viewLifecycleOwner) {
             if (it)
-                Toast.makeText(context,R.string.activeJourneyLoadedPreviousTrue,Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    R.string.activeJourneyLoadedPreviousTrue,
+                    Toast.LENGTH_SHORT
+                ).show()
             else
-                Toast.makeText(context,R.string.activeJourneyLoadedPreviousFalse,Toast.LENGTH_SHORT).show()
-        })
+                Toast.makeText(
+                    context,
+                    R.string.activeJourneyLoadedPreviousFalse,
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
 
 
-        activeJourneyViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+        activeJourneyViewModel.isLoading.observe(viewLifecycleOwner) {
             if (it)
                 binding.activeJourneyProgressBar.visibility = View.VISIBLE
             else
                 binding.activeJourneyProgressBar.visibility = View.GONE
-        })
+        }
 
-        activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
-            MaterialAlertDialogBuilder(requireContext()).setMessage(it).setPositiveButton(R.string.ok,null).show()
-           // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
-        })
+        activeJourneyViewModel.errorText.observe(viewLifecycleOwner) {
+            MaterialAlertDialogBuilder(requireContext()).setMessage(it)
+                .setPositiveButton(R.string.ok, null).show()
+            // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+        }
 
         binding.activeJourneySelectOrCreate.setOnClickListener(this)
 
-        JourneyRepo.activeJourney.observe(viewLifecycleOwner, Observer{
+        JourneyRepo.activeJourney.observe(viewLifecycleOwner) {
             activeJourneyViewModel.activeJourney.value = it
-        })
+        }
 
     }
 
@@ -165,7 +168,7 @@ class ActiveJourneyFragment : Fragment(),
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.activeJourneyEndTitle)
                     .setMessage(R.string.activeJourneyEndMessage)
-                    .setPositiveButton(R.string.activeJourneyEndPositive) { dialog, id ->
+                    .setPositiveButton(R.string.activeJourneyEndPositive) { _, _ ->
                         JourneyRepo.setActiveJourney(null)
                         activeJourneyViewModel.activeJourney.value = null
                     }
@@ -176,7 +179,7 @@ class ActiveJourneyFragment : Fragment(),
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.activeJourneyReplanTitle)
                     .setMessage(R.string.activeJourneyReplanhMessage)
-                    .setPositiveButton(R.string.activeJourneyReplanPositive) { dialog, id ->
+                    .setPositiveButton(R.string.activeJourneyReplanPositive) { _, _ ->
                         activeJourneyViewModel.getServices(_forceReplan = true)
                     }
                     .setNegativeButton(R.string.activeJourneyReplanNegative,null)
@@ -207,12 +210,12 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onDetailsButtonClick(position: Int) {
-        var serviceStub = activeJourneyViewModel.serviceResponses.value!!.get(position).toServiceStub()
+        val serviceStub = activeJourneyViewModel.serviceResponses.value!![position].toServiceStub()
         findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToServiceDetails(serviceStub))
     }
 
     override fun onMapButtonClick(position: Int) {
-        val serviceStub = activeJourneyViewModel.serviceResponses.value!!.get(position).toServiceStub()
+        val serviceStub = activeJourneyViewModel.serviceResponses.value!![position].toServiceStub()
         findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToMapsFragment(
             arrayOf(serviceStub)
         ))
@@ -226,7 +229,7 @@ class ActiveJourneyFragment : Fragment(),
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.activeJourneyPartialRefreshTitle)
             .setMessage(R.string.activeJourneyPartialRefreshMessage)
-            .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { dialog, id ->
+            .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { _, _ ->
                 activeJourneyViewModel.getServices(replanFrom = position)
             }
             .setNegativeButton(R.string.activeJourneyPartialRefreshNegative,null)
