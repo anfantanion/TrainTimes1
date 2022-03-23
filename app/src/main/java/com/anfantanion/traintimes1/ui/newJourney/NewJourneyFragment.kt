@@ -142,7 +142,7 @@ class NewJourneyFragment : Fragment(),
             }
         }
 
-        newJourneyChangeInput.setText(PreferenceManager.getDefaultSharedPreferences(this.context).all["default_changetime"].toString())
+        newJourneyChangeInput.setText(PreferenceManager.getDefaultSharedPreferences(this.requireContext()).all["default_changetime"].toString())
 
 
         val callbacks =

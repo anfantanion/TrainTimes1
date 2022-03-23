@@ -135,7 +135,7 @@ class ActiveJourneyFragment : Fragment(),
         })
 
         activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
-            MaterialAlertDialogBuilder(context).setMessage(it).setPositiveButton(R.string.ok,null).show()
+            MaterialAlertDialogBuilder(requireContext()).setMessage(it).setPositiveButton(R.string.ok,null).show()
            // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
         })
 
@@ -155,7 +155,7 @@ class ActiveJourneyFragment : Fragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.action_activeJourneyEnd -> {
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.activeJourneyEndTitle)
                     .setMessage(R.string.activeJourneyEndMessage)
                     .setPositiveButton(R.string.activeJourneyEndPositive) { dialog, id ->
@@ -166,7 +166,7 @@ class ActiveJourneyFragment : Fragment(),
                     .show()
             }
             R.id.action_activeJourneyReplan -> {
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.activeJourneyReplanTitle)
                     .setMessage(R.string.activeJourneyReplanhMessage)
                     .setPositiveButton(R.string.activeJourneyReplanPositive) { dialog, id ->
@@ -216,7 +216,7 @@ class ActiveJourneyFragment : Fragment(),
     }
 
     override fun onRefreshClick(position: Int) {
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.activeJourneyPartialRefreshTitle)
             .setMessage(R.string.activeJourneyPartialRefreshMessage)
             .setPositiveButton(R.string.activeJourneyPartialRefreshPositive) { dialog, id ->

@@ -57,7 +57,7 @@ class MapsFragment : Fragment(),
         var fitAll = false
         var currentLocation = false
 
-        when(PreferenceManager.getDefaultSharedPreferences(context).all["map_focus_list"]){
+        when(PreferenceManager.getDefaultSharedPreferences(requireContext()).all["map_focus_list"]){
             "fit-current" -> fitService = true
             "fit-all" -> fitAll = true
             "focus" -> currentLocation = true
@@ -142,7 +142,7 @@ class MapsFragment : Fragment(),
     }
 
 
-    override fun onMapReady(googleMap: GoogleMap?) {
+    override fun onMapReady(googleMap: GoogleMap) {
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -156,7 +156,7 @@ class MapsFragment : Fragment(),
         this.googleMap = googleMap
 
         val sydney = LatLng(51.0, 0.0)
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         //drawServices(mapsViewModel.serviceResponses.value!!)
         mapsViewModel.getServiceDetails()
     }

@@ -114,10 +114,10 @@ class StationDetailsFragment : Fragment(), StationDetailsRecylerAdapter.OnServic
             R.id.action_stationDetails_map -> {
                 val url = viewModel.getMapURL() ?: return false
                 val builder = CustomTabsIntent.Builder()
-                builder.setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+                builder.setToolbarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
                 builder.setShowTitle(false)
                 val customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(context!!, Uri.parse(url))
+                customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
 
 
             }

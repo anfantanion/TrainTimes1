@@ -29,10 +29,10 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        setRefreshIntervalEnabled(preferenceManager.sharedPreferences.getBoolean("automatic_refresh_enable",false))
-        setNotifyEnabled(preferenceManager.sharedPreferences.getBoolean("notify_change_enable",false))
+        setRefreshIntervalEnabled(preferenceManager.sharedPreferences!!.getBoolean("automatic_refresh_enable",false))
+        setNotifyEnabled(preferenceManager.sharedPreferences!!.getBoolean("notify_change_enable",false))
 
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
 
     }
 
@@ -47,8 +47,8 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
     }
 
     override fun onPreferenceStartFragment(
-        caller: PreferenceFragmentCompat?,
-        pref: Preference?
+        caller: PreferenceFragmentCompat,
+        pref: Preference
     ): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -56,11 +56,11 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceFragmentCompat.On
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when(key){
             "automatic_refresh_enable" -> {
-                val value = PreferenceManager.getDefaultSharedPreferences(this.context).getBoolean(key,false)
+                val value = PreferenceManager.getDefaultSharedPreferences(this.requireContext()).getBoolean(key,false)
                 setRefreshIntervalEnabled(value)
             }
             "notify_change_enable" -> {
-                val value = PreferenceManager.getDefaultSharedPreferences(this.context).getBoolean(key,false)
+                val value = PreferenceManager.getDefaultSharedPreferences(this.requireContext()).getBoolean(key,false)
                 setNotifyEnabled(value)
             }
         }

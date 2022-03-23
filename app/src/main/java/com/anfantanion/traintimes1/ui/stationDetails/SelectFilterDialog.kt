@@ -33,7 +33,7 @@ class SelectFilterDialog() : DialogFragment() {
 
         if (activity == null) throw IllegalStateException("Activity cannot be null")
 
-        val builder = MaterialAlertDialogBuilder(activity)
+        val builder = MaterialAlertDialogBuilder(requireActivity())
         val view = requireActivity().layoutInflater.inflate(R.layout.dialog_filter, null)
         actualView = view
 
@@ -249,7 +249,7 @@ class SelectFilterDialog() : DialogFragment() {
 
             // Create a new instance of DatePickerDialog and return it
             return DatePickerDialog(
-                context!!,
+                requireContext(),
                 this,
                 selectFilterDialog.time.get(Calendar.YEAR),
                 selectFilterDialog.time.get(Calendar.MONTH),
@@ -275,11 +275,11 @@ class SelectFilterDialog() : DialogFragment() {
 
             // Create a new instance of DatePickerDialog and return it
             return TimePickerDialog(
-                context!!,
+                requireContext(),
                 this,
                 selectFilterDialog.time.get(Calendar.HOUR_OF_DAY),
                 selectFilterDialog.time.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(context!!)
+                DateFormat.is24HourFormat(requireContext())
             )
         }
 

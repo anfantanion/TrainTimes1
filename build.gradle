@@ -5,16 +5,16 @@ buildscript {
         ANDROID_STORE_PASSWORD = 'mEbhirgp1ILE1Nak2PUo'
         ANDROID_KEY_PASSWORD = 'mEbhirgp1ILE1Nak2PUo'
     }
-    ext.kotlin_version = '1.3.60'
+    ext.kotlin_version = '1.5.30'
     repositories {
         google()
+        mavenCentral()
         jcenter()
-        
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -23,6 +23,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         
     }

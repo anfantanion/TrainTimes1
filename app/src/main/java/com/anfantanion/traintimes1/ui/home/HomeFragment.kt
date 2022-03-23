@@ -259,7 +259,7 @@ class HomeFragment : Fragment(),
         val clicked = homeViewModel.favouriteJourneys.value!!.get(position)
         if (JourneyRepo.activeJourney.value != null){
 
-            MaterialAlertDialogBuilder(context)
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.savedJourneys_Dialog_OverwriteTitle)
                 .setMessage(R.string.savedJourneys_Dialog_OverwriteMessage)
                 .setPositiveButton(R.string.savedJourneys_Dialog_OverwritePositive) { dialog, id ->

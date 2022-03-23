@@ -20,7 +20,7 @@ class SearchDialog(
     lateinit var searchView : FloatingSearchView
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = MaterialAlertDialogBuilder(activity)
+        val builder = MaterialAlertDialogBuilder(requireActivity())
         val view = requireActivity().layoutInflater.inflate(R.layout.dialog_search, null)
         builder.setView(view)
 
