@@ -103,6 +103,7 @@
 
             <include
                 layout="@layout/connection_card"
+                android:id="@+id/connectionCard"
                 />
 
         </com.google.android.material.card.MaterialCardView>

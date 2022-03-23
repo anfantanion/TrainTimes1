@@ -1,6 +1,5 @@
 package com.anfantanion.traintimes1.ui.activeJourney
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -12,12 +11,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anfantanion.traintimes1.R
+import com.anfantanion.traintimes1.databinding.ConnectionCardBinding
+import com.anfantanion.traintimes1.databinding.FragmentActiveJourneyBinding
 import com.anfantanion.traintimes1.models.ActiveJourney
 import com.anfantanion.traintimes1.repositories.JourneyRepo
 import com.anfantanion.traintimes1.repositories.StationRepo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.connection_card.*
-import kotlinx.android.synthetic.main.fragment_active_journey.*
 
 class ActiveJourneyFragment : Fragment(),
     View.OnClickListener,
@@ -26,6 +25,12 @@ class ActiveJourneyFragment : Fragment(),
     private lateinit var activeJourneyViewModel: ActiveJourneyViewModel
     private lateinit var activeJourneyRecyclerAdapter: ActiveJourneyRecyclerAdapter
     private lateinit var savedJourneyTouchHelper: ItemTouchHelper
+
+    private var _binding: FragmentActiveJourneyBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,25 +41,27 @@ class ActiveJourneyFragment : Fragment(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentActiveJourneyBinding.inflate(inflater,container,false)
+        _bindingConnCard = ConnectionCardBinding.inflate(inflater,container,false)
         activeJourneyViewModel = ViewModelProvider(this).get(ActiveJourneyViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_active_journey, container, false)
-        return root
+        val view = binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activeJourneyRecyclerAdapter = ActiveJourneyRecyclerAdapter(this)
-        activeJourneyServiceRecycler.layoutManager = LinearLayoutManager(context)
-        activeJourneyServiceRecycler.adapter = activeJourneyRecyclerAdapter
+        binding.activeJourneyServiceRecycler.layoutManager = LinearLayoutManager(context)
+        binding.activeJourneyServiceRecycler.adapter = activeJourneyRecyclerAdapter
 
         activeJourneyViewModel.activeJourney.observe(viewLifecycleOwner, Observer {
             when(it){
                 null -> {
-                    activeJourneyNoActiveJourney.visibility = View.VISIBLE
+                    binding.activeJourneyNoActiveJourney.visibility = View.VISIBLE
                 }
                 else -> {
-                    activeJourneyNoActiveJourney.visibility = View.GONE
+                    binding.activeJourneyNoActiveJourney.visibility = View.GONE
                 }
             }
             activeJourneyViewModel.getServices()
@@ -63,11 +70,11 @@ class ActiveJourneyFragment : Fragment(),
 
         activeJourneyViewModel.refreshAge.observe(viewLifecycleOwner, Observer {
             if (it!= null){
-                activeJourneyInfo.visibility = View.VISIBLE
-                activeJourneyInfo.text = requireContext().resources.getQuantityString(R.plurals.minutesTime,it,it)
+                binding.activeJourneyInfo.visibility = View.VISIBLE
+                binding.activeJourneyInfo.text = requireContext().resources.getQuantityString(R.plurals.minutesTime,it,it)
             }
             else {
-                activeJourneyInfo.visibility = View.GONE
+                binding.activeJourneyInfo.visibility = View.GONE
             }
         })
 
@@ -75,43 +82,43 @@ class ActiveJourneyFragment : Fragment(),
 
             var change = activeJourneyViewModel.getNextChange()
             if (change!=null){
-                activeJourneyConnectionCardView.visibility = View.VISIBLE
+                binding.activeJourneyConnectionCardView.visibility = View.VISIBLE
                 when(change.changeType){
                     ActiveJourney.KeyPoint.ChangeType.START -> {
-                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceDepart, StationRepo.getStation(change.waypoint)!!.name)
-                        activeJourneyConnectionService1.visibility=View.GONE
-                        activeJourneyConnectionDeparting.visibility=View.VISIBLE
-                        activeJourneyService1.text = getString(R.string.activeJourneyService,"")
-                        activeJourneyService2.text = getString(R.string.activeJourneyService,"")
-                        activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service1.getRTorTTDeparture(change.waypoint!!))
-                        activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceDepart, StationRepo.getStation(change.waypoint)!!.name)
+                        binding.connectionCard.activeJourneyConnectionService1.visibility=View.GONE
+                        binding.connectionCard.activeJourneyConnectionDeparting.visibility=View.VISIBLE
+                        binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"")
+                        binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"")
+                        binding.connectionCard.activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service1.getRTorTTDeparture(change.waypoint!!))
+                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
                     }
 
                     ActiveJourney.KeyPoint.ChangeType.CHANGE ->{
-                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceChange, StationRepo.getStation(change.waypoint)!!.name)
-                        activeJourneyConnectionService1.visibility=View.VISIBLE
-                        activeJourneyConnectionDeparting.visibility=View.VISIBLE
-                        activeJourneyService1.text = getString(R.string.activeJourneyService,"1")
-                        activeJourneyService2.text = getString(R.string.activeJourneyService,"2")
-                        activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
-                        activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
-                        activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2!!.getRTorTTDeparture(change.waypoint!!))
-                        activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2!!.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceChange, StationRepo.getStation(change.waypoint)!!.name)
+                        binding.connectionCard.activeJourneyConnectionService1.visibility=View.VISIBLE
+                        binding.connectionCard.activeJourneyConnectionDeparting.visibility=View.VISIBLE
+                        binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"1")
+                        binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"2")
+                        binding.connectionCard.activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
+                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService1Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyService2Departs.text = getString(R.string.activeJourneyService2Departs,change.service2!!.getRTorTTDeparture(change.waypoint!!))
+                        binding.connectionCard.activeJourneyService2Platform.text = getString(R.string.activeJourneyService2Platform,change.service2!!.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
                     }
 
                     ActiveJourney.KeyPoint.ChangeType.END -> {
-                        activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceArrive, StationRepo.getStation(change.waypoint)!!.name)
-                        activeJourneyConnectionService1.visibility=View.VISIBLE
-                        activeJourneyConnectionDeparting.visibility=View.GONE
-                        activeJourneyService1.text = getString(R.string.activeJourneyService,"")
-                        activeJourneyService2.text = getString(R.string.activeJourneyService,"")
-                        activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
-                        activeJourneyService1Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
+                        binding.connectionCard.activeJourneyConnectionTitle2.text = getString(R.string.activeJourneyConnectionPlaceArrive, StationRepo.getStation(change.waypoint)!!.name)
+                        binding.connectionCard.activeJourneyConnectionService1.visibility=View.VISIBLE
+                        binding.connectionCard.activeJourneyConnectionDeparting.visibility=View.GONE
+                        binding.connectionCard.activeJourneyService1.text = getString(R.string.activeJourneyService,"")
+                        binding.connectionCard.activeJourneyService2.text = getString(R.string.activeJourneyService,"")
+                        binding.connectionCard.activeJourneyService1Arrives.text = getString(R.string.activeJourneyService1Arrives,change.service1.getRTorTTArrival(change.waypoint!!))
+                        binding.connectionCard.activeJourneyService1Platform.text = getString(R.string.activeJourneyService2Platform,change.service1.getPlatform(change.waypoint!!)?: getString(R.string.UnknownPlat))
                     }
 
                 }
             }else{
-                activeJourneyConnectionCardView.visibility = View.GONE
+                binding.activeJourneyConnectionCardView.visibility = View.GONE
             }
 
 
@@ -129,9 +136,9 @@ class ActiveJourneyFragment : Fragment(),
 
         activeJourneyViewModel.isLoading.observe(viewLifecycleOwner, Observer {
             if (it)
-                activeJourneyProgressBar.visibility = View.VISIBLE
+                binding.activeJourneyProgressBar.visibility = View.VISIBLE
             else
-                activeJourneyProgressBar.visibility = View.GONE
+                binding.activeJourneyProgressBar.visibility = View.GONE
         })
 
         activeJourneyViewModel.errorText.observe(viewLifecycleOwner, Observer {
@@ -139,7 +146,7 @@ class ActiveJourneyFragment : Fragment(),
            // Toast.makeText(context,it,Toast.LENGTH_LONG).show()
         })
 
-        activeJourneySelectOrCreate.setOnClickListener(this)
+        binding.activeJourneySelectOrCreate.setOnClickListener(this)
 
         JourneyRepo.activeJourney.observe(viewLifecycleOwner, Observer{
             activeJourneyViewModel.activeJourney.value = it
@@ -191,7 +198,7 @@ class ActiveJourneyFragment : Fragment(),
 
     override fun onClick(v: View?) {
         when (v){
-            activeJourneySelectOrCreate -> findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToNavSavedJourneys())
+            binding.activeJourneySelectOrCreate -> findNavController().navigate(ActiveJourneyFragmentDirections.actionNavActiveJourneyToNavSavedJourneys())
         }
     }
 

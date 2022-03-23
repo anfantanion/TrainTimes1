@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+//apply plugin: 'kotlin-parcelize'
+
 android {
     lint {
         baseline = file("lint-baseline.xml")
@@ -45,6 +47,9 @@ android {
             debuggable false
             signingConfig signingConfigs.release
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
